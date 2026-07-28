@@ -2,7 +2,7 @@ import { DocumentItem } from '../context/CMSContext';
 
 export const allSportsCalendarDocuments: DocumentItem[] = [
   {
-    "id": "doc-sc-1",
+    "id": "doc-all-1",
     "srNo": 1,
     "title": "PCZSC Intercollegiate Sports Program Timetable A.Y. 2024-25",
     "category": "Sports Calendar - Intercollegiate",
@@ -11,7 +11,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/10)%20AY%202024-25%20PCZSC%20Intercollegiate%20Timetable.pdf"
   },
   {
-    "id": "doc-sc-2",
+    "id": "doc-all-2",
     "srNo": 2,
     "title": "PCZSC Intercollegiate Sports Program Timetable A.Y. 2023-24",
     "category": "Sports Calendar - Intercollegiate",
@@ -20,7 +20,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/09)%20AY%202023-24%20PCZSC%20Intercollegiate%20Timetable.pdf"
   },
   {
-    "id": "doc-sc-3",
+    "id": "doc-all-3",
     "srNo": 3,
     "title": "PCZSC Intercollegiate Sports Program Timetable A.Y. 2022-23",
     "category": "Sports Calendar - Intercollegiate",
@@ -29,7 +29,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/08)%20AY%202022-23%20PCZSC%20Intercollegiate%20Timetable.pdf"
   },
   {
-    "id": "doc-sc-4",
+    "id": "doc-all-4",
     "srNo": 4,
     "title": "PCZSC Intercollegiate Sports Program Timetable A.Y. 2021-22",
     "category": "Sports Calendar - Intercollegiate",
@@ -38,7 +38,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/07)%20AY%202021-22%20PCZSC%20Intercollegiate%20Timetable.pdf"
   },
   {
-    "id": "doc-sc-5",
+    "id": "doc-all-5",
     "srNo": 5,
     "title": "PCZSC Intercollegiate Sports Program Timetable A.Y. 2019-20",
     "category": "Sports Calendar - Intercollegiate",
@@ -47,7 +47,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/06)%20AY%202019-20%20PCZSC%20Intercollegiate%20Timetable.pdf"
   },
   {
-    "id": "doc-sc-6",
+    "id": "doc-all-6",
     "srNo": 6,
     "title": "PCZSC Intercollegiate Sports Program Timetable A.Y. 2018-19",
     "category": "Sports Calendar - Intercollegiate",
@@ -56,7 +56,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/05)%20AY%202018-19%20PCZSC%20Intercollegiate%20Timetable.pdf"
   },
   {
-    "id": "doc-sc-7",
+    "id": "doc-all-7",
     "srNo": 7,
     "title": "PCZSC Intercollegiate Sports Program Timetable A.Y. 2017-18",
     "category": "Sports Calendar - Intercollegiate",
@@ -65,7 +65,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/04)%20AY%202017-18%20PCZSC%20Intercollegiate%20Timetable.pdf"
   },
   {
-    "id": "doc-sc-8",
+    "id": "doc-all-8",
     "srNo": 8,
     "title": "PCZSC Intercollegiate Sports Program Timetable A.Y. 2016-17",
     "category": "Sports Calendar - Intercollegiate",
@@ -74,7 +74,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/03)%20AY%202016-17%20PCZSC%20Intercollegiate%20Timetable.pdf"
   },
   {
-    "id": "doc-sc-9",
+    "id": "doc-all-9",
     "srNo": 9,
     "title": "PCZSC Intercollegiate Sports Program Timetable A.Y. 2015-16",
     "category": "Sports Calendar - Intercollegiate",
@@ -83,7 +83,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/02)%20AY%202015-16%20PCZSC%20Intercollegiate%20Timetable.pdf"
   },
   {
-    "id": "doc-sc-10",
+    "id": "doc-all-10",
     "srNo": 10,
     "title": "PCZSC Intercollegiate Sports Program Timetable A.Y. 2014-15",
     "category": "Sports Calendar - Intercollegiate",
@@ -92,7 +92,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/01)%20AY%202014-15%20PCZSC%20Intercollegiate%20Timetable.pdf"
   },
   {
-    "id": "doc-sc-11",
+    "id": "doc-all-11",
     "srNo": 11,
     "title": "SPPU Board of Sports (BOS) Inter Zonal Calendar A.Y. 2022-23",
     "category": "Sports Calendar - Inter Zonal",
@@ -101,7 +101,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/BOS/7)%20BOS%20Inter%20Zonal%20Calendar%202022-23.pdf"
   },
   {
-    "id": "doc-sc-12",
+    "id": "doc-all-12",
     "srNo": 12,
     "title": "SPPU Board of Sports (BOS) Inter Zonal Calendar A.Y. 2021-22",
     "category": "Sports Calendar - Inter Zonal",
@@ -110,7 +110,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/BOS/6)%20BOS%20Inter%20Zonal%20Calendar%202021-22.pdf"
   },
   {
-    "id": "doc-sc-13",
+    "id": "doc-all-13",
     "srNo": 13,
     "title": "SPPU Board of Sports (BOS) Inter Zonal Calendar A.Y. 2019-20",
     "category": "Sports Calendar - Inter Zonal",
@@ -119,7 +119,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/BOS/5)%20BOS%20Inter%20Zonal%20Calendar%202019-20.pdf"
   },
   {
-    "id": "doc-sc-14",
+    "id": "doc-all-14",
     "srNo": 14,
     "title": "SPPU Board of Sports (BOS) Inter Zonal Calendar A.Y. 2018-19",
     "category": "Sports Calendar - Inter Zonal",
@@ -128,7 +128,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/BOS/4)%20BOS%20Inter%20Zonal%20Calendar%202018-19.pdf"
   },
   {
-    "id": "doc-sc-15",
+    "id": "doc-all-15",
     "srNo": 15,
     "title": "SPPU Board of Sports (BOS) Inter Zonal Calendar A.Y. 2017-18",
     "category": "Sports Calendar - Inter Zonal",
@@ -137,7 +137,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/BOS/3)%20BOS%20Inter%20Zonal%20Calendar%202017-18.pdf"
   },
   {
-    "id": "doc-sc-16",
+    "id": "doc-all-16",
     "srNo": 16,
     "title": "SPPU Board of Sports (BOS) Inter Zonal Calendar A.Y. 2016-17",
     "category": "Sports Calendar - Inter Zonal",
@@ -146,7 +146,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/BOS/2)%20BOS%20Inter%20Zonal%20Calendar%202016-17.pdf"
   },
   {
-    "id": "doc-sc-17",
+    "id": "doc-all-17",
     "srNo": 17,
     "title": "SPPU Board of Sports (BOS) Inter Zonal Calendar A.Y. 2015-16",
     "category": "Sports Calendar - Inter Zonal",
@@ -155,7 +155,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/Sports%20Calendar/BOS/1)%20BOS%20Inter%20Zonal%20Calendar%202015-16.pdf"
   },
   {
-    "id": "doc-sc-18",
+    "id": "doc-all-18",
     "srNo": 18,
     "title": "University of Pune Sports Quota (5.4) Admission Ordinance 181-A for P.G. Courses",
     "category": "Circulars",
@@ -164,7 +164,7 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/2016-17/PDF/Ordinance-No-181-A.pdf"
   },
   {
-    "id": "doc-sc-19",
+    "id": "doc-all-19",
     "srNo": 19,
     "title": "Savitribai Phule Pune University (SPPU) Ordinance 163",
     "category": "Circulars",
@@ -173,12 +173,120 @@ export const allSportsCalendarDocuments: DocumentItem[] = [
     "downloadUrl": "https://pczsc.in/pczsc-data_files/2016-17/PDF/Ordinance_163_20-5-15.pdf"
   },
   {
-    "id": "doc-sc-20",
+    "id": "doc-all-20",
     "srNo": 20,
     "title": "Inter University Sports Board of India (Revised FISU Eligibility Rules)",
     "category": "Circulars",
     "date": "2017-06-01",
     "viewUrl": "/documents/sports-calendar/Revised_Eligibility_Rules_2017-18.pdf",
     "downloadUrl": "https://pczsc.in/pczsc-data_files/2017-18/PDF/Revised_Eligibility_Rules_2017-18.pdf"
+  },
+  {
+    "id": "doc-all-21",
+    "srNo": 21,
+    "title": "PCZSC Official Annual Souvenir Booklet Academic Year 2024-25",
+    "category": "Souvenirs",
+    "date": "2024-08-15",
+    "viewUrl": "/documents/souvenirs/SOUVENIR_2024-25.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/SOUVENIR%202024-25.pdf"
+  },
+  {
+    "id": "doc-all-22",
+    "srNo": 22,
+    "title": "PCZSC Official Annual Souvenir Booklet Academic Year 2023-24",
+    "category": "Souvenirs",
+    "date": "2023-08-15",
+    "viewUrl": "/documents/souvenirs/SOUVENIR_2023-24.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/SOUVENIR%202023-24.pdf"
+  },
+  {
+    "id": "doc-all-23",
+    "srNo": 23,
+    "title": "PCZSC Official Annual Souvenir Booklet Academic Year 2022-23",
+    "category": "Souvenirs",
+    "date": "2022-08-20",
+    "viewUrl": "/documents/souvenirs/SOUVENIR_2022-23.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/SOUVENIR%202022-23.pdf"
+  },
+  {
+    "id": "doc-all-24",
+    "srNo": 24,
+    "title": "PCZSC Official Annual Souvenir Booklet Academic Year 2021-22",
+    "category": "Souvenirs",
+    "date": "2021-08-25",
+    "viewUrl": "/documents/souvenirs/SOUVENIR_2021-22.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/SOUVENIR%202021-22.pdf"
+  },
+  {
+    "id": "doc-all-25",
+    "srNo": 25,
+    "title": "PCZSC Official Annual Souvenir Booklet Academic Year 2019-20",
+    "category": "Souvenirs",
+    "date": "2019-08-10",
+    "viewUrl": "/documents/souvenirs/SOUVENIR_2019-20.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/SOUVENIR%202019-20.pdf"
+  },
+  {
+    "id": "doc-all-26",
+    "srNo": 26,
+    "title": "PCZSC Official Annual Souvenir Booklet Academic Year 2018-19",
+    "category": "Souvenirs",
+    "date": "2018-08-12",
+    "viewUrl": "/documents/souvenirs/SOUVENIR_2018-19.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/SOUVENIR%202018-19.pdf"
+  },
+  {
+    "id": "doc-all-27",
+    "srNo": 27,
+    "title": "PCZSC Official Annual Report Academic Year 2017-18",
+    "category": "Souvenirs",
+    "date": "2017-08-14",
+    "viewUrl": "/documents/souvenirs/PCZSC_Annual_Report_2017-18.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/PCZSC%20Annual%20Report%202017-18.pdf"
+  },
+  {
+    "id": "doc-all-28",
+    "srNo": 28,
+    "title": "PCZSC Official Annual Report Academic Year 2016-17",
+    "category": "Souvenirs",
+    "date": "2016-08-16",
+    "viewUrl": "/documents/souvenirs/PCZSC_Annual_Report_2016-17.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/PCZSC%20Annual%20Report%202016-17.pdf"
+  },
+  {
+    "id": "doc-all-29",
+    "srNo": 29,
+    "title": "SPPU Board of Sports & Physical Education Academic Year 2022-23 Annual Report",
+    "category": "Annual Reports - BOS&PE, SPPU, Pune",
+    "date": "2023-10-19",
+    "viewUrl": "/documents/souvenirs/SPPU_BOS_Annual_Report_2022-23.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/BOSandPE%20A.Y.%202022-23%20BOS%20Annual%20Report%20191023.pdf"
+  },
+  {
+    "id": "doc-all-30",
+    "srNo": 30,
+    "title": "SPPU Board of Sports & Physical Education Academic Year 2021-22 Annual Report",
+    "category": "Annual Reports - BOS&PE, SPPU, Pune",
+    "date": "2023-03-21",
+    "viewUrl": "/documents/souvenirs/SPPU_BOS_Annual_Report_2021-22.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/Rev.%20Board%20of%20Sports%20and%20Phy.%20Edu.%20Annual%20Report%202021-22%20210323.pdf"
+  },
+  {
+    "id": "doc-all-31",
+    "srNo": 31,
+    "title": "SPPU Board of Sports & Physical Education Academic Year 2019-20 Annual Report",
+    "category": "Annual Reports - BOS&PE, SPPU, Pune",
+    "date": "2021-01-23",
+    "viewUrl": "/documents/souvenirs/SPPU_BOS_Annual_Report_2019-20.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/BOSandPE%20A.Y.%202019-2020%20Annual%20Report%2005.01.2021_23.012021.pdf"
+  },
+  {
+    "id": "doc-all-32",
+    "srNo": 32,
+    "title": "SPPU Board of Sports & Physical Education Academic Year 2018-19 Annual Report",
+    "category": "Annual Reports - BOS&PE, SPPU, Pune",
+    "date": "2021-01-23",
+    "viewUrl": "/documents/souvenirs/SPPU_BOS_Annual_Report_2018-19.pdf",
+    "downloadUrl": "https://pczsc.in/pczsc-data_files/Souvenirs/BOSandPE%20A.Y.%202018-19%20Annual%20Report%2025.02.2020_23.012021.pdf"
   }
 ];
