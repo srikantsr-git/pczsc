@@ -26,6 +26,7 @@ export interface DocumentItem {
   category:
     | 'News'
     | 'Circulars'
+    | 'Rules & Regulations'
     | 'Souvenirs'
     | 'Annual Reports - BOS&PE, SPPU, Pune'
     | 'Sports Calendar - Intercollegiate'
@@ -765,7 +766,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length >= 33) {
+        if (Array.isArray(parsed) && parsed.length >= 40) {
           return parsed;
         }
       } catch (e) {}
@@ -819,7 +820,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       try {
         // Hydrate from Neon PostgreSQL database
         const dbDocs = await fetchDocumentsFromDB();
-        if (dbDocs && dbDocs.length >= 33) {
+        if (dbDocs && dbDocs.length >= 40) {
           setDocuments(dbDocs);
         } else {
           setDocuments(allSportsCalendarDocuments);

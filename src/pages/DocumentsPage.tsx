@@ -44,6 +44,7 @@ export const DocumentsPage: React.FC = () => {
     'All',
     'News',
     'Circulars',
+    'Rules & Regulations',
     'Souvenirs',
     'Annual Reports - BOS&PE, SPPU, Pune',
     'Sports Calendar - Intercollegiate',
@@ -325,6 +326,7 @@ export const DocumentsPage: React.FC = () => {
                 >
                   <option value="News">News</option>
                   <option value="Circulars">Circulars</option>
+                  <option value="Rules & Regulations">Rules & Regulations</option>
                   <option value="Souvenirs">Souvenirs</option>
                   <option value="Annual Reports - BOS&PE, SPPU, Pune">Annual Reports - BOS&PE, SPPU, Pune</option>
                   <option value="Sports Calendar - Intercollegiate">Sports Calendar - Intercollegiate</option>
@@ -411,6 +413,7 @@ export const DocumentsPage: React.FC = () => {
                 >
                   <option value="News">News</option>
                   <option value="Circulars">Circulars</option>
+                  <option value="Rules & Regulations">Rules & Regulations</option>
                   <option value="Souvenirs">Souvenirs</option>
                   <option value="Annual Reports - BOS&PE, SPPU, Pune">Annual Reports - BOS&PE, SPPU, Pune</option>
                   <option value="Sports Calendar - Intercollegiate">Sports Calendar - Intercollegiate</option>
