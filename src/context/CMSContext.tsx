@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { safeSaveStorage, hydrateImagesFromIDB } from '../utils/persistentStorage';
 import { initialPEDirectorsList } from '../data/defaultPEDirectors';
+import { allSportsCalendarDocuments } from '../data/allSportsCalendarDocuments';
 import {
   fetchDocumentsFromDB,
   saveDocumentToDB,
@@ -527,44 +528,7 @@ const initialInquiries: ContactInquiry[] = [
   }
 ];
 
-const initialDocuments: DocumentItem[] = [
-  {
-    id: 'doc-circ-1',
-    srNo: 1,
-    title: 'Association of Indian Universities (AIU) Order - Implementation of New Body Weight Category 2025-26',
-    category: 'Circulars',
-    date: '2025-10-03',
-    viewUrl: 'https://pczsc.in/pczsc-data_files/2025-26/PDF/Implementation%20of%20New%20Body%20Weight%20Category%202025-26%20031025.pdf',
-    downloadUrl: 'https://pczsc.in/pczsc-data_files/2025-26/PDF/Implementation%20of%20New%20Body%20Weight%20Category%202025-26%20031025.pdf'
-  },
-  {
-    id: 'doc-circ-2',
-    srNo: 2,
-    title: 'Minimum Qualifying Standard for Inter-Zonal & University Selection (Year 2025-26)',
-    category: 'Circulars',
-    date: '2025-09-27',
-    viewUrl: 'https://pczsc.in/pczsc-data_files/2025-26/PDF/Qualifying%20Standard%202025-26%2027%20Sept%252025.pdf',
-    downloadUrl: 'https://pczsc.in/pczsc-data_files/2025-26/PDF/Qualifying%20Standard%202025-26%2027%20Sept%252025.pdf'
-  },
-  {
-    id: 'doc-cal-1',
-    srNo: 3,
-    title: 'PCZSC Intercollegiate Sports Calendar Academic Year 2024-25',
-    category: 'Sports Calendar - Intercollegiate',
-    date: '2024-07-15',
-    viewUrl: 'https://pczsc.in/pczsc-data_files/Sports%20Calendar/10)%20AY%202024-25%20PCZSC%20Intercollegiate%20Sports%20Calendar.pdf',
-    downloadUrl: 'https://pczsc.in/pczsc-data_files/Sports%20Calendar/10)%20AY%202024-25%20PCZSC%20Intercollegiate%20Sports%20Calendar.pdf'
-  },
-  {
-    id: 'doc-sou-1',
-    srNo: 4,
-    title: 'PCZSC Official Annual Souvenir Booklet 2024-25',
-    category: 'Souvenirs',
-    date: '2024-08-01',
-    viewUrl: 'https://pczsc.in/pczsc-data_files/Souvenirs/SOUVENIR%202024-25.pdf',
-    downloadUrl: 'https://pczsc.in/pczsc-data_files/Souvenirs/SOUVENIR%202024-25.pdf'
-  }
-];
+const initialDocuments: DocumentItem[] = allSportsCalendarDocuments;
 
 const initialCommitteeMembers: CommitteeMember[] = [
   {
@@ -846,8 +810,14 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       try {
         // Hydrate from Neon PostgreSQL database
         const dbDocs = await fetchDocumentsFromDB();
-        if (dbDocs && dbDocs.length > 0) {
+        if (dbDocs && dbDocs.length >= 15) {
           setDocuments(dbDocs);
+        } else {
+          setDocuments(allSportsCalendarDocuments);
+          safeSaveStorage('pczsc_docs', allSportsCalendarDocuments);
+          for (const doc of allSportsCalendarDocuments) {
+            saveDocumentToDB(doc);
+          }
         }
         const dbGal = await fetchGalleryFromDB();
         if (dbGal && dbGal.length > 0) {
