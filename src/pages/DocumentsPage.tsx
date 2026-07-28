@@ -54,7 +54,12 @@ export const DocumentsPage: React.FC = () => {
   ];
 
   const filteredDocs = documents.filter((doc) => {
-    const matchesCategory = selectedCategory === 'All' || doc.category === selectedCategory;
+    const normCategory = (c: string) => c.toLowerCase().replace(/&/g, 'and').trim();
+    const matchesCategory =
+      selectedCategory === 'All' ||
+      normCategory(doc.category) === normCategory(selectedCategory) ||
+      (selectedCategory.toLowerCase().includes('rules') &&
+        normCategory(doc.category).includes('rules'));
     const matchesSearch = doc.title.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });

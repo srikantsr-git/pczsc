@@ -766,7 +766,8 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length >= 40) {
+        const hasRules = Array.isArray(parsed) && parsed.some((d: any) => d.category === 'Rules & Regulations' || d.category === 'Rules and Regulations');
+        if (Array.isArray(parsed) && parsed.length >= 41 && hasRules) {
           return parsed;
         }
       } catch (e) {}
@@ -820,7 +821,8 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       try {
         // Hydrate from Neon PostgreSQL database
         const dbDocs = await fetchDocumentsFromDB();
-        if (dbDocs && dbDocs.length >= 40) {
+        const hasDbRules = dbDocs && dbDocs.some((d: any) => d.category === 'Rules & Regulations' || d.category === 'Rules and Regulations');
+        if (dbDocs && dbDocs.length >= 41 && hasDbRules) {
           setDocuments(dbDocs);
         } else {
           setDocuments(allSportsCalendarDocuments);
