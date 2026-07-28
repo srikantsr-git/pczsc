@@ -139,18 +139,18 @@ export const DocumentsPage: React.FC = () => {
             )}
           </div>
 
-          {/* Category Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          {/* Category Tabs (No horizontal scrollbar, wraps neatly in multiple lines) */}
+          <div className="flex flex-wrap items-center gap-2 p-2 sm:p-3 bg-white rounded-2xl border border-slate-200 shadow-sm">
             {categories.map((cat) => {
               const isActive = selectedCategory === cat;
               return (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
+                  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border ${
                     isActive
-                      ? 'bg-slate-900 text-white border-slate-900 shadow-md'
-                      : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+                      ? 'bg-santic-red text-white border-santic-red shadow-md shadow-red-500/20 scale-[1.02]'
+                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
                   {cat}
@@ -163,9 +163,9 @@ export const DocumentsPage: React.FC = () => {
           <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
-                <thead className="bg-slate-900 text-white text-sm font-extrabold uppercase tracking-wider border-b border-slate-800">
+                <thead className="bg-slate-900 text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider border-b-2 border-santic-red">
                   <tr>
-                    <th className="py-4 px-6 w-16">Sr. No.</th>
+                    <th className="py-4 px-5 text-center w-16">Sr. No.</th>
                     <th className="py-4 px-6">Document Title</th>
                     <th className="py-4 px-6">Category</th>
                     <th className="py-4 px-6 w-36">Date / Year</th>
@@ -174,121 +174,134 @@ export const DocumentsPage: React.FC = () => {
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-sm font-medium text-slate-800">
                   {filteredDocs.length > 0 ? (
-                    filteredDocs.map((doc, idx) => (
-                      <tr key={doc.id} className="hover:bg-slate-50/80 transition-colors">
-                        <td className="py-4 px-6 font-bold text-slate-400 font-numeric text-sm">
-                          {idx + 1}
-                        </td>
-                        <td className="py-4 px-6">
-                          <div className="space-y-1">
-                            <div className="flex items-start gap-2.5">
-                              <FileText className="w-4.5 h-4.5 text-santic-red shrink-0 mt-0.5" />
+                    filteredDocs.map((doc, idx) => {
+                      const getCategoryBadgeClass = (category: string) => {
+                        const c = category.toLowerCase();
+                        if (c.includes('circular')) return 'bg-red-50 text-santic-red border-red-200';
+                        if (c.includes('rule')) return 'bg-amber-50 text-amber-900 border-amber-300 font-bold';
+                        if (c.includes('souvenir')) return 'bg-purple-50 text-purple-900 border-purple-200';
+                        if (c.includes('annual report')) return 'bg-teal-50 text-teal-900 border-teal-200';
+                        if (c.includes('intercollegiate')) return 'bg-blue-50 text-blue-900 border-blue-200';
+                        if (c.includes('inter zonal') || c.includes('inter-zonal')) return 'bg-indigo-50 text-indigo-900 border-indigo-200';
+                        return 'bg-slate-100 text-slate-800 border-slate-200';
+                      };
+
+                      return (
+                        <tr key={doc.id} className="odd:bg-white even:bg-slate-50/50 hover:bg-red-50/20 transition-colors">
+                          <td className="py-4 px-5 text-center font-extrabold text-slate-400 font-numeric text-sm">
+                            {idx + 1}
+                          </td>
+                          <td className="py-4 px-6">
+                            <div className="space-y-1">
+                              <div className="flex items-start gap-2.5">
+                                <FileText className="w-4.5 h-4.5 text-santic-red shrink-0 mt-0.5" />
+                                <a
+                                  href={doc.viewUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="font-extrabold text-slate-900 hover:text-santic-red transition-colors leading-snug text-sm sm:text-base"
+                                >
+                                  {doc.title}
+                                </a>
+                              </div>
+
+                              {doc.showOnNewsMarquee && (
+                                <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+                                  <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                                  <span>Featured on Home Page News Marquee</span>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="py-4 px-6">
+                            <span className={`inline-block text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-lg border ${getCategoryBadgeClass(doc.category)}`}>
+                              {doc.category}
+                            </span>
+                          </td>
+                          <td className="py-4 px-6 font-mono text-slate-600 font-bold text-xs sm:text-sm">
+                            {doc.date}
+                          </td>
+                          <td className="py-4 px-6 text-center">
+                            <div className="flex items-center justify-center gap-2 flex-wrap">
+                              {/* View Document */}
                               <a
                                 href={doc.viewUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="font-extrabold text-slate-900 hover:text-santic-red transition-colors leading-snug text-sm sm:text-base"
+                                className="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-800 px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all border border-slate-200 shadow-sm"
                               >
-                                {doc.title}
+                                <Eye className="w-4 h-4" />
+                                <span>View</span>
                               </a>
+
+                              {/* Download Document */}
+                              <a
+                                href={doc.downloadUrl}
+                                download
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 bg-santic-red hover:bg-santic-hoverRed text-white px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all shadow-md shadow-red-500/20"
+                              >
+                                <Download className="w-4 h-4" />
+                                <span>Download</span>
+                              </a>
+
+                              {/* Show / Hide on Home Page News Marquee Toggle (Admin Only) */}
+                              {showAdminControls && (
+                                <button
+                                  onClick={() => toggleDocumentNewsMarquee(doc.id)}
+                                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all border ${
+                                    doc.showOnNewsMarquee
+                                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600 shadow-sm'
+                                      : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300 shadow-sm'
+                                  }`}
+                                  title={
+                                    doc.showOnNewsMarquee
+                                      ? 'Click to Hide from Home Page News Marquee'
+                                      : 'Click to Show on Home Page News Marquee'
+                                  }
+                                >
+                                  {doc.showOnNewsMarquee ? (
+                                    <>
+                                      <EyeOff className="w-4 h-4" />
+                                      <span>Hide</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Eye className="w-4 h-4 text-amber-700" />
+                                      <span>Show</span>
+                                    </>
+                                  )}
+                                </button>
+                              )}
+
+                              {/* Admin Edit Document Button */}
+                              {showAdminControls && (
+                                <button
+                                  onClick={() => setEditingDoc({ ...doc })}
+                                  className="inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all shadow-sm"
+                                  title="Edit Document Details"
+                                >
+                                  <Edit className="w-4 h-4 text-amber-400" />
+                                  <span>Edit</span>
+                                </button>
+                              )}
+
+                              {/* Admin Delete Action */}
+                              {showAdminControls && (
+                                <button
+                                  onClick={() => deleteDocument(doc.id)}
+                                  className="p-1.5 text-red-600 hover:bg-red-100/70 rounded-xl transition-colors"
+                                  title="Delete Document"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
                             </div>
-
-                            {doc.showOnNewsMarquee && (
-                              <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
-                                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                                <span>Featured on Home Page News Marquee</span>
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                        <td className="py-4 px-6">
-                          <span className="inline-block bg-slate-100 text-slate-800 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-md border border-slate-200">
-                            {doc.category}
-                          </span>
-                        </td>
-                        <td className="py-4 px-6 font-mono text-slate-500 text-xs sm:text-sm">
-                          {doc.date}
-                        </td>
-                        <td className="py-4 px-6 text-center">
-                          <div className="flex items-center justify-center gap-2 flex-wrap">
-                            {/* View Document */}
-                            <a
-                              href={doc.viewUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-800 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border border-slate-200"
-                            >
-                              <Eye className="w-4 h-4" />
-                              <span>View</span>
-                            </a>
-
-                            {/* Download Document */}
-                            <a
-                              href={doc.downloadUrl}
-                              download
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 bg-slate-900 hover:bg-santic-red text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm"
-                            >
-                              <Download className="w-4 h-4" />
-                              <span>Download</span>
-                            </a>
-
-                            {/* Show / Hide on Home Page News Marquee Toggle (Admin Only) */}
-                            {showAdminControls && (
-                              <button
-                                onClick={() => toggleDocumentNewsMarquee(doc.id)}
-                                className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
-                                  doc.showOnNewsMarquee
-                                    ? 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600 shadow-sm'
-                                    : 'bg-santic-red hover:bg-santic-hoverRed text-white border-santic-red shadow-sm'
-                                }`}
-                                title={
-                                  doc.showOnNewsMarquee
-                                    ? 'Click to Hide from Home Page News Marquee'
-                                    : 'Click to Show on Home Page News Marquee'
-                                }
-                              >
-                                {doc.showOnNewsMarquee ? (
-                                  <>
-                                    <EyeOff className="w-4 h-4" />
-                                    <span>Hide</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <Eye className="w-4 h-4 text-amber-300" />
-                                    <span>Show</span>
-                                  </>
-                                )}
-                              </button>
-                            )}
-
-                            {/* Admin Edit Document Button */}
-                            {showAdminControls && (
-                              <button
-                                onClick={() => setEditingDoc({ ...doc })}
-                                className="inline-flex items-center gap-1 bg-amber-500 hover:bg-amber-600 text-slate-950 px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all shadow-sm"
-                                title="Edit Document Details"
-                              >
-                                <Edit className="w-4 h-4" />
-                                <span>Edit</span>
-                              </button>
-                            )}
-
-                            {/* Admin Delete Action */}
-                            {showAdminControls && (
-                              <button
-                                onClick={() => deleteDocument(doc.id)}
-                                className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                title="Delete Document"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                        </tr>
+                      );
+                    })
                   ) : (
                     <tr>
                       <td colSpan={5} className="py-12 text-center text-slate-400 text-sm">
