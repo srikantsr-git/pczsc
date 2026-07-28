@@ -196,10 +196,11 @@ export const DocumentsPage: React.FC = () => {
                               <div className="flex items-start gap-2.5">
                                 <FileText className="w-4.5 h-4.5 text-santic-red shrink-0 mt-0.5" />
                                 <a
-                                  href={doc.viewUrl}
+                                  href={doc.viewUrl || doc.downloadUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="font-extrabold text-slate-900 hover:text-santic-red transition-colors leading-snug text-sm sm:text-base"
+                                  className="font-extrabold text-slate-900 hover:text-santic-red transition-colors leading-snug text-sm sm:text-base cursor-pointer"
+                                  title="Click to view PDF file in new window"
                                 >
                                   {doc.title}
                                 </a>

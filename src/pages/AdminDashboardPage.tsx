@@ -1180,7 +1180,15 @@ export const AdminDashboardPage: React.FC = () => {
                                 </span>
                               )}
                             </div>
-                            <h4 className="text-xs font-extrabold text-white leading-snug">{doc.title}</h4>
+                            <a
+                              href={doc.viewUrl || doc.downloadUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs font-extrabold text-white hover:text-amber-300 transition-colors leading-snug cursor-pointer block"
+                              title="Click to view PDF file in new window"
+                            >
+                              {doc.title}
+                            </a>
                             <span className="text-[10px] font-mono text-slate-500 block">Date: {doc.date}</span>
                           </div>
                         </div>
