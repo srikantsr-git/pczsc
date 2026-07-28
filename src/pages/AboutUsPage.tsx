@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SubPageHero } from '../components/SubPageHero';
-import { useCMS, CommitteeMember } from '../context/CMSContext';
+import { useCMS, CommitteeMember, PhysicalEducationDirector } from '../context/CMSContext';
 import { FileUploadInput } from '../components/FileUploadInput';
 import {
   Trophy,
@@ -16,7 +16,8 @@ import {
   Building,
   Phone,
   Trash2,
-  RotateCcw
+  RotateCcw,
+  Mail
 } from 'lucide-react';
 import { ImageWithTextBlock } from '../components/ImageWithTextBlock';
 import { AdminConfigModals } from '../components/AdminConfigModals';
@@ -36,7 +37,11 @@ export const AboutUsPage: React.FC = () => {
     addCommitteeMember,
     editCommitteeMember,
     deleteCommitteeMember,
-    resetCommitteeMembers
+    resetCommitteeMembers,
+    peDirectors,
+    addPEDirector,
+    editPEDirector,
+    deletePEDirector
   } = useCMS();
 
   // Modals for editing sections
@@ -210,14 +215,83 @@ export const AboutUsPage: React.FC = () => {
     setShowAddModal(false);
   };
 
+  // Director of Physical Education & Sports Modal State
+  const [showDirectorFormModal, setShowDirectorFormModal] = useState(false);
+  const [editingDirector, setEditingDirector] = useState<PhysicalEducationDirector | null>(null);
+
+  const [dirName, setDirName] = useState('');
+  const [dirPhoto, setDirPhoto] = useState('');
+  const [dirMobile, setDirMobile] = useState('');
+  const [dirEmail, setDirEmail] = useState('');
+  const [dirCollegeAddress, setDirCollegeAddress] = useState('');
+
+  const [selectedDirectorPhoto, setSelectedDirectorPhoto] = useState<PhysicalEducationDirector | null>(null);
+
+  const handleOpenAddDirector = () => {
+    setEditingDirector(null);
+    setDirName('');
+    setDirPhoto('');
+    setDirMobile('');
+    setDirEmail('');
+    setDirCollegeAddress('');
+    setShowDirectorFormModal(true);
+  };
+
+  const handleOpenEditDirector = (director: PhysicalEducationDirector) => {
+    setEditingDirector(director);
+    setDirName(director.name);
+    setDirPhoto(director.photo);
+    setDirMobile(director.mobile);
+    setDirEmail(director.email);
+    setDirCollegeAddress(director.collegeAddress);
+    setShowDirectorFormModal(true);
+  };
+
+  const handleDeleteDirector = (id: string, name: string) => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      deletePEDirector(id);
+      if (selectedDirectorPhoto?.id === id) {
+        setSelectedDirectorPhoto(null);
+      }
+      showToast('Director Deleted', `${name} removed from list.`, 'info');
+    }
+  };
+
+  const handleSaveDirectorSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!dirName.trim() || !dirMobile.trim()) {
+      showToast('Validation Error', 'Name and Mobile number are required fields.', 'error');
+      return;
+    }
+
+    const payload = {
+      name: dirName.trim(),
+      photo: dirPhoto.trim() || 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
+      mobile: dirMobile.trim(),
+      email: dirEmail.trim(),
+      collegeAddress: dirCollegeAddress.trim()
+    };
+
+    if (editingDirector) {
+      editPEDirector(editingDirector.id, payload);
+      showToast('Director Updated', `Updated details for ${payload.name}.`, 'success');
+    } else {
+      addPEDirector(payload);
+      showToast('Director Added', `Added ${payload.name} to Director list.`, 'success');
+    }
+
+    setShowDirectorFormModal(false);
+  };
+
   // Active Tab Filter State for About Page
   const [activeTab, setActiveTab] = useState<
-    'all' | 'committee' | 'history' | 'objectives' | 'leadership' | 'vision' | 'values' | 'dynamic'
+    'all' | 'committee' | 'directors' | 'history' | 'objectives' | 'leadership' | 'vision' | 'values' | 'dynamic'
   >('all');
 
   const aboutTabs = [
     { id: 'all', label: 'All Sections', icon: <Trophy className="w-3.5 h-3.5" /> },
     { id: 'committee', label: 'PCZSC Committee', icon: <Users className="w-3.5 h-3.5" /> },
+    { id: 'directors', label: 'Director of Physical Education & Sports', icon: <Users className="w-3.5 h-3.5" /> },
     { id: 'history', label: 'Overview & History', icon: <Trophy className="w-3.5 h-3.5" /> },
     { id: 'objectives', label: 'Objectives & Directives', icon: <CheckCircle2 className="w-3.5 h-3.5" /> },
     { id: 'leadership', label: 'President & Secretariat', icon: <Award className="w-3.5 h-3.5" /> },
@@ -374,6 +448,126 @@ export const AboutUsPage: React.FC = () => {
                                 onClick={() => handleDeleteMember(member.id, member.name)}
                                 className="p-2 rounded-xl bg-slate-100 hover:bg-red-600 hover:text-white text-slate-600 transition-colors shadow-sm"
                                 title="Delete Member"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Section: Director of Physical Education & Sports */}
+          {(activeTab === 'all' || activeTab === 'directors') && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-santic-red/10 border border-santic-red/20 text-santic-red text-xs font-extrabold uppercase tracking-wider mb-2">
+                    <Users className="w-3.5 h-3.5" />
+                    <span>Physical Education Leadership</span>
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                    Director of Physical Education & Sports
+                  </h2>
+                  <p className="text-slate-600 text-xs md:text-sm mt-1">
+                    Directors of Physical Education & Sports across affiliated colleges and institutes.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 flex-wrap">
+                  <button
+                    onClick={handleOpenAddDirector}
+                    className="bg-santic-red hover:bg-santic-hoverRed text-white text-xs font-extrabold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md uppercase tracking-wider transition-all"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Add New Director</span>
+                  </button>
+                </div>
+              </div>
+
+              {peDirectors.length === 0 ? (
+                <div className="p-12 text-center rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
+                  <Users className="w-12 h-12 text-slate-300 mx-auto" />
+                  <p className="text-sm text-slate-500 font-medium">No directors found.</p>
+                  <button
+                    onClick={handleOpenAddDirector}
+                    className="bg-santic-red text-white text-xs font-bold px-4 py-2 rounded-xl"
+                  >
+                    Add First Director
+                  </button>
+                </div>
+              ) : (
+                <div className="overflow-x-auto rounded-3xl border border-slate-200 shadow-md bg-white">
+                  <table className="w-full text-left border-collapse min-w-[850px]">
+                    <thead>
+                      <tr className="bg-slate-900 text-white text-xs font-extrabold uppercase tracking-wider">
+                        <th className="py-4 px-6 text-center">Photo</th>
+                        <th className="py-4 px-6">Name</th>
+                        <th className="py-4 px-6">Mobile Number</th>
+                        <th className="py-4 px-6">Email ID</th>
+                        <th className="py-4 px-6">College/Institute Name & Address</th>
+                        <th className="py-4 px-6 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 text-slate-700 text-sm">
+                      {peDirectors.map((dir) => (
+                        <tr key={dir.id} className="hover:bg-slate-50/80 transition-colors">
+                          <td className="py-4 px-6 text-center">
+                            <button
+                              type="button"
+                              onClick={() => setSelectedDirectorPhoto(dir)}
+                              className="group/photo relative w-[170px] h-[170px] rounded-2xl overflow-hidden border-2 border-santic-red/30 shadow-md mx-auto bg-slate-100 shrink-0 block transition-all duration-300 hover:scale-105 hover:border-santic-red hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-santic-red/50"
+                              title="Click to expand photo & view details"
+                            >
+                              <img
+                                src={dir.photo}
+                                alt={dir.name}
+                                className="w-full h-full object-cover group-hover/photo:scale-110 transition-transform duration-300"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80';
+                                }}
+                              />
+                              <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-200 flex items-center justify-center text-white">
+                                <ZoomIn className="w-6 h-6 drop-shadow-md" />
+                              </div>
+                            </button>
+                          </td>
+                          <td className="py-4 px-6 font-extrabold text-slate-900 whitespace-nowrap">
+                            {dir.name}
+                          </td>
+                          <td className="py-4 px-6 font-semibold text-slate-700 whitespace-nowrap">
+                            <a href={`tel:${dir.mobile}`} className="hover:text-santic-red transition-colors flex items-center gap-1.5">
+                              <Phone className="w-3.5 h-3.5 text-santic-red" />
+                              <span>{dir.mobile}</span>
+                            </a>
+                          </td>
+                          <td className="py-4 px-6 font-medium text-slate-700 whitespace-nowrap">
+                            <a href={`mailto:${dir.email}`} className="hover:text-santic-red transition-colors flex items-center gap-1.5">
+                              <Mail className="w-3.5 h-3.5 text-santic-red" />
+                              <span>{dir.email}</span>
+                            </a>
+                          </td>
+                          <td className="py-4 px-6 max-w-xs text-xs font-normal text-slate-600 leading-relaxed">
+                            {dir.collegeAddress}
+                          </td>
+                          <td className="py-4 px-6 text-right whitespace-nowrap">
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                onClick={() => handleOpenEditDirector(dir)}
+                                className="p-2 rounded-xl bg-slate-100 hover:bg-santic-red hover:text-white text-slate-600 transition-colors shadow-sm"
+                                title="Edit Director"
+                              >
+                                <Edit className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteDirector(dir.id, dir.name)}
+                                className="p-2 rounded-xl bg-slate-100 hover:bg-red-600 hover:text-white text-slate-600 transition-colors shadow-sm"
+                                title="Delete Director"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -1155,6 +1349,151 @@ export const AboutUsPage: React.FC = () => {
                   className="bg-santic-red hover:bg-santic-hoverRed text-white px-6 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider shadow-md"
                 >
                   {editingMember ? 'Update Member' : 'Add Member'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Director Lightbox Modal */}
+      {selectedDirectorPhoto && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative border border-slate-200">
+            <button
+              onClick={() => setSelectedDirectorPhoto(null)}
+              className="absolute top-4 right-4 p-2 rounded-full bg-slate-100 text-slate-600 hover:bg-santic-red hover:text-white transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="w-full h-72 rounded-2xl overflow-hidden border border-slate-200">
+              <img
+                src={selectedDirectorPhoto.photo}
+                alt={selectedDirectorPhoto.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-xl font-extrabold text-slate-900">{selectedDirectorPhoto.name}</h3>
+              <p className="text-xs font-semibold text-santic-red uppercase tracking-wider">
+                Director of Physical Education & Sports
+              </p>
+              <div className="text-xs text-slate-600 space-y-1 pt-2 border-t border-slate-100">
+                <p className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-santic-red" /> {selectedDirectorPhoto.mobile}</p>
+                <p className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-santic-red" /> {selectedDirectorPhoto.email}</p>
+                <p className="text-slate-500 pt-1">{selectedDirectorPhoto.collegeAddress}</p>
+              </div>
+            </div>
+            <div className="pt-2 flex items-center gap-3">
+              <button
+                onClick={() => {
+                  const dirToEdit = selectedDirectorPhoto;
+                  setSelectedDirectorPhoto(null);
+                  handleOpenEditDirector(dirToEdit);
+                }}
+                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
+              >
+                <Edit className="w-4 h-4" />
+                <span>Edit</span>
+              </button>
+              <button
+                onClick={() => setSelectedDirectorPhoto(null)}
+                className="flex-1 bg-slate-900 hover:bg-santic-red text-white py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg"
+              >
+                Close Preview
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add / Edit Director Modal */}
+      {showDirectorFormModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 text-slate-900 shadow-2xl my-auto border border-slate-200">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h3 className="text-lg font-extrabold text-slate-900">
+                {editingDirector ? 'Edit Director Details' : 'Add Director of Physical Education & Sports'}
+              </h3>
+              <button
+                onClick={() => setShowDirectorFormModal(false)}
+                className="p-1 rounded-full text-slate-400 hover:text-slate-600"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveDirectorSubmit} className="space-y-4 text-xs font-medium text-slate-700">
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Full Name *</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Dr. Chikte Anagha Sunil"
+                  value={dirName}
+                  onChange={(e) => setDirName(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-slate-900 font-semibold focus:outline-none focus:border-santic-red"
+                  required
+                />
+              </div>
+
+              <FileUploadInput
+                sectionName="directors"
+                label="Photo (Upload photo file or enter URL)"
+                currentUrl={dirPhoto}
+                onUrlChange={(url) => setDirPhoto(url)}
+                accept="image/*"
+              />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Mobile Number *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 9850710713"
+                    value={dirMobile}
+                    onChange={(e) => setDirMobile(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-slate-900 font-semibold focus:outline-none focus:border-santic-red"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Email ID *</label>
+                  <input
+                    type="email"
+                    placeholder="e.g. anaghaschikte@yahoo.co.in"
+                    value={dirEmail}
+                    onChange={(e) => setDirEmail(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-slate-900 font-semibold focus:outline-none focus:border-santic-red"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">College/Institute Name & Address *</label>
+                <textarea
+                  rows={3}
+                  placeholder="e.g. Maharshi Karve Stree Shikshan Sanstha's Shri Sidhvinayak Mahila Mahavidyalaya, Karvenagar, Pune"
+                  value={dirCollegeAddress}
+                  onChange={(e) => setDirCollegeAddress(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-slate-900 font-medium focus:outline-none focus:border-santic-red"
+                  required
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
+                <button
+                  type="button"
+                  onClick={() => setShowDirectorFormModal(false)}
+                  className="px-4 py-2 font-bold text-slate-500 hover:text-slate-800"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-santic-red hover:bg-santic-hoverRed text-white px-6 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider shadow-md"
+                >
+                  {editingDirector ? 'Update Director' : 'Add Director'}
                 </button>
               </div>
             </form>

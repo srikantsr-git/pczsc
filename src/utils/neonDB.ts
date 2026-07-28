@@ -4,7 +4,8 @@ import {
   GalleryItem,
   SectionContent,
   ContactInquiry,
-  HeroSlide
+  HeroSlide,
+  PhysicalEducationDirector
 } from '../context/CMSContext';
 
 const DEFAULT_DATABASE_URL =
@@ -177,6 +178,57 @@ export async function deleteHeroSlideFromDB(id: string): Promise<boolean> {
     return true;
   } catch (err) {
     console.error('Neon DB deleteHeroSlide error:', err);
+    return false;
+  }
+}
+
+// Database helper queries for Physical Education Directors
+
+export async function fetchPEDirectorsFromDB(): Promise<PhysicalEducationDirector[]> {
+  try {
+    const sql = getSql();
+    const rows = await sql`SELECT * FROM physical_education_directors ORDER BY created_at ASC`;
+    return rows.map((r: any) => ({
+      id: r.id,
+      name: r.name,
+      photo: r.photo,
+      mobile: r.mobile || '',
+      email: r.email || '',
+      collegeAddress: r.college_address || ''
+    }));
+  } catch (err) {
+    console.warn('Neon DB fetchPEDirectors error:', err);
+    return [];
+  }
+}
+
+export async function savePEDirectorToDB(director: PhysicalEducationDirector): Promise<boolean> {
+  try {
+    const sql = getSql();
+    await sql`
+      INSERT INTO physical_education_directors (id, name, photo, mobile, email, college_address)
+      VALUES (${director.id}, ${director.name}, ${director.photo}, ${director.mobile}, ${director.email}, ${director.collegeAddress})
+      ON CONFLICT (id) DO UPDATE SET
+        name = EXCLUDED.name,
+        photo = EXCLUDED.photo,
+        mobile = EXCLUDED.mobile,
+        email = EXCLUDED.email,
+        college_address = EXCLUDED.college_address;
+    `;
+    return true;
+  } catch (err) {
+    console.error('Neon DB savePEDirector error:', err);
+    return false;
+  }
+}
+
+export async function deletePEDirectorFromDB(id: string): Promise<boolean> {
+  try {
+    const sql = getSql();
+    await sql`DELETE FROM physical_education_directors WHERE id = ${id}`;
+    return true;
+  } catch (err) {
+    console.error('Neon DB deletePEDirector error:', err);
     return false;
   }
 }

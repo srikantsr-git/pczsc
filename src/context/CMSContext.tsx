@@ -11,7 +11,10 @@ import {
   saveContactInquiryToDB,
   fetchHeroSlidesFromDB,
   saveHeroSlideToDB,
-  deleteHeroSlideFromDB
+  deleteHeroSlideFromDB,
+  fetchPEDirectorsFromDB,
+  savePEDirectorToDB,
+  deletePEDirectorFromDB
 } from '../utils/neonDB';
 
 export interface DocumentItem {
@@ -144,6 +147,15 @@ export interface CommitteeMember {
   contactDetails: string;
 }
 
+export interface PhysicalEducationDirector {
+  id: string;
+  name: string;
+  photo: string;
+  mobile: string;
+  email: string;
+  collegeAddress: string;
+}
+
 export interface VisionMissionConfig {
   visionTitle: string;
   visionText: string;
@@ -269,6 +281,11 @@ interface CMSContextType {
   editCommitteeMember: (id: string, member: Partial<CommitteeMember>) => void;
   deleteCommitteeMember: (id: string) => void;
   resetCommitteeMembers: () => void;
+  // Directors of Physical Education & Sports
+  peDirectors: PhysicalEducationDirector[];
+  addPEDirector: (director: Omit<PhysicalEducationDirector, 'id'>) => void;
+  editPEDirector: (id: string, director: Partial<PhysicalEducationDirector>) => void;
+  deletePEDirector: (id: string) => void;
 }
 
 const defaultHeaderConfig: HeaderConfig = {
@@ -659,6 +676,17 @@ const initialCommitteeMembers: CommitteeMember[] = [
   }
 ];
 
+const initialPEDirectors: PhysicalEducationDirector[] = [
+  {
+    id: 'dir-1',
+    name: 'Dr. Chikte Anagha Sunil',
+    photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
+    mobile: '9850710713',
+    email: 'anaghaschikte@yahoo.co.in',
+    collegeAddress: "Maharshi Karve Stree Shikshan Sanstha's Shri Sidhvinayak Mahila Mahavidyalaya, Karvenagar, Pune"
+  }
+];
+
 const initialGallery: GalleryItem[] = [
   {
     id: 'gal-1',
@@ -805,6 +833,11 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return initialCommitteeMembers;
   });
 
+  const [peDirectors, setPEDirectors] = useState<PhysicalEducationDirector[]>(() => {
+    const saved = localStorage.getItem('pczsc_pe_directors');
+    return saved ? JSON.parse(saved) : initialPEDirectors;
+  });
+
   const [homeSections, setHomeSections] = useState<SectionContent[]>([]);
   const [aboutSections, setAboutSections] = useState<SectionContent[]>([]);
 
@@ -831,6 +864,10 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const dbHero = await fetchHeroSlidesFromDB();
         if (dbHero && dbHero.length > 0) {
           setHeroSlides(dbHero);
+        }
+        const dbDirectors = await fetchPEDirectorsFromDB();
+        if (dbDirectors && dbDirectors.length > 0) {
+          setPEDirectors(dbDirectors);
         }
 
         const hCom = await hydrateImagesFromIDB(committeeMembers);
@@ -1214,6 +1251,37 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     safeSaveStorage('pczsc_committee_members', initialCommitteeMembers);
   };
 
+  const addPEDirector = (director: Omit<PhysicalEducationDirector, 'id'>) => {
+    const newDir: PhysicalEducationDirector = {
+      ...director,
+      id: `dir-${Date.now()}`
+    };
+    const updated = [...peDirectors, newDir];
+    setPEDirectors(updated);
+    savePEDirectorToDB(newDir);
+    safeSaveStorage('pczsc_pe_directors', updated);
+  };
+
+  const editPEDirector = (id: string, updatedFields: Partial<PhysicalEducationDirector>) => {
+    const updated = peDirectors.map((d) => {
+      if (d.id === id) {
+        const merged = { ...d, ...updatedFields };
+        savePEDirectorToDB(merged);
+        return merged;
+      }
+      return d;
+    });
+    setPEDirectors(updated);
+    safeSaveStorage('pczsc_pe_directors', updated);
+  };
+
+  const deletePEDirector = (id: string) => {
+    const updated = peDirectors.filter((d) => d.id !== id);
+    setPEDirectors(updated);
+    deletePEDirectorFromDB(id);
+    safeSaveStorage('pczsc_pe_directors', updated);
+  };
+
   return (
     <CMSContext.Provider
       value={{
@@ -1275,7 +1343,11 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         addCommitteeMember,
         editCommitteeMember,
         deleteCommitteeMember,
-        resetCommitteeMembers
+        resetCommitteeMembers,
+        peDirectors,
+        addPEDirector,
+        editPEDirector,
+        deletePEDirector
       }}
     >
       {children}
