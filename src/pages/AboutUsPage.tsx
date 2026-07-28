@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SubPageHero } from '../components/SubPageHero';
 import { useCMS, CommitteeMember, PhysicalEducationDirector } from '../context/CMSContext';
 import { FileUploadInput } from '../components/FileUploadInput';
+import { defaultBlankAvatar } from '../data/defaultPEDirectors';
 import {
   Trophy,
   Award,
@@ -17,7 +18,8 @@ import {
   Phone,
   Trash2,
   RotateCcw,
-  Mail
+  Mail,
+  Search
 } from 'lucide-react';
 import { ImageWithTextBlock } from '../components/ImageWithTextBlock';
 import { AdminConfigModals } from '../components/AdminConfigModals';
@@ -237,6 +239,18 @@ export const AboutUsPage: React.FC = () => {
   const [dirMobile, setDirMobile] = useState('');
   const [dirEmail, setDirEmail] = useState('');
   const [dirCollegeAddress, setDirCollegeAddress] = useState('');
+  const [directorSearch, setDirectorSearch] = useState('');
+
+  const filteredDirectors = peDirectors.filter((dir) => {
+    const q = directorSearch.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      dir.name.toLowerCase().includes(q) ||
+      dir.collegeAddress.toLowerCase().includes(q) ||
+      dir.mobile.toLowerCase().includes(q) ||
+      dir.email.toLowerCase().includes(q)
+    );
+  });
 
   const [selectedDirectorPhoto, setSelectedDirectorPhoto] = useState<PhysicalEducationDirector | null>(null);
 
@@ -492,7 +506,19 @@ export const AboutUsPage: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-3 flex-wrap">
+                  {/* Search Input Box */}
+                  <div className="relative min-w-[260px]">
+                    <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      placeholder="Search directors by name, college, email..."
+                      value={directorSearch}
+                      onChange={(e) => setDirectorSearch(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:border-santic-red shadow-sm"
+                    />
+                  </div>
+
                   <button
                     onClick={handleOpenAddDirector}
                     className="bg-santic-red hover:bg-santic-hoverRed text-white text-xs font-extrabold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md uppercase tracking-wider transition-all"
@@ -503,19 +529,23 @@ export const AboutUsPage: React.FC = () => {
                 </div>
               </div>
 
-              {peDirectors.length === 0 ? (
+              {filteredDirectors.length === 0 ? (
                 <div className="p-12 text-center rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
                   <Users className="w-12 h-12 text-slate-300 mx-auto" />
-                  <p className="text-sm text-slate-500 font-medium">No directors found.</p>
+                  <p className="text-sm text-slate-500 font-medium">No directors found matching "{directorSearch}".</p>
                   <button
-                    onClick={handleOpenAddDirector}
+                    onClick={() => setDirectorSearch('')}
                     className="bg-santic-red text-white text-xs font-bold px-4 py-2 rounded-xl"
                   >
-                    Add First Director
+                    Clear Search
                   </button>
                 </div>
               ) : (
                 <div className="overflow-x-auto rounded-3xl border border-slate-200 shadow-md bg-white">
+                  <div className="bg-slate-100 px-6 py-2.5 border-b border-slate-200 flex items-center justify-between text-xs font-extrabold text-slate-700">
+                    <span>Showing {filteredDirectors.length} Directors of Physical Education & Sports</span>
+                    <span className="text-[11px] text-slate-500 font-normal">Photos feature neutral placeholder silhouette avatar by default</span>
+                  </div>
                   <table className="w-full text-left border-collapse min-w-[850px]">
                     <thead>
                       <tr className="bg-slate-900 text-white text-xs font-extrabold uppercase tracking-wider">
@@ -528,21 +558,21 @@ export const AboutUsPage: React.FC = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-slate-700 text-sm">
-                      {peDirectors.map((dir) => (
+                      {filteredDirectors.map((dir) => (
                         <tr key={dir.id} className="hover:bg-slate-50/80 transition-colors">
                           <td className="py-4 px-6 text-center">
                             <button
                               type="button"
                               onClick={() => setSelectedDirectorPhoto(dir)}
-                              className="group/photo relative w-[170px] h-[170px] rounded-2xl overflow-hidden border-2 border-santic-red/30 shadow-md mx-auto bg-slate-100 shrink-0 block transition-all duration-300 hover:scale-105 hover:border-santic-red hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-santic-red/50"
+                              className="group/photo relative w-[140px] h-[140px] rounded-2xl overflow-hidden border-2 border-slate-200 shadow-md mx-auto bg-slate-100 shrink-0 block transition-all duration-300 hover:scale-105 hover:border-santic-red hover:shadow-xl focus:outline-none"
                               title="Click to expand photo & view details"
                             >
                               <img
-                                src={dir.photo}
+                                src={dir.photo || defaultBlankAvatar}
                                 alt={dir.name}
                                 className="w-full h-full object-cover group-hover/photo:scale-110 transition-transform duration-300"
                                 onError={(e) => {
-                                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80';
+                                  (e.target as HTMLImageElement).src = defaultBlankAvatar;
                                 }}
                               />
                               <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-200 flex items-center justify-center text-white">

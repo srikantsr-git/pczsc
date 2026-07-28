@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { safeSaveStorage, hydrateImagesFromIDB } from '../utils/persistentStorage';
+import { initialPEDirectorsList } from '../data/defaultPEDirectors';
 import {
   fetchDocumentsFromDB,
   saveDocumentToDB,
@@ -680,16 +681,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
   }
 ];
 
-const initialPEDirectors: PhysicalEducationDirector[] = [
-  {
-    id: 'dir-1',
-    name: 'Dr. Chikte Anagha Sunil',
-    photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
-    mobile: '9850710713',
-    email: 'anaghaschikte@yahoo.co.in',
-    collegeAddress: "Maharshi Karve Stree Shikshan Sanstha's Shri Sidhvinayak Mahila Mahavidyalaya, Karvenagar, Pune"
-  }
-];
+const initialPEDirectors: PhysicalEducationDirector[] = initialPEDirectorsList;
 
 const initialGallery: GalleryItem[] = [
   {
@@ -870,8 +862,14 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setHeroSlides(dbHero);
         }
         const dbDirectors = await fetchPEDirectorsFromDB();
-        if (dbDirectors && dbDirectors.length > 0) {
+        if (dbDirectors && dbDirectors.length >= 100) {
           setPEDirectors(dbDirectors);
+        } else {
+          setPEDirectors(initialPEDirectorsList);
+          safeSaveStorage('pczsc_pe_directors', initialPEDirectorsList);
+          for (const d of initialPEDirectorsList) {
+            savePEDirectorToDB(d);
+          }
         }
 
         const hCom = await hydrateImagesFromIDB(committeeMembers);
