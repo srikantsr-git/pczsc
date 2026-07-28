@@ -24,11 +24,13 @@ export const SubPageHero: React.FC<SubPageHeroProps> = ({
   const { isAdmin, isEditMode, subPagesHeroStore, updateSubPageHero } = useCMS();
   const { showToast } = useToast();
 
-  const heroData = subPagesHeroStore?.[pageKey] || {
-    category,
-    title,
-    subtitle: subtitle || '',
-    bgImageUrl
+  const defaultFallbackBg = "https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=2000&q=80";
+
+  const heroData = {
+    category: subPagesHeroStore?.[pageKey]?.category || category,
+    title: subPagesHeroStore?.[pageKey]?.title || title,
+    subtitle: subPagesHeroStore?.[pageKey]?.subtitle || subtitle || '',
+    bgImageUrl: subPagesHeroStore?.[pageKey]?.bgImageUrl || bgImageUrl || defaultFallbackBg
   };
 
   const showEditControls = isAdmin || isEditMode;
@@ -41,19 +43,17 @@ export const SubPageHero: React.FC<SubPageHeroProps> = ({
 
   // Sync edit form states whenever heroData updates
   useEffect(() => {
-    if (heroData) {
-      setEditCategory(heroData.category);
-      setEditTitle(heroData.title);
-      setEditSubtitle(heroData.subtitle);
-      setEditBgImage(heroData.bgImageUrl);
-    }
+    setEditCategory(heroData.category);
+    setEditTitle(heroData.title);
+    setEditSubtitle(heroData.subtitle);
+    setEditBgImage(heroData.bgImageUrl || defaultFallbackBg);
   }, [heroData.category, heroData.title, heroData.subtitle, heroData.bgImageUrl]);
 
   const handleOpenEdit = () => {
     setEditCategory(heroData.category);
     setEditTitle(heroData.title);
     setEditSubtitle(heroData.subtitle);
-    setEditBgImage(heroData.bgImageUrl);
+    setEditBgImage(heroData.bgImageUrl || defaultFallbackBg);
     setShowEditModal(true);
   };
 
@@ -63,7 +63,7 @@ export const SubPageHero: React.FC<SubPageHeroProps> = ({
       category: editCategory,
       title: editTitle,
       subtitle: editSubtitle,
-      bgImageUrl: editBgImage
+      bgImageUrl: editBgImage || defaultFallbackBg
     });
     setShowEditModal(false);
     showToast(
@@ -75,18 +75,18 @@ export const SubPageHero: React.FC<SubPageHeroProps> = ({
 
   return (
     <section className="relative min-h-[35vh] md:min-h-[40vh] flex flex-col justify-center pt-28 pb-12 bg-slate-950 text-white overflow-hidden">
-      {/* Background Image / Video with Balanced 32% Opacity Overlay */}
+      {/* Background Image / Video with Balanced Opacity Overlay */}
       <div className="absolute inset-0 z-0">
         <MediaRenderer
-          src={heroData.bgImageUrl}
+          src={heroData.bgImageUrl || defaultFallbackBg}
           alt={heroData.title}
-          className="w-full h-full object-cover object-center scale-105 transition-transform duration-10000 opacity-32"
+          className="w-full h-full object-cover object-center scale-105 transition-transform duration-1000 opacity-40"
           controls={false}
           autoPlay={true}
           loop={true}
           muted={true}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/45 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/50 to-slate-950/20" />
       </div>
 
       {/* Admin Edit Trigger Overlay Button (Visible when Logged in or in Edit Mode) */}

@@ -48,8 +48,9 @@ export const MediaRenderer: React.FC<MediaRendererProps> = ({
       className={className}
       onClick={onClick}
       onError={(e) => {
-        // Fallback for broken image links
-        (e.target as HTMLElement).style.display = 'none';
+        const target = e.target as HTMLImageElement;
+        target.onerror = null;
+        target.src = 'https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=2000&q=80';
       }}
     />
   );
