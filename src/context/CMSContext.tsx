@@ -1,5 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { safeSaveStorage, hydrateImagesFromIDB } from '../utils/persistentStorage';
+import {
+  fetchDocumentsFromDB,
+  saveDocumentToDB,
+  deleteDocumentFromDB,
+  fetchGalleryFromDB,
+  saveGalleryItemToDB,
+  deleteGalleryItemFromDB,
+  fetchContactInquiriesFromDB,
+  saveContactInquiryToDB
+} from '../utils/neonDB';
 
 export interface DocumentItem {
   id: string;
@@ -802,6 +812,20 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     async function hydrateStores() {
       try {
+        // Hydrate from Neon PostgreSQL database
+        const dbDocs = await fetchDocumentsFromDB();
+        if (dbDocs && dbDocs.length > 0) {
+          setDocuments(dbDocs);
+        }
+        const dbGal = await fetchGalleryFromDB();
+        if (dbGal && dbGal.length > 0) {
+          setGalleryItems(dbGal);
+        }
+        const dbInq = await fetchContactInquiriesFromDB();
+        if (dbInq && dbInq.length > 0) {
+          setContactInquiries(dbInq);
+        }
+
         const hCom = await hydrateImagesFromIDB(committeeMembers);
         if (hCom && Array.isArray(hCom)) {
           setCommitteeMembers(hCom);
@@ -958,6 +982,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     const updated = [newInquiry, ...contactInquiries];
     setContactInquiries(updated);
+    saveContactInquiryToDB(newInquiry);
     try {
       localStorage.setItem('pczsc_contact_inquiries', JSON.stringify(updated));
     } catch (e) {
@@ -966,16 +991,19 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const answerContactInquiry = (id: string, replyText: string) => {
-    const updated = contactInquiries.map((inq) =>
-      inq.id === id
-        ? {
-            ...inq,
-            status: 'Answered' as const,
-            replyText,
-            repliedAt: new Date().toISOString().replace('T', ' ').substring(0, 16)
-          }
-        : inq
-    );
+    const updated = contactInquiries.map((inq) => {
+      if (inq.id === id) {
+        const item = {
+          ...inq,
+          status: 'Answered' as const,
+          replyText,
+          repliedAt: new Date().toISOString().replace('T', ' ').substring(0, 16)
+        };
+        saveContactInquiryToDB(item);
+        return item;
+      }
+      return inq;
+    });
     setContactInquiries(updated);
     try {
       localStorage.setItem('pczsc_contact_inquiries', JSON.stringify(updated));
@@ -1002,6 +1030,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     const updated = [newDoc, ...documents];
     setDocuments(updated);
+    saveDocumentToDB(newDoc);
     try {
       localStorage.setItem('pczsc_docs', JSON.stringify(updated));
     } catch (e) {
@@ -1009,8 +1038,15 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
-  const editDocument = (id: string, updated: Partial<DocumentItem>) => {
-    const newDocs = documents.map((d) => (d.id === id ? { ...d, ...updated } : d));
+  const editDocument = (id: string, updatedFields: Partial<DocumentItem>) => {
+    const newDocs = documents.map((d) => {
+      if (d.id === id) {
+        const merged = { ...d, ...updatedFields };
+        saveDocumentToDB(merged);
+        return merged;
+      }
+      return d;
+    });
     setDocuments(newDocs);
     try {
       localStorage.setItem('pczsc_docs', JSON.stringify(newDocs));
@@ -1022,6 +1058,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const deleteDocument = (id: string) => {
     const newDocs = documents.filter((d) => d.id !== id);
     setDocuments(newDocs);
+    deleteDocumentFromDB(id);
     try {
       localStorage.setItem('pczsc_docs', JSON.stringify(newDocs));
     } catch (e) {
@@ -1034,9 +1071,14 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!docToToggle) return;
 
     const willShow = !docToToggle.showOnNewsMarquee;
-    const updatedDocs = documents.map((d) =>
-      d.id === id ? { ...d, showOnNewsMarquee: willShow } : d
-    );
+    const updatedDocs = documents.map((d) => {
+      if (d.id === id) {
+        const item = { ...d, showOnNewsMarquee: willShow };
+        saveDocumentToDB(item);
+        return item;
+      }
+      return d;
+    });
     setDocuments(updatedDocs);
     try {
       localStorage.setItem('pczsc_docs', JSON.stringify(updatedDocs));
@@ -1094,12 +1136,14 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     const updated = [newItem, ...galleryItems];
     setGalleryItems(updated);
+    saveGalleryItemToDB(newItem);
     safeSaveStorage('pczsc_gallery', updated);
   };
 
   const deleteGalleryItem = (id: string) => {
     const updated = galleryItems.filter((g) => g.id !== id);
     setGalleryItems(updated);
+    deleteGalleryItemFromDB(id);
     safeSaveStorage('pczsc_gallery', updated);
   };
 
