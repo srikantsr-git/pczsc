@@ -25,6 +25,7 @@ import { FileUploadInput } from '../components/FileUploadInput';
 
 export const HomePage: React.FC = () => {
   const {
+    documents,
     heroSlides,
     updateHeroSlides,
     addHeroSlide,
@@ -325,28 +326,63 @@ export const HomePage: React.FC = () => {
 
                 {/* Vertical Scrolling Marquee Window */}
                 <div className="relative h-64 overflow-hidden rounded-2xl bg-black/40 border border-white/10">
-                  <div
-                    className="animate-vertical-marquee p-3 space-y-3"
-                    style={{ animationDuration: `${marqueeSpeed}s` }}
-                  >
-                    {[...newsMarquee, ...newsMarquee].map((item, index) => (
-                      <Link
-                        key={`${item.id}-${index}`}
-                        to={item.link}
-                        className="block p-3.5 rounded-xl bg-white/5 hover:bg-santic-red/20 border border-white/10 hover:border-santic-red/50 transition-all duration-200 group"
-                      >
-                        <div className="flex items-center justify-between gap-2 mb-1.5">
-                          <span className="text-[10px] font-bold text-santic-red uppercase tracking-wider bg-santic-red/10 px-2 py-0.5 rounded border border-santic-red/20">
-                            {item.tag}
-                          </span>
-                          <span className="text-[10px] text-white/50">{item.date}</span>
+                  {(() => {
+                    const activeDocNews = documents
+                      .filter((doc) => doc.showOnNewsMarquee)
+                      .map((doc) => ({
+                        id: `news-doc-${doc.id}`,
+                        tag: doc.category,
+                        date: doc.date,
+                        title: doc.title,
+                        link: doc.viewUrl || '/en/documents'
+                      }));
+
+                    const itemsToDisplay =
+                      activeDocNews.length > 0
+                        ? activeDocNews
+                        : newsMarquee.filter((item) => item.id.startsWith('news-doc-'));
+
+                    if (itemsToDisplay.length === 0) {
+                      return (
+                        <div className="h-full flex flex-col items-center justify-center p-6 text-center text-white/50 space-y-2">
+                          <Bell className="w-6 h-6 text-santic-red/60" />
+                          <p className="text-xs font-semibold">No circulars currently featured on news marquee.</p>
+                          <Link to="/en/documents" className="text-xs text-santic-red hover:underline font-bold">
+                            View All Downloads
+                          </Link>
                         </div>
-                        <h4 className="text-xs font-semibold text-white/90 group-hover:text-white line-clamp-2 leading-snug">
-                          {item.title}
-                        </h4>
-                      </Link>
-                    ))}
-                  </div>
+                      );
+                    }
+
+                    const loopList = [...itemsToDisplay, ...itemsToDisplay];
+
+                    return (
+                      <div
+                        className="animate-vertical-marquee p-3 space-y-3"
+                        style={{ animationDuration: `${Math.max(10, marqueeSpeed)}s` }}
+                      >
+                        {loopList.map((item, index) => (
+                          <a
+                            key={`${item.id}-${index}`}
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block p-3.5 rounded-xl bg-white/5 hover:bg-santic-red/20 border border-white/10 hover:border-santic-red/50 transition-all duration-200 group"
+                          >
+                            <div className="flex items-center justify-between gap-2 mb-1.5">
+                              <span className="text-[10px] font-extrabold text-santic-red uppercase tracking-wider bg-santic-red/10 px-2 py-0.5 rounded border border-santic-red/20">
+                                {item.tag}
+                              </span>
+                              <span className="text-[10px] font-mono text-white/60 font-bold">{item.date}</span>
+                            </div>
+                            <h4 className="text-xs sm:text-sm font-extrabold text-white group-hover:text-amber-300 leading-normal break-words">
+                              {item.title}
+                            </h4>
+                          </a>
+                        ))}
+                      </div>
+                    );
+                  })()}
                   <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
                   <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                 </div>

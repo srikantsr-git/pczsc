@@ -401,36 +401,15 @@ const defaultSubPagesHeroStore: SubPagesHeroStore = {
   }
 };
 
-const defaultNewsMarquee: NewsMarqueeItem[] = [
-  {
-    id: 'news-1',
-    tag: "Notice",
-    date: "OCT 2025",
-    title: "AIU Order - Implementation of New Body Weight Category 2025-26",
-    link: "/en/documents"
-  },
-  {
-    id: 'news-2',
-    tag: "Circular",
-    date: "SEPT 2025",
-    title: "Minimum Qualifying Standard (for the Year 2025-26) Released",
-    link: "/en/documents"
-  },
-  {
-    id: 'news-3',
-    tag: "Calendar",
-    date: "JULY 2025",
-    title: "Intercollegiate Sports Calendar AY 2024-25 Published by PCZSC",
-    link: "/en/documents"
-  },
-  {
-    id: 'news-4',
-    tag: "Highlight",
-    date: "JUNE 2025",
-    title: "Live Streaming Introduced for All Major Intercollegiate Finals",
-    link: "/en/about-us"
-  }
-];
+const defaultNewsMarquee: NewsMarqueeItem[] = allSportsCalendarDocuments
+  .filter((doc) => doc.showOnNewsMarquee)
+  .map((doc) => ({
+    id: `news-doc-${doc.id}`,
+    tag: doc.category,
+    date: doc.date,
+    title: doc.title,
+    link: doc.viewUrl || '/en/documents'
+  }));
 
 const defaultMetrics: MetricItem[] = [
   { id: 'm-1', number: '20+', label: 'Years of Excellence' },
