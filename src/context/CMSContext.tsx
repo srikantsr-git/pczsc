@@ -762,7 +762,16 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [documents, setDocuments] = useState<DocumentItem[]>(() => {
     const saved = localStorage.getItem('pczsc_docs');
-    return saved ? JSON.parse(saved) : initialDocuments;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length >= 25) {
+          return parsed;
+        }
+      } catch (e) {}
+    }
+    safeSaveStorage('pczsc_docs', allSportsCalendarDocuments);
+    return allSportsCalendarDocuments;
   });
 
   const [galleryCategories, setGalleryCategories] = useState<string[]>(() => {
@@ -810,7 +819,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       try {
         // Hydrate from Neon PostgreSQL database
         const dbDocs = await fetchDocumentsFromDB();
-        if (dbDocs && dbDocs.length >= 15) {
+        if (dbDocs && dbDocs.length >= 25) {
           setDocuments(dbDocs);
         } else {
           setDocuments(allSportsCalendarDocuments);
