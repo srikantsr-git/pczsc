@@ -765,7 +765,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length >= 25) {
+        if (Array.isArray(parsed) && parsed.length >= 33) {
           return parsed;
         }
       } catch (e) {}
@@ -819,7 +819,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       try {
         // Hydrate from Neon PostgreSQL database
         const dbDocs = await fetchDocumentsFromDB();
-        if (dbDocs && dbDocs.length >= 25) {
+        if (dbDocs && dbDocs.length >= 33) {
           setDocuments(dbDocs);
         } else {
           setDocuments(allSportsCalendarDocuments);
