@@ -376,41 +376,45 @@ export const AboutUsPage: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2 flex-wrap">
-                  <button
-                    onClick={handleOpenAddMember}
-                    className="bg-santic-red hover:bg-santic-hoverRed text-white text-xs font-extrabold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md uppercase tracking-wider transition-all"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span>Add New Member</span>
-                  </button>
-                  {isEditMode && (
+                {(isEditMode || isAdmin) && (
+                  <div className="flex items-center gap-2 flex-wrap">
                     <button
-                      onClick={() => {
-                        if (window.confirm('Reset committee list to official 14 members?')) {
-                          resetCommitteeMembers();
-                          showToast('Reset Success', 'Restored 14 official PCZSC members.', 'info');
-                        }
-                      }}
-                      className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2.5 rounded-xl flex items-center gap-1.5 transition-all"
+                      onClick={handleOpenAddMember}
+                      className="bg-santic-red hover:bg-santic-hoverRed text-white text-xs font-extrabold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md uppercase tracking-wider transition-all"
                     >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      <span>Reset Official List</span>
+                      <Plus className="w-4 h-4" />
+                      <span>Add New Member</span>
                     </button>
-                  )}
-                </div>
+                    {isEditMode && (
+                      <button
+                        onClick={() => {
+                          if (window.confirm('Reset committee list to official 14 members?')) {
+                            resetCommitteeMembers();
+                            showToast('Reset Success', 'Restored 14 official PCZSC members.', 'info');
+                          }
+                        }}
+                        className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2.5 rounded-xl flex items-center gap-1.5 transition-all"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" />
+                        <span>Reset Official List</span>
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
 
               {committeeMembers.length === 0 ? (
                 <div className="p-12 text-center rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
                   <Users className="w-12 h-12 text-slate-300 mx-auto" />
                   <p className="text-sm text-slate-500 font-medium">No committee members found.</p>
-                  <button
-                    onClick={handleOpenAddMember}
-                    className="bg-santic-red text-white text-xs font-bold px-4 py-2 rounded-xl"
-                  >
-                    Add First Member
-                  </button>
+                  {(isEditMode || isAdmin) && (
+                    <button
+                      onClick={handleOpenAddMember}
+                      className="bg-santic-red text-white text-xs font-bold px-4 py-2 rounded-xl"
+                    >
+                      Add First Member
+                    </button>
+                  )}
                 </div>
               ) : (
                 <div className="overflow-x-auto rounded-3xl border border-slate-200 shadow-md bg-white">
@@ -422,7 +426,7 @@ export const AboutUsPage: React.FC = () => {
                         <th className="py-4 px-6">Designation</th>
                         <th className="py-4 px-6">College Address</th>
                         <th className="py-4 px-6">Contact Details</th>
-                        <th className="py-4 px-6 text-right">Actions</th>
+                        {(isEditMode || isAdmin) && <th className="py-4 px-6 text-right">Actions</th>}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-slate-700 text-sm">
@@ -462,24 +466,26 @@ export const AboutUsPage: React.FC = () => {
                           <td className="py-4 px-6 text-xs font-medium text-slate-600">
                             {member.contactDetails}
                           </td>
-                          <td className="py-4 px-6 text-right whitespace-nowrap">
-                            <div className="flex items-center justify-end gap-2">
-                              <button
-                                onClick={() => handleOpenEditMember(member)}
-                                className="p-2 rounded-xl bg-slate-100 hover:bg-santic-red hover:text-white text-slate-600 transition-colors shadow-sm"
-                                title="Edit Member"
-                              >
-                                <Edit className="w-4 h-4" />
-                              </button>
-                              <button
-                                onClick={() => handleDeleteMember(member.id, member.name)}
-                                className="p-2 rounded-xl bg-slate-100 hover:bg-red-600 hover:text-white text-slate-600 transition-colors shadow-sm"
-                                title="Delete Member"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </td>
+                          {(isEditMode || isAdmin) && (
+                            <td className="py-4 px-6 text-right whitespace-nowrap">
+                              <div className="flex items-center justify-end gap-2">
+                                <button
+                                  onClick={() => handleOpenEditMember(member)}
+                                  className="p-2 rounded-xl bg-slate-100 hover:bg-santic-red hover:text-white text-slate-600 transition-colors shadow-sm"
+                                  title="Edit Member"
+                                >
+                                  <Edit className="w-4 h-4" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteMember(member.id, member.name)}
+                                  className="p-2 rounded-xl bg-slate-100 hover:bg-red-600 hover:text-white text-slate-600 transition-colors shadow-sm"
+                                  title="Delete Member"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
@@ -519,13 +525,15 @@ export const AboutUsPage: React.FC = () => {
                     />
                   </div>
 
-                  <button
-                    onClick={handleOpenAddDirector}
-                    className="bg-santic-red hover:bg-santic-hoverRed text-white text-xs font-extrabold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md uppercase tracking-wider transition-all"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span>Add New Director</span>
-                  </button>
+                  {(isEditMode || isAdmin) && (
+                    <button
+                      onClick={handleOpenAddDirector}
+                      className="bg-santic-red hover:bg-santic-hoverRed text-white text-xs font-extrabold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md uppercase tracking-wider transition-all"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Add New Director</span>
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -554,7 +562,7 @@ export const AboutUsPage: React.FC = () => {
                         <th className="py-4 px-6">Mobile Number</th>
                         <th className="py-4 px-6">Email ID</th>
                         <th className="py-4 px-6">College/Institute Name & Address</th>
-                        <th className="py-4 px-6 text-right">Actions</th>
+                        {(isEditMode || isAdmin) && <th className="py-4 px-6 text-right">Actions</th>}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-slate-700 text-sm">
@@ -598,24 +606,26 @@ export const AboutUsPage: React.FC = () => {
                           <td className="py-4 px-6 max-w-xs text-xs font-normal text-slate-600 leading-relaxed">
                             {dir.collegeAddress}
                           </td>
-                          <td className="py-4 px-6 text-right whitespace-nowrap">
-                            <div className="flex items-center justify-end gap-2">
-                              <button
-                                onClick={() => handleOpenEditDirector(dir)}
-                                className="p-2 rounded-xl bg-slate-100 hover:bg-santic-red hover:text-white text-slate-600 transition-colors shadow-sm"
-                                title="Edit Director"
-                              >
-                                <Edit className="w-4 h-4" />
-                              </button>
-                              <button
-                                onClick={() => handleDeleteDirector(dir.id, dir.name)}
-                                className="p-2 rounded-xl bg-slate-100 hover:bg-red-600 hover:text-white text-slate-600 transition-colors shadow-sm"
-                                title="Delete Director"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </td>
+                          {(isEditMode || isAdmin) && (
+                            <td className="py-4 px-6 text-right whitespace-nowrap">
+                              <div className="flex items-center justify-end gap-2">
+                                <button
+                                  onClick={() => handleOpenEditDirector(dir)}
+                                  className="p-2 rounded-xl bg-slate-100 hover:bg-santic-red hover:text-white text-slate-600 transition-colors shadow-sm"
+                                  title="Edit Director"
+                                >
+                                  <Edit className="w-4 h-4" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteDirector(dir.id, dir.name)}
+                                  className="p-2 rounded-xl bg-slate-100 hover:bg-red-600 hover:text-white text-slate-600 transition-colors shadow-sm"
+                                  title="Delete Director"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
@@ -1323,28 +1333,32 @@ export const AboutUsPage: React.FC = () => {
 
             {/* Action Close & Edit Buttons */}
             <div className="pt-2 flex items-center gap-3">
-              <button
-                onClick={() => {
-                  const memberToEdit = selectedPhotoMember;
-                  setSelectedPhotoMember(null);
-                  handleOpenEditMember(memberToEdit);
-                }}
-                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-2xl text-xs font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
-              >
-                <Edit className="w-4 h-4" />
-                <span>Edit</span>
-              </button>
-              <button
-                onClick={() => {
-                  const id = selectedPhotoMember.id;
-                  const name = selectedPhotoMember.name;
-                  handleDeleteMember(id, name);
-                }}
-                className="bg-red-50 hover:bg-red-100 text-red-600 p-3 rounded-2xl text-xs font-bold transition-colors"
-                title="Delete Member"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
+              {(isEditMode || isAdmin) && (
+                <>
+                  <button
+                    onClick={() => {
+                      const memberToEdit = selectedPhotoMember;
+                      setSelectedPhotoMember(null);
+                      handleOpenEditMember(memberToEdit);
+                    }}
+                    className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-2xl text-xs font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
+                  >
+                    <Edit className="w-4 h-4" />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      const id = selectedPhotoMember.id;
+                      const name = selectedPhotoMember.name;
+                      handleDeleteMember(id, name);
+                    }}
+                    className="bg-red-50 hover:bg-red-100 text-red-600 p-3 rounded-2xl text-xs font-bold transition-colors"
+                    title="Delete Member"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </>
+              )}
               <button
                 onClick={() => setSelectedPhotoMember(null)}
                 className="flex-1 bg-slate-900 hover:bg-santic-red text-white py-3 rounded-2xl text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg"
@@ -1476,17 +1490,19 @@ export const AboutUsPage: React.FC = () => {
               </div>
             </div>
             <div className="pt-2 flex items-center gap-3">
-              <button
-                onClick={() => {
-                  const dirToEdit = selectedDirectorPhoto;
-                  setSelectedDirectorPhoto(null);
-                  handleOpenEditDirector(dirToEdit);
-                }}
-                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
-              >
-                <Edit className="w-4 h-4" />
-                <span>Edit</span>
-              </button>
+              {(isEditMode || isAdmin) && (
+                <button
+                  onClick={() => {
+                    const dirToEdit = selectedDirectorPhoto;
+                    setSelectedDirectorPhoto(null);
+                    handleOpenEditDirector(dirToEdit);
+                  }}
+                  className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
+                >
+                  <Edit className="w-4 h-4" />
+                  <span>Edit</span>
+                </button>
+              )}
               <button
                 onClick={() => setSelectedDirectorPhoto(null)}
                 className="flex-1 bg-slate-900 hover:bg-santic-red text-white py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-colors shadow-lg"
