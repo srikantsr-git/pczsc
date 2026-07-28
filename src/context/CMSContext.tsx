@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { safeSaveStorage, hydrateImagesFromIDB } from '../utils/persistentStorage';
-import { initialPEDirectorsList } from '../data/defaultPEDirectors';
+import { saveMediaToIDB } from '../utils/mediaDB';
+import { initialPEDirectorsList, defaultBlankAvatar } from '../data/defaultPEDirectors';
 import { allSportsCalendarDocuments } from '../data/allSportsCalendarDocuments';
 import {
   fetchDocumentsFromDB,
@@ -515,7 +516,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-1',
     name: 'Prin. Dr. Iqbal N. Shaikh',
     designation: 'President',
-    photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Prin. Dr. Iqbal N. Shaikh.jpg',
     collegeAddress: 'Anjuman Khairul Islam Poona College, 1647, Camp, New Modikhana, Pune.',
     contactDetails: 'Mobile No. : -'
   },
@@ -523,7 +524,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-2',
     name: 'Dr. Shaikh Aiyaz Hussain Jiyaull Hussain',
     designation: 'Secretary',
-    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/DrShaikh.jpg',
     collegeAddress: 'Anjuman Khairul Islam Poona College, 1647, Camp, New Modikhana, Pune',
     contactDetails: 'Mobile No. : 9422517809'
   },
@@ -531,7 +532,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-3',
     name: 'Prof. (Dr.) Amrule Mohan Namdeo',
     designation: 'Joint Secretary',
-    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/ProfAmrule.jpg',
     collegeAddress: "Deccan Education Society's B.M. College of Commerce, 845, Shivajinagar, Daccan Gymkhana, Pune",
     contactDetails: 'Mobile No. : 9881600118'
   },
@@ -539,7 +540,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-4',
     name: 'Prof. (Dr.) Bengle Asha Vijaykumar',
     designation: 'Joint Secretary',
-    photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Prof.Bengle.jpg',
     collegeAddress: "Maharashtra Education Society's Abasaheb Garware Mahavidyalay, Karve Road, Pune",
     contactDetails: 'Mobile No. : 9922223233'
   },
@@ -547,7 +548,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-5',
     name: 'Mr. Sharma Anirudha Mahesh',
     designation: 'Joint Secretary',
-    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Mr.Sharma .jpg',
     collegeAddress: "Symbiosis International Cultural Center's Symbiosis College of Arts & Commerce, Senapati Bapat Road, Pune",
     contactDetails: 'Mobile No. : 7709999997'
   },
@@ -555,7 +556,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-6',
     name: 'Dr. Bibave Umesh Arun',
     designation: 'Treasurer',
-    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Dr.Bibave .jpg',
     collegeAddress: "Maharashtra Education Society's Garware College Of Commerce, Off Karve Road, Pune",
     contactDetails: 'Mobile No. : 7350509990'
   },
@@ -563,7 +564,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-7',
     name: 'Dr. Chikte Anagha Sunil',
     designation: 'Member',
-    photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Dr Chikte .jpg',
     collegeAddress: "Maharshi Karve Stree Shikshan Sanstha's Shri Sidhvinayak Mahila Mahavidyalaya, Karvenagar, Pune",
     contactDetails: 'Mobile No. : 9850710713'
   },
@@ -571,7 +572,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-8',
     name: 'Prof. (Dr.) Dhamale Shantaram Dattu',
     designation: 'Member',
-    photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Prof.Dhamale .jpg',
     collegeAddress: "Shri Shivaji Maratha Society's Samajbhushan Baburao Alias Appasaheb Jedhe Arts, Commerce & Science College, 425, Shukrwar Peth, Pune",
     contactDetails: 'Mobile No. : 9421077180'
   },
@@ -579,7 +580,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-9',
     name: 'Dr. Shendkar Deepak Tanaji',
     designation: 'Member',
-    photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Dr.Shendkar.jpg',
     collegeAddress: "Progressive Education Society's Modern Arts, Commerce & Science College, Ganeshkhind, Pune",
     contactDetails: 'Mobile No. : 9823839014'
   },
@@ -587,7 +588,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-10',
     name: 'Dr. More Shirish Vijay',
     designation: 'Member',
-    photo: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Dr.More .jpg',
     collegeAddress: "Maharashtriy Mandal's Chandrashekhar Agashe College of Physical Eduaction, Gultekadi, Pune",
     contactDetails: 'Mobile No. : 9545455910'
   },
@@ -595,7 +596,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-11',
     name: 'Dr. Kondhare Manisha Manoj',
     designation: 'Member',
-    photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Dr.Kondhare.jpg',
     collegeAddress: "All India Shri Shivaji Memorial Society's AISSMS College of Engineering, Kennedy Road, Pune",
     contactDetails: 'Mobile No. : 9881294721'
   },
@@ -603,7 +604,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-12',
     name: 'Mr. Parse Abhijit Venkat',
     designation: 'Member',
-    photo: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/mrparse.jpg',
     collegeAddress: "Sanskar Mandir Sanstha's Art's & Commerce College, Opp. Ganpati Mandir, Warje Malwadi, Pune",
     contactDetails: 'Mobile No. : 9028088199'
   },
@@ -611,7 +612,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-13',
     name: 'Dr. Abhijeet Kadam',
     designation: 'Member',
-    photo: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Dr.AbhijeetKadam.jpg',
     collegeAddress: 'Dept. of Sports & Physical Education, Savitribai Phule Pune University, Pune',
     contactDetails: 'Mobile No. : 9689827038'
   },
@@ -619,7 +620,7 @@ const initialCommitteeMembers: CommitteeMember[] = [
     id: 'cm-14',
     name: 'Mr. Tribhuvan Mithun Prakash',
     designation: 'Invitee Member',
-    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/mrtribhuvan.jpg',
     collegeAddress: "Modern Education Society's Ness Wadia College of Commerce, 19, V.K Joag Path, Pune",
     contactDetails: 'Mobile No. : 9890776333'
   }
@@ -775,7 +776,15 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             safeSaveStorage('pczsc_committee_members', initialCommitteeMembers);
             return initialCommitteeMembers;
           }
-          return parsed;
+          const updated = parsed.map((m: any) => {
+            const match = initialCommitteeMembers.find((icm) => icm.id === m.id);
+            if (match && (m.photo?.startsWith('data:image') || !m.photo || m.photo === defaultBlankAvatar)) {
+              return { ...m, photo: match.photo };
+            }
+            return m;
+          });
+          safeSaveStorage('pczsc_committee_members', updated);
+          return updated;
         }
       } catch (e) {}
     }
@@ -785,7 +794,24 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [peDirectors, setPEDirectors] = useState<PhysicalEducationDirector[]>(() => {
     const saved = localStorage.getItem('pczsc_pe_directors');
-    return saved ? JSON.parse(saved) : initialPEDirectors;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const updated = parsed.map((d: any) => {
+            const match = initialPEDirectorsList.find((ipd) => ipd.id === d.id);
+            if (match && match.photo !== defaultBlankAvatar && (d.photo?.startsWith('data:image') || !d.photo || d.photo === defaultBlankAvatar)) {
+              return { ...d, photo: match.photo };
+            }
+            return d;
+          });
+          safeSaveStorage('pczsc_pe_directors', updated);
+          return updated;
+        }
+      } catch (e) {}
+    }
+    safeSaveStorage('pczsc_pe_directors', initialPEDirectorsList);
+    return initialPEDirectorsList;
   });
 
   const [homeSections, setHomeSections] = useState<SectionContent[]>([]);
@@ -810,10 +836,26 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             saveDocumentToDB(doc);
           }
         }
+        // --- Gallery: fetch from Neon DB, hydrate idb: refs, fallback to localStorage ---
         const dbGal = await fetchGalleryFromDB();
         if (dbGal && dbGal.length > 0) {
-          setGalleryItems(dbGal);
+          // Hydrate idb: image references back to real data URLs
+          const hydratedGal = await hydrateImagesFromIDB(dbGal);
+          setGalleryItems(hydratedGal && Array.isArray(hydratedGal) ? hydratedGal : dbGal);
+        } else {
+          // DB is empty — fall back to localStorage (may have user-uploaded items with idb: refs)
+          const lsGal = localStorage.getItem('pczsc_gallery');
+          if (lsGal) {
+            try {
+              const parsed = JSON.parse(lsGal);
+              if (Array.isArray(parsed) && parsed.length > 0) {
+                const hydratedLs = await hydrateImagesFromIDB(parsed);
+                setGalleryItems(hydratedLs && Array.isArray(hydratedLs) ? hydratedLs : parsed);
+              }
+            } catch (_e) {}
+          }
         }
+
         const dbInq = await fetchContactInquiriesFromDB();
         if (dbInq && dbInq.length > 0) {
           setContactInquiries(dbInq);
@@ -824,7 +866,15 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
         const dbDirectors = await fetchPEDirectorsFromDB();
         if (dbDirectors && dbDirectors.length >= 100) {
-          setPEDirectors(dbDirectors);
+          const syncedDirectors = dbDirectors.map((d: any) => {
+            const match = initialPEDirectorsList.find((ipd) => ipd.id === d.id);
+            if (match && match.photo !== defaultBlankAvatar && (d.photo?.startsWith('data:image') || !d.photo || d.photo === defaultBlankAvatar)) {
+              return { ...d, photo: match.photo };
+            }
+            return d;
+          });
+          setPEDirectors(syncedDirectors);
+          safeSaveStorage('pczsc_pe_directors', syncedDirectors);
         } else {
           setPEDirectors(initialPEDirectorsList);
           safeSaveStorage('pczsc_pe_directors', initialPEDirectorsList);
@@ -840,10 +890,6 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const hSub = await hydrateImagesFromIDB(subPagesHeroStore);
         if (hSub) {
           setSubPagesHeroStore(hSub);
-        }
-        const hGal = await hydrateImagesFromIDB(galleryItems);
-        if (hGal && Array.isArray(hGal)) {
-          setGalleryItems(hGal);
         }
         const hHero = await hydrateImagesFromIDB(heroSlides);
         if (hHero && Array.isArray(hHero)) {
@@ -1148,8 +1194,27 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     const updated = [newItem, ...galleryItems];
     setGalleryItems(updated);
-    saveGalleryItemToDB(newItem);
+    // Save to localStorage immediately (handles large base64 via IDB offloading)
     safeSaveStorage('pczsc_gallery', updated);
+    // Async: extract base64 image to IDB, store compact idb: key in Neon DB
+    // This prevents oversized SQL payloads that silently fail on Neon
+    (async () => {
+      try {
+        let dbImageUrl = newItem.imageUrl;
+        if (
+          newItem.imageUrl &&
+          (newItem.imageUrl.startsWith('data:image/') ||
+            newItem.imageUrl.startsWith('data:video/'))
+        ) {
+          const idbKey = `gallery_img_${newItem.id}`;
+          await saveMediaToIDB(idbKey, newItem.imageUrl);
+          dbImageUrl = `idb:${idbKey}`;
+        }
+        await saveGalleryItemToDB({ ...newItem, imageUrl: dbImageUrl });
+      } catch (e) {
+        console.warn('[Gallery] DB save failed, data preserved in localStorage/IDB:', e);
+      }
+    })();
   };
 
   const deleteGalleryItem = (id: string) => {
@@ -1221,15 +1286,42 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     const updated = [...peDirectors, newDir];
     setPEDirectors(updated);
-    savePEDirectorToDB(newDir);
     safeSaveStorage('pczsc_pe_directors', updated);
+    // Async: extract base64 photo to IDB before saving to Neon DB
+    (async () => {
+      try {
+        let dbPhoto = newDir.photo;
+        if (newDir.photo && (newDir.photo.startsWith('data:image/') || newDir.photo.startsWith('data:video/'))) {
+          const idbKey = `pe_photo_${newDir.id}`;
+          await saveMediaToIDB(idbKey, newDir.photo);
+          dbPhoto = `idb:${idbKey}`;
+        }
+        await savePEDirectorToDB({ ...newDir, photo: dbPhoto });
+      } catch (e) {
+        console.warn('[PEDirector] DB save failed, data preserved in localStorage/IDB:', e);
+      }
+    })();
   };
 
   const editPEDirector = (id: string, updatedFields: Partial<PhysicalEducationDirector>) => {
     const updated = peDirectors.map((d) => {
       if (d.id === id) {
         const merged = { ...d, ...updatedFields };
-        savePEDirectorToDB(merged);
+        safeSaveStorage('pczsc_pe_directors', updated);
+        // Async: extract base64 photo to IDB before DB update
+        (async () => {
+          try {
+            let dbPhoto = merged.photo;
+            if (merged.photo && (merged.photo.startsWith('data:image/') || merged.photo.startsWith('data:video/'))) {
+              const idbKey = `pe_photo_${merged.id}`;
+              await saveMediaToIDB(idbKey, merged.photo);
+              dbPhoto = `idb:${idbKey}`;
+            }
+            await savePEDirectorToDB({ ...merged, photo: dbPhoto });
+          } catch (e) {
+            console.warn('[PEDirector] DB update failed:', e);
+          }
+        })();
         return merged;
       }
       return d;

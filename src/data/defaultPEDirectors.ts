@@ -6,7 +6,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-1',
     name: 'Dr. Chikte Anagha Sunil',
-    photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Dr Chikte .jpg',
     mobile: '9850710713',
     email: 'anaghaschikte@yahoo.co.in',
     collegeAddress: "Maharshi Karve Stree Shikshan Sanstha's Shri Sidhvinayak Mahila Mahavidyalaya, Karvenagar, Pune"
@@ -14,7 +14,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-2',
     name: 'Prof. (Dr.) Dhamale Shantaram Dattu',
-    photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Prof.Dhamale .jpg',
     mobile: '9421077180',
     email: 'dhamaleshantaram96@gmail.com',
     collegeAddress: "Shri Shivaji Maratha Society's Samajbhushan Baburao Alias Appasaheb Jedhe Arts, Commerce & Science College, 425, Shukrwar Peth, Pune"
@@ -30,7 +30,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-4',
     name: 'Dr. Shendkar Deepak Tanaji',
-    photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Dr.Shendkar.jpg',
     mobile: '9823839014',
     email: 'dtshendkar@gmail.com',
     collegeAddress: "Progressive Education Society's Modern Arts, Commerce & Science College, Ganeshkhind, Pune"
@@ -38,7 +38,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-5',
     name: 'Prof. (Dr.) Bengle Asha Vijaykumar',
-    photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Prof.Bengle.jpg',
     mobile: '9922223233',
     email: 'asha.bengle007@gmail.com',
     collegeAddress: "Maharashtra Education Society's Abasaheb Garware Mahavidyalay, Karve Road, Pune"
@@ -46,7 +46,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-6',
     name: 'Prof. (Dr.) Amrule Mohan Namdeo',
-    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/ProfAmrule.jpg',
     mobile: '9881600118',
     email: 'amrulemohan69@gmail.com',
     collegeAddress: "Deccan Education Society's B.M. College of Commerce, 845, Shivajinagar, Daccan Gymkhana, Pune"
@@ -54,7 +54,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-7',
     name: 'Dr. Shaikh Aiyaz Hussain Jiyaull Hussain',
-    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/DrShaikh.jpg',
     mobile: '9422517809',
     email: 'aiyaz9422@yahoo.co.in',
     collegeAddress: "Anjuman Khairul Islam's Poona College, 1647, Camp, New Modikhana, Pune"
@@ -62,7 +62,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-8',
     name: 'Dr. Shelke Sudam Ramchandra',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr. Shelke Sudam.jpg',
     mobile: '9422835676',
     email: 'shelkesudam123@gmail.com',
     collegeAddress: "Akhil Bhartiy Maratha Shikshan Parishad's Shri Shahu Mandir Mahavidyalaya, Pune"
@@ -70,7 +70,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-9',
     name: 'Dr. Pawar Gurunath Balasaheb',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr. Pawar Gurunath.jpg',
     mobile: '9168782531',
     email: 'sujit.pawar19@gmail.com',
     collegeAddress: "Maharashtra Girl's Education Society's Huzurpaga Shrimati Durgabai Mukunddas Lohiya Mahila Vanijya Mahavidyalaya, 691, Narayan Peth, Laxmi Road, Pune"
@@ -78,7 +78,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-10',
     name: 'Dr. More Shirish Vijay',
-    photo: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80',
+    photo: '/committee/Dr.More .jpg',
     mobile: '9545455910',
     email: 'shirish.more100@gmail.com',
     collegeAddress: "Maharashtriy Mandal's Chandrashekhar Agashe College of Physical Eduaction, Gultekadi, Pune"
@@ -86,7 +86,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-11',
     name: 'Dr. Phale Vikram Suresh',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr. Phale Vikram .jpg',
     mobile: '9822028133',
     email: 'vikramphale15@gmail.com',
     collegeAddress: "Progressive Education Society's Modern College, Shivajinagar, Pune"
@@ -94,7 +94,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-12',
     name: 'Dr. Augustine Anjushree Anthony',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr. Augustine Anjushree.jpg',
     mobile: '8007786487',
     email: 'anjushree.augustine@cumminscollege.in',
     collegeAddress: "Maharshi Karve Stree Shikshan Sanstha's MKSSS's Cummins College of Engineering for Women, Karvenagar, Pune"
@@ -102,7 +102,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-13',
     name: 'Dr. Pawar Yogesh Laxmanrao',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr. Pawar Yogesh.jpg',
     mobile: '9850952787',
     email: 'dryogesh.pawar@yahoo.com',
     collegeAddress: "Pune District Education Association's Mamasaheb Mohol Mahavidyalaya, 48/1-A, Erandwane, Paud Road, Pune"
@@ -110,7 +110,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-14',
     name: 'Dube Rishi Rajendra',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dube Rishi Rajendra.jpg',
     mobile: '9762434949',
     email: 'rishidube.rd@gmail.com',
     collegeAddress: "The P.G.K. Mandal's H.V. Desai College, Desai Brothers Vidyabhavan, 596, Budhavar Peth, Pune"
@@ -118,7 +118,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-15',
     name: 'Girigosavi Amit Ankush',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Girigosavi Amit.jpg',
     mobile: '9423341824',
     email: 'amitgirigosavi@gmail.com',
     collegeAddress: "Marathwada Mitra Mandal's College of Commerce, 302/A, Deccan Gymkhana, Pune"
@@ -126,7 +126,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-16',
     name: 'Dr. Kadam Abhijeet Babanrao',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr.AbhijeetKadam.jpg',
     mobile: '9689827038',
     email: 'abhijit1207@yahoo.com',
     collegeAddress: "Post Graduate Gymkhana, Department of Sports & Physical Education, Savitribai Phule Pune University, Ganeshkhind Road, Pune-411007"
@@ -134,7 +134,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-17',
     name: 'Dr. Patil Gauri Gajanan',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr. Patil Gauri.jpg',
     mobile: '9860765655',
     email: 'gaurigpatil2767@gmail.com',
     collegeAddress: "Bharati Vidyapeeth Mahila Abhiyantriki Mahavidyalay, Pune-Satara Road, Dhanakawadi, Pune"
@@ -142,7 +142,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-18',
     name: 'Dr. Tambe Rohit Prakash',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr. Tambe Rohit Prakash.jpg',
     mobile: '9890436863',
     email: 'rohit.tambe02@gmail.com',
     collegeAddress: "Kannada Sangh Pune's, Kaveri College of Arts, Science & Commerce, 36, Ganeshnagar, Erandwane, Pune"
@@ -150,7 +150,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-19',
     name: 'Patare Mukundraj Ashokrao',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Patare Mukundraj Ashokrao.jpg',
     mobile: '9881824080',
     email: 'mpatare@gmail.com',
     collegeAddress: "Bansilal Ramnath Agarwal Charitable Trust's Vishwakarma Institute of Technology, 666, Upper Indira Nagar, Bibwewadi, Pune"
@@ -174,7 +174,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-22',
     name: 'Banne Namadev Ravasaheb',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Banne Namadev.jpg',
     mobile: '8951742256',
     email: 'namadevrbanne@gmail.com',
     collegeAddress: "Pune Vidyarthi Griha PVG'S College of Engineering, Technology & Management, S.No. 44, Vidyanagari, Shivdarshan, Parvati, Pune"
@@ -182,7 +182,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-23',
     name: 'Gujar Tushar Anil',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Gujar Tushar Anil.jpg',
     mobile: '9822292020',
     email: 'tushargujar@mmcoe.edu.in',
     collegeAddress: "Marathwada Mitra Mandal's College of Engineering, Survey No. 18, Plot No. 5-3, CTS-205, Karvenagar, Pune"
@@ -190,7 +190,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-24',
     name: 'Sharma Anirudha Mahesh',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Mr.Sharma .jpg',
     mobile: '7709999997',
     email: 'anirudha.sharma@symbiosiscollege.edu.in',
     collegeAddress: "Symbiosis International Cultural Center's Symbiosis College of Arts & Commerce, Senapati Bapat Road, Pune"
@@ -198,7 +198,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-25',
     name: 'Garg Abhijeet Rajendraprasad',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Garg Abhijeet Rajendraprasad.jpg',
     mobile: '9860381968',
     email: 'abhijeetgarg16@gmail.com',
     collegeAddress: "Maharashtra Education Society's Senior College, 131, Mayur Colony, Kothrud, Pune"
@@ -214,7 +214,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-27',
     name: 'Dr. Morey Deepali Sureshchandra',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr. Morey Deepali.jpg',
     mobile: '7821899702',
     email: 'deepali.morey@aissmsioit.org',
     collegeAddress: "All India Shri Shivaji Memorial Society's Institute of Information Technology, Kennedy Road, Near RTO, Pune"
@@ -222,7 +222,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-28',
     name: 'Dr. Kondhare Manisha Manoj',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr.Kondhare.jpg',
     mobile: '9881294721',
     email: 'maneshakondhare@gmail.com',
     collegeAddress: "All India Shri Shivaji Memorial Society's AISSMS College of Engineering, Kennedy Road, Pune"
@@ -230,7 +230,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-29',
     name: 'Sarode Navanath Mahadev',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Sarode Navanath.jpg',
     mobile: '9730694725',
     email: 'navasunita@gmail.com',
     collegeAddress: "Akhil Bharatiya Maratha Shikshan Parishad's Anantrao Pawar College of Engineering & Research, S. No. 103, Shahu College Campus, Parvati, Pune"
@@ -238,7 +238,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-30',
     name: 'Shinde Gautam Raghunath',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Shinde Gautam Raghunath.jpg',
     mobile: '9881510025',
     email: 'gautamrvshinde@gmail.com',
     collegeAddress: "Arihant Education Foundation's Arihant College of Arts, Commerce & Science, Apolo Tower, Next to Vijaya Bank, Solapur Bazzar, Near Mahatma Ganadhi Bus Stand, Camp, Pune"
@@ -310,7 +310,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-39',
     name: 'Dr. Bibave Umesh Arun',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr.Bibave .jpg',
     mobile: '7350509990',
     email: 'bibave.umesh@gmail.com',
     collegeAddress: "Maharashtra Education Society's Garware College of Commerce, Off Karve Road, Pune"
@@ -382,7 +382,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-48',
     name: 'Deshpande Amruta Nikhil',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Deshpande Amruta Nikhil.png',
     mobile: '9049236167',
     email: 'and.gymkhana@coeptech.ac.in',
     collegeAddress: "College of Engineering, Shivajinagar, Pune"
@@ -470,7 +470,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-59',
     name: 'Jadhav Ekta Ashok',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Jadhav Ekta Ashok.png',
     mobile: '8275697069',
     email: 'ekta.jadhav@gmail.com',
     collegeAddress: "Sadhu Vaswani Mission St. Mira's College for Girls, 6, Koregaon Road, Pune"
@@ -622,7 +622,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-78',
     name: 'Nikam Rahul Sadashiv',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Nikam Rahul Sadashiv.jpg',
     mobile: '9767915028',
     email: 'rahulnikam07021988@gmail.com',
     collegeAddress: "Sinhgad Technical Education Society's Rasiklal M. Dhariwal Sinhgad Technical Institutes, 111/1, Mumbai-Banglore Bypass, Warje, Pune"
@@ -630,7 +630,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-79',
     name: 'Nikam Sudhir Sadashiv',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Nikam Rahul Sadashiv.jpg',
     mobile: '7058309528',
     email: 'sudhirnikam.rmdssoe@sinhgad.edu',
     collegeAddress: "Sinhgad Technical Education Society's Rasiklal M. Dhariwal Sinhgad Technical Institutes, 111/1, Mumbai-Banglore Bypass, Warje, Pune"
@@ -662,7 +662,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-83',
     name: 'Patil Nishigandha Rameshwar',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Patil Nishigandha Rameshwar.png',
     mobile: '9689060159',
     email: 'nishigandha.patil60@gmail.com',
     collegeAddress: "Surydatta Education Foundation's Surydatta College of Management, Information Research & Technology, S. No 342, Chandani Chowk-Pashan Road, Near DSK Ranwar, Pune"
@@ -718,7 +718,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-90',
     name: 'Dr. Rajenimbalkar Dushyant Tukaram',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Dr. Rajenimbalkar.png',
     mobile: '9822250117',
     email: 'dushyantnimbalkar@gmail.com',
     collegeAddress: "Progressive Education Society's Modern Engineering College, 1186-A, J.M Road, Shivajinagar, Pune"
@@ -854,7 +854,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-107',
     name: 'Tikone Prasad Bhimrao',
-    photo: defaultBlankAvatar,
+    photo: '/committee/Tikone Prasad.png',
     mobile: '8087996388',
     email: 'tikone.prasad@gmail.com',
     collegeAddress: "Arham Foundation's Arham College of Arts & Commerce, Camp, Pune"

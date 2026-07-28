@@ -56,9 +56,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isPublished, setIsPublished] = useState(true);
 
   // Apply CSS variables to DOM on draft change for live preview
+  // AND auto-persist the draft so it survives restarts without needing Publish
   useEffect(() => {
     applyThemeCssVariables(draftTheme);
+    // Auto-save every theme change to localStorage so restart always loads latest
+    try {
+      localStorage.setItem('pczsc_active_theme', JSON.stringify(draftTheme));
+    } catch (e) {
+      console.warn('[Theme] Auto-save to localStorage failed:', e);
+    }
   }, [draftTheme]);
+
+  // Apply the saved theme immediately on first mount (prevents default-light flash)
+  useEffect(() => {
+    applyThemeCssVariables(currentTheme);
+  }, []);
 
   const canUndo = historyIndex > 0;
   const canRedo = historyIndex < history.length - 1;
@@ -151,6 +163,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const publishTheme = () => {
     setCurrentTheme(draftTheme);
     setIsPublished(true);
+    // Explicitly publish — also saves to localStorage (already auto-saved on draft change)
     safeSaveStorage('pczsc_active_theme', draftTheme);
   };
 

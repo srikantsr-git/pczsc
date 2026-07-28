@@ -37,16 +37,18 @@ export async function uploadToVercelBlob(
 
   // Fallback if VITE_BLOB_READ_WRITE_TOKEN is not set yet in local environment
   console.info(
-    'Notice: VITE_BLOB_READ_WRITE_TOKEN not set in .env. Using temporary browser Data URL fallback.'
+    'Notice: VITE_BLOB_READ_WRITE_TOKEN not set in .env. Using persistent base64 Data URL fallback (stored in IndexedDB).'
   );
 
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = () => {
-      resolve((reader.result as string) || URL.createObjectURL(file));
+      // Always use data: URL (base64) — never blob: URLs which are session-only
+      resolve((reader.result as string) || '');
     };
     reader.onerror = () => {
-      resolve(URL.createObjectURL(file));
+      // Do not use URL.createObjectURL — blob: URLs die on page reload/server restart
+      resolve('');
     };
     reader.readAsDataURL(file);
   });
