@@ -122,7 +122,7 @@ export const SubPageHero: React.FC<SubPageHeroProps> = ({
           </div>
 
           {/* Page Title */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight">
             {heroData.title}
           </h1>
 

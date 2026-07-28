@@ -20,7 +20,7 @@ export const GenericPage: React.FC<{ title: string; subtitle: string }> = ({ tit
           <div className="inline-block text-xs font-bold uppercase tracking-widest text-santic-red px-3 py-1 bg-red-50 rounded-full border border-red-200">
             Path: {location.pathname}
           </div>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+          <h1 className="text-2xl md:text-4xl font-extrabold text-slate-900 leading-tight">
             {title}
           </h1>
           <p className="text-slate-600 text-base md:text-lg leading-relaxed font-normal">

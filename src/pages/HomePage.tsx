@@ -265,7 +265,7 @@ export const HomePage: React.FC = () => {
                   </div>
 
                   <div key={`${currentSlide}-${activeHero.title}`} className="animate-fade-in space-y-5">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight max-w-3xl">
+                    <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-white leading-tight tracking-tight max-w-3xl">
                       {activeHero.title}
                     </h1>
 
