@@ -417,26 +417,26 @@ export const AboutUsPage: React.FC = () => {
                   )}
                 </div>
               ) : (
-                <div className="overflow-x-auto rounded-3xl border border-slate-200 shadow-md bg-white">
-                  <table className="w-full text-left border-collapse min-w-[850px]">
+                <div className="rounded-3xl border border-slate-200 shadow-md bg-white overflow-hidden w-full">
+                  <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-slate-900 text-white text-xs font-extrabold uppercase tracking-wider">
-                        <th className="py-4 px-6 text-center">Photo</th>
-                        <th className="py-4 px-6">Name</th>
-                        <th className="py-4 px-6">Designation</th>
-                        <th className="py-4 px-6">College Address</th>
-                        <th className="py-4 px-6">Contact Details</th>
-                        {(isEditMode || isAdmin) && <th className="py-4 px-6 text-right">Actions</th>}
+                        <th className="py-3.5 px-3 text-center w-24">Photo</th>
+                        <th className="py-3.5 px-3">Name</th>
+                        <th className="py-3.5 px-3">Designation</th>
+                        <th className="py-3.5 px-3">College Address</th>
+                        <th className="py-3.5 px-3">Contact Details</th>
+                        {(isEditMode || isAdmin) && <th className="py-3.5 px-3 text-right w-20">Actions</th>}
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 text-slate-700 text-sm">
+                    <tbody className="divide-y divide-slate-100 text-slate-700 text-xs sm:text-sm">
                       {committeeMembers.map((member) => (
                         <tr key={member.id} className="hover:bg-slate-50/80 transition-colors">
-                          <td className="py-4 px-6 text-center">
+                          <td className="py-3 px-3 text-center">
                             <button
                               type="button"
                               onClick={() => setSelectedPhotoMember(member)}
-                              className="group/photo relative w-[170px] h-[170px] rounded-2xl overflow-hidden border-2 border-santic-red/30 shadow-md mx-auto bg-slate-100 shrink-0 block transition-all duration-300 hover:scale-105 hover:border-santic-red hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-santic-red/50"
+                              className="group/photo relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-santic-red/30 shadow-sm mx-auto bg-slate-100 shrink-0 block transition-all duration-300 hover:scale-105 hover:border-santic-red hover:shadow-md focus:outline-none"
                               title="Click to expand photo & view details"
                             >
                               <img
@@ -448,40 +448,40 @@ export const AboutUsPage: React.FC = () => {
                                 }}
                               />
                               <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-200 flex items-center justify-center text-white">
-                                <ZoomIn className="w-6 h-6 drop-shadow-md" />
+                                <ZoomIn className="w-5 h-5 drop-shadow-md" />
                               </div>
                             </button>
                           </td>
-                          <td className="py-4 px-6 font-extrabold text-slate-900 whitespace-nowrap">
+                          <td className="py-3 px-3 font-extrabold text-slate-900 leading-snug">
                             {member.name}
                           </td>
-                          <td className="py-4 px-6">
-                            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-santic-red/10 text-santic-red border border-santic-red/20 whitespace-nowrap">
+                          <td className="py-3 px-3">
+                            <span className="inline-block px-2.5 py-1 rounded-full text-[11px] font-bold bg-santic-red/10 text-santic-red border border-santic-red/20">
                               {member.designation}
                             </span>
                           </td>
-                          <td className="py-4 px-6 max-w-xs text-xs font-normal text-slate-600 leading-relaxed">
+                          <td className="py-3 px-3 text-xs font-normal text-slate-600 leading-relaxed">
                             {member.collegeAddress}
                           </td>
-                          <td className="py-4 px-6 text-xs font-medium text-slate-600">
+                          <td className="py-3 px-3 text-xs font-medium text-slate-600">
                             {member.contactDetails}
                           </td>
                           {(isEditMode || isAdmin) && (
-                            <td className="py-4 px-6 text-right whitespace-nowrap">
-                              <div className="flex items-center justify-end gap-2">
+                            <td className="py-3 px-3 text-right whitespace-nowrap">
+                              <div className="flex items-center justify-end gap-1.5">
                                 <button
                                   onClick={() => handleOpenEditMember(member)}
-                                  className="p-2 rounded-xl bg-slate-100 hover:bg-santic-red hover:text-white text-slate-600 transition-colors shadow-sm"
+                                  className="p-1.5 rounded-xl bg-slate-100 hover:bg-santic-red hover:text-white text-slate-600 transition-colors shadow-sm"
                                   title="Edit Member"
                                 >
-                                  <Edit className="w-4 h-4" />
+                                  <Edit className="w-3.5 h-3.5" />
                                 </button>
                                 <button
                                   onClick={() => handleDeleteMember(member.id, member.name)}
-                                  className="p-2 rounded-xl bg-slate-100 hover:bg-red-600 hover:text-white text-slate-600 transition-colors shadow-sm"
+                                  className="p-1.5 rounded-xl bg-slate-100 hover:bg-red-600 hover:text-white text-slate-600 transition-colors shadow-sm"
                                   title="Delete Member"
                                 >
-                                  <Trash2 className="w-4 h-4" />
+                                  <Trash2 className="w-3.5 h-3.5" />
                                 </button>
                               </div>
                             </td>
@@ -549,30 +549,30 @@ export const AboutUsPage: React.FC = () => {
                   </button>
                 </div>
               ) : (
-                <div className="overflow-x-auto rounded-3xl border border-slate-200 shadow-md bg-white">
-                  <div className="bg-slate-100 px-6 py-2.5 border-b border-slate-200 flex items-center justify-between text-xs font-extrabold text-slate-700">
+                <div className="rounded-3xl border border-slate-200 shadow-md bg-white overflow-hidden w-full">
+                  <div className="bg-slate-100 px-4 sm:px-6 py-2.5 border-b border-slate-200 flex items-center justify-between text-xs font-extrabold text-slate-700 flex-wrap gap-2">
                     <span>Showing {filteredDirectors.length} Directors of Physical Education & Sports</span>
                     <span className="text-[11px] text-slate-500 font-normal">Photos feature neutral placeholder silhouette avatar by default</span>
                   </div>
-                  <table className="w-full text-left border-collapse min-w-[850px]">
+                  <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-slate-900 text-white text-xs font-extrabold uppercase tracking-wider">
-                        <th className="py-4 px-6 text-center">Photo</th>
-                        <th className="py-4 px-6">Name</th>
-                        <th className="py-4 px-6">Mobile Number</th>
-                        <th className="py-4 px-6">Email ID</th>
-                        <th className="py-4 px-6">College/Institute Name & Address</th>
-                        {(isEditMode || isAdmin) && <th className="py-4 px-6 text-right">Actions</th>}
+                        <th className="py-3.5 px-3 text-center w-24">Photo</th>
+                        <th className="py-3.5 px-3">Name</th>
+                        <th className="py-3.5 px-3">Mobile Number</th>
+                        <th className="py-3.5 px-3">Email ID</th>
+                        <th className="py-3.5 px-3">College/Institute Name & Address</th>
+                        {(isEditMode || isAdmin) && <th className="py-3.5 px-3 text-right w-20">Actions</th>}
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 text-slate-700 text-sm">
+                    <tbody className="divide-y divide-slate-100 text-slate-700 text-xs sm:text-sm">
                       {filteredDirectors.map((dir) => (
                         <tr key={dir.id} className="hover:bg-slate-50/80 transition-colors">
-                          <td className="py-4 px-6 text-center">
+                          <td className="py-3 px-3 text-center">
                             <button
                               type="button"
                               onClick={() => setSelectedDirectorPhoto(dir)}
-                              className="group/photo relative w-[140px] h-[140px] rounded-2xl overflow-hidden border-2 border-slate-200 shadow-md mx-auto bg-slate-100 shrink-0 block transition-all duration-300 hover:scale-105 hover:border-santic-red hover:shadow-xl focus:outline-none"
+                              className="group/photo relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-slate-200 shadow-sm mx-auto bg-slate-100 shrink-0 block transition-all duration-300 hover:scale-105 hover:border-santic-red hover:shadow-md focus:outline-none"
                               title="Click to expand photo & view details"
                             >
                               <img
@@ -584,44 +584,44 @@ export const AboutUsPage: React.FC = () => {
                                 }}
                               />
                               <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-200 flex items-center justify-center text-white">
-                                <ZoomIn className="w-6 h-6 drop-shadow-md" />
+                                <ZoomIn className="w-5 h-5 drop-shadow-md" />
                               </div>
                             </button>
                           </td>
-                          <td className="py-4 px-6 font-extrabold text-slate-900 whitespace-nowrap">
+                          <td className="py-3 px-3 font-extrabold text-slate-900 leading-snug">
                             {dir.name}
                           </td>
-                          <td className="py-4 px-6 font-semibold text-slate-700 whitespace-nowrap">
+                          <td className="py-3 px-3 font-semibold text-slate-700 whitespace-nowrap">
                             <a href={`tel:${dir.mobile}`} className="hover:text-santic-red transition-colors flex items-center gap-1.5">
-                              <Phone className="w-3.5 h-3.5 text-santic-red" />
+                              <Phone className="w-3.5 h-3.5 text-santic-red shrink-0" />
                               <span>{dir.mobile}</span>
                             </a>
                           </td>
-                          <td className="py-4 px-6 font-medium text-slate-700 whitespace-nowrap">
+                          <td className="py-3 px-3 font-medium text-slate-700 break-all">
                             <a href={`mailto:${dir.email}`} className="hover:text-santic-red transition-colors flex items-center gap-1.5">
-                              <Mail className="w-3.5 h-3.5 text-santic-red" />
-                              <span>{dir.email}</span>
+                              <Mail className="w-3.5 h-3.5 text-santic-red shrink-0" />
+                              <span className="break-all">{dir.email}</span>
                             </a>
                           </td>
-                          <td className="py-4 px-6 max-w-xs text-xs font-normal text-slate-600 leading-relaxed">
+                          <td className="py-3 px-3 text-xs font-normal text-slate-600 leading-relaxed">
                             {dir.collegeAddress}
                           </td>
                           {(isEditMode || isAdmin) && (
-                            <td className="py-4 px-6 text-right whitespace-nowrap">
-                              <div className="flex items-center justify-end gap-2">
+                            <td className="py-3 px-3 text-right whitespace-nowrap">
+                              <div className="flex items-center justify-end gap-1.5">
                                 <button
                                   onClick={() => handleOpenEditDirector(dir)}
-                                  className="p-2 rounded-xl bg-slate-100 hover:bg-santic-red hover:text-white text-slate-600 transition-colors shadow-sm"
+                                  className="p-1.5 rounded-xl bg-slate-100 hover:bg-santic-red hover:text-white text-slate-600 transition-colors shadow-sm"
                                   title="Edit Director"
                                 >
-                                  <Edit className="w-4 h-4" />
+                                  <Edit className="w-3.5 h-3.5" />
                                 </button>
                                 <button
                                   onClick={() => handleDeleteDirector(dir.id, dir.name)}
-                                  className="p-2 rounded-xl bg-slate-100 hover:bg-red-600 hover:text-white text-slate-600 transition-colors shadow-sm"
+                                  className="p-1.5 rounded-xl bg-slate-100 hover:bg-red-600 hover:text-white text-slate-600 transition-colors shadow-sm"
                                   title="Delete Director"
                                 >
-                                  <Trash2 className="w-4 h-4" />
+                                  <Trash2 className="w-3.5 h-3.5" />
                                 </button>
                               </div>
                             </td>
