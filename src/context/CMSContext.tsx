@@ -183,6 +183,8 @@ export interface AboutUsConfig {
   presidentBody: string;
   presidentHighlightTitle: string;
   presidentHighlightBody: string;
+  presidentName?: string;
+  presidentPhoto?: string;
   presidentRole: string;
   presidentOrganization: string;
   presidentUniversity: string;
@@ -473,9 +475,11 @@ const defaultAboutUsConfig: AboutUsConfig = {
   presidentBody: `It gives me immense pleasure and pride to present the successful completion of the Pune City Zonal Sports Committee (PCZSC) Intercollegiate Sports Competitions. Every edition of these competitions reflects our collective commitment to promoting excellence in sports, encouraging healthy competition, and nurturing the all-round development of students.\n\nThis year's sporting calendar has been a remarkable journey of dedication, discipline, teamwork, and outstanding performances. Our student-athletes displayed exceptional determination, resilience, and true sportsmanship, making every event memorable. Their achievements stand as a testament to the spirit of collegiate sports and the values that sports instill in young minds.`,
   presidentHighlightTitle: "Key Highlight: Introduction of Live Streaming",
   presidentHighlightBody: "One of the significant highlights this year was the introduction of Live Streaming of selected sporting events. This initiative enabled students, faculty members, parents, alumni, and sports enthusiasts to witness the competitions from anywhere, ensuring that academic commitments or geographical distance did not limit participation.",
+  presidentName: "Prin. Dr. Iqbal N. Shaikh",
+  presidentPhoto: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80",
   presidentRole: "President",
   presidentOrganization: "Pune City Zonal Sports Committee (PCZSC)",
-  presidentUniversity: "Savitribai Phule Pune University"
+  presidentUniversity: "Anjuman Khairul Islam Poona College, Camp, Pune"
 };
 
 const defaultFooterConfig: FooterConfig = {

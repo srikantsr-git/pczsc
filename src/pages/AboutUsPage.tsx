@@ -60,12 +60,23 @@ export const AboutUsPage: React.FC = () => {
   const [objectivesTitle, setObjectivesTitle] = useState(aboutUsConfig.objectivesTitle);
   const [objectivesBody, setObjectivesBody] = useState(aboutUsConfig.objectivesBody);
 
+  // President member fallback from committee list
+  const presidentMember = committeeMembers.find((m) =>
+    m.designation.toLowerCase().includes('president')
+  );
+
   // Form states for president
   const [presidentTitle, setPresidentTitle] = useState(aboutUsConfig.presidentTitle);
   const [presidentSubtitle, setPresidentSubtitle] = useState(aboutUsConfig.presidentSubtitle);
   const [presidentBody, setPresidentBody] = useState(aboutUsConfig.presidentBody);
   const [presidentHighlightTitle, setPresidentHighlightTitle] = useState(aboutUsConfig.presidentHighlightTitle);
   const [presidentHighlightBody, setPresidentHighlightBody] = useState(aboutUsConfig.presidentHighlightBody);
+  const [presidentName, setPresidentName] = useState(
+    aboutUsConfig.presidentName || presidentMember?.name || 'Prin. Dr. Iqbal N. Shaikh'
+  );
+  const [presidentPhoto, setPresidentPhoto] = useState(
+    aboutUsConfig.presidentPhoto || presidentMember?.photo || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80'
+  );
   const [presidentRole, setPresidentRole] = useState(aboutUsConfig.presidentRole);
   const [presidentOrganization, setPresidentOrganization] = useState(aboutUsConfig.presidentOrganization);
   const [presidentUniversity, setPresidentUniversity] = useState(aboutUsConfig.presidentUniversity);
@@ -192,6 +203,8 @@ export const AboutUsPage: React.FC = () => {
       presidentBody,
       presidentHighlightTitle,
       presidentHighlightBody,
+      presidentName,
+      presidentPhoto,
       presidentRole,
       presidentOrganization,
       presidentUniversity
@@ -668,7 +681,7 @@ export const AboutUsPage: React.FC = () => {
 
           {/* Section 3: President's Message (Editable) */}
           {(activeTab === 'all' || activeTab === 'leadership') && (
-            <div className="relative p-8 md:p-14 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white shadow-2xl border border-slate-800 space-y-8 overflow-hidden animate-fade-in">
+            <div className="relative p-8 md:p-12 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white shadow-2xl border border-slate-800 space-y-8 overflow-hidden animate-fade-in">
               {isEditMode && (
                 <div className="absolute top-6 right-6 z-20">
                   <button
@@ -678,6 +691,8 @@ export const AboutUsPage: React.FC = () => {
                       setPresidentBody(aboutUsConfig.presidentBody);
                       setPresidentHighlightTitle(aboutUsConfig.presidentHighlightTitle);
                       setPresidentHighlightBody(aboutUsConfig.presidentHighlightBody);
+                      setPresidentName(aboutUsConfig.presidentName || presidentMember?.name || 'Prin. Dr. Iqbal N. Shaikh');
+                      setPresidentPhoto(aboutUsConfig.presidentPhoto || presidentMember?.photo || '');
                       setPresidentRole(aboutUsConfig.presidentRole);
                       setPresidentOrganization(aboutUsConfig.presidentOrganization);
                       setPresidentUniversity(aboutUsConfig.presidentUniversity);
@@ -705,35 +720,58 @@ export const AboutUsPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="space-y-5 text-white/90 text-sm md:text-base leading-relaxed font-light">
-                {aboutUsConfig.presidentBody.split('\n\n').map((p, idx) => (
-                  <p key={idx}>{p}</p>
-                ))}
+              {/* Grid: Message Body + President Profile Card */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div className="lg:col-span-8 space-y-5 text-white/90 text-sm md:text-base leading-relaxed font-light">
+                  {aboutUsConfig.presidentBody.split('\n\n').map((p, idx) => (
+                    <p key={idx}>{p}</p>
+                  ))}
 
-                {/* Live Streaming Highlight Callout Box */}
-                {aboutUsConfig.presidentHighlightTitle && (
-                  <div className="p-6 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md flex items-start gap-4 text-white">
-                    <Tv className="w-6 h-6 text-santic-red shrink-0 mt-1" />
-                    <div className="space-y-1">
-                      <h4 className="text-sm font-bold text-white uppercase tracking-wider">
-                        {aboutUsConfig.presidentHighlightTitle}
-                      </h4>
-                      <p className="text-xs text-white/80 leading-relaxed font-normal">
-                        {aboutUsConfig.presidentHighlightBody}
-                      </p>
+                  {/* Live Streaming Highlight Callout Box */}
+                  {aboutUsConfig.presidentHighlightTitle && (
+                    <div className="p-5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md flex items-start gap-4 text-white mt-4">
+                      <Tv className="w-6 h-6 text-santic-red shrink-0 mt-1" />
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-bold text-white uppercase tracking-wider">
+                          {aboutUsConfig.presidentHighlightTitle}
+                        </h4>
+                        <p className="text-xs text-white/80 leading-relaxed font-normal">
+                          {aboutUsConfig.presidentHighlightBody}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                  <p className="text-base font-extrabold text-white">{aboutUsConfig.presidentRole}</p>
-                  <p className="text-xs text-santic-red font-semibold uppercase tracking-wider">
-                    {aboutUsConfig.presidentOrganization}
-                  </p>
+                  )}
                 </div>
-                <span className="text-xs text-white/50 italic">{aboutUsConfig.presidentUniversity}</span>
+
+                {/* President Profile Badge & Photo Card */}
+                <div className="lg:col-span-4 bg-slate-950/80 border border-slate-800 rounded-3xl p-6 text-center space-y-4 shadow-xl">
+                  <div className="relative w-44 h-44 mx-auto rounded-2xl overflow-hidden border-2 border-santic-red/40 shadow-2xl bg-slate-900 group">
+                    <img
+                      src={aboutUsConfig.presidentPhoto || presidentMember?.photo || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80'}
+                      alt={aboutUsConfig.presidentName || presidentMember?.name || 'President'}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80';
+                      }}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <h3 className="text-lg font-black text-white">
+                      {aboutUsConfig.presidentName || presidentMember?.name || 'Prin. Dr. Iqbal N. Shaikh'}
+                    </h3>
+                    <div>
+                      <span className="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-santic-red text-white uppercase tracking-wider shadow-md">
+                        {aboutUsConfig.presidentRole}
+                      </span>
+                    </div>
+                    <p className="text-xs font-bold text-santic-red tracking-wide pt-1">
+                      {aboutUsConfig.presidentOrganization}
+                    </p>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      {aboutUsConfig.presidentUniversity || presidentMember?.collegeAddress}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -1010,7 +1048,60 @@ export const AboutUsPage: React.FC = () => {
                 />
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-50 border space-y-3">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <h4 className="text-xs font-extrabold text-santic-red uppercase tracking-wider">President Profile Information</h4>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 mb-1">President Full Name *</label>
+                  <input
+                    type="text"
+                    value={presidentName}
+                    onChange={(e) => setPresidentName(e.target.value)}
+                    placeholder="e.g. Prin. Dr. Iqbal N. Shaikh"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-slate-900 text-xs font-bold focus:outline-none focus:border-santic-red"
+                    required
+                  />
+                </div>
+
+                <FileUploadInput
+                  sectionName="president"
+                  label="President Photo (Upload image file or paste URL)"
+                  currentUrl={presidentPhoto}
+                  onUrlChange={(url) => setPresidentPhoto(url)}
+                  accept="image/*"
+                />
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">Role / Designation</label>
+                    <input
+                      type="text"
+                      value={presidentRole}
+                      onChange={(e) => setPresidentRole(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">Organization</label>
+                    <input
+                      type="text"
+                      value={presidentOrganization}
+                      onChange={(e) => setPresidentOrganization(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">College Address / University</label>
+                    <input
+                      type="text"
+                      value={presidentUniversity}
+                      onChange={(e) => setPresidentUniversity(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-medium"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
                 <h4 className="text-xs font-extrabold text-santic-red uppercase tracking-wider">Highlight Box (e.g. Live Streaming)</h4>
                 <div>
                   <label className="block text-[11px] font-bold text-slate-700 mb-1">Highlight Title</label>
@@ -1018,7 +1109,7 @@ export const AboutUsPage: React.FC = () => {
                     type="text"
                     value={presidentHighlightTitle}
                     onChange={(e) => setPresidentHighlightTitle(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border text-xs font-bold"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold"
                   />
                 </div>
                 <div>
@@ -1027,37 +1118,7 @@ export const AboutUsPage: React.FC = () => {
                     rows={2}
                     value={presidentHighlightBody}
                     onChange={(e) => setPresidentHighlightBody(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border text-xs font-normal"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-700 mb-1">Role Title</label>
-                  <input
-                    type="text"
-                    value={presidentRole}
-                    onChange={(e) => setPresidentRole(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border text-xs font-bold"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-700 mb-1">Organization</label>
-                  <input
-                    type="text"
-                    value={presidentOrganization}
-                    onChange={(e) => setPresidentOrganization(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border text-xs font-semibold"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-700 mb-1">University</label>
-                  <input
-                    type="text"
-                    value={presidentUniversity}
-                    onChange={(e) => setPresidentUniversity(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border text-xs font-medium"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-normal"
                   />
                 </div>
               </div>
