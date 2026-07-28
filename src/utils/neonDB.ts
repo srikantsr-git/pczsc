@@ -1,5 +1,11 @@
 import { neon } from '@neondatabase/serverless';
-import { DocumentItem, GalleryItem, SectionContent, ContactInquiry } from '../context/CMSContext';
+import {
+  DocumentItem,
+  GalleryItem,
+  SectionContent,
+  ContactInquiry,
+  HeroSlide
+} from '../context/CMSContext';
 
 const DEFAULT_DATABASE_URL =
   'postgresql://neondb_owner:npg_7SEFtVy4ieJb@ep-crimson-silence-aufuup71-pooler.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require';
@@ -12,7 +18,7 @@ export const getSql = () => {
   return neon(connectionString);
 };
 
-// Database helper queries
+// Database helper queries for Documents
 
 export async function fetchDocumentsFromDB(): Promise<DocumentItem[]> {
   try {
@@ -67,6 +73,8 @@ export async function deleteDocumentFromDB(id: string): Promise<boolean> {
   }
 }
 
+// Database helper queries for Gallery
+
 export async function fetchGalleryFromDB(): Promise<GalleryItem[]> {
   try {
     const sql = getSql();
@@ -115,6 +123,65 @@ export async function deleteGalleryItemFromDB(id: string): Promise<boolean> {
     return false;
   }
 }
+
+// Database helper queries for Hero Slides
+
+export async function fetchHeroSlidesFromDB(): Promise<HeroSlide[]> {
+  try {
+    const sql = getSql();
+    const rows = await sql`SELECT * FROM hero_slides ORDER BY slide_order ASC, created_at ASC`;
+    return rows.map((r: any) => ({
+      id: r.id,
+      eyebrow: r.eyebrow || '',
+      title: r.title || '',
+      subtitle: r.subtitle || '',
+      image: r.media_url || r.image || '',
+      ctaText: r.cta_text || 'View Schedule',
+      ctaLink: r.cta_link || '/en/documents'
+    }));
+  } catch (err) {
+    console.warn('Neon DB fetchHeroSlides error:', err);
+    return [];
+  }
+}
+
+export async function saveHeroSlideToDB(
+  slide: HeroSlide,
+  orderIndex: number = 0
+): Promise<boolean> {
+  try {
+    const sql = getSql();
+    await sql`
+      INSERT INTO hero_slides (id, slide_order, eyebrow, title, subtitle, media_url, cta_text, cta_link)
+      VALUES (${slide.id}, ${orderIndex}, ${slide.eyebrow || ''}, ${slide.title || ''}, ${slide.subtitle || ''}, ${slide.image || ''}, ${slide.ctaText || ''}, ${slide.ctaLink || ''})
+      ON CONFLICT (id) DO UPDATE SET
+        slide_order = EXCLUDED.slide_order,
+        eyebrow = EXCLUDED.eyebrow,
+        title = EXCLUDED.title,
+        subtitle = EXCLUDED.subtitle,
+        media_url = EXCLUDED.media_url,
+        cta_text = EXCLUDED.cta_text,
+        cta_link = EXCLUDED.cta_link;
+    `;
+    return true;
+  } catch (err) {
+    console.error('Neon DB saveHeroSlide error:', err);
+    return false;
+  }
+}
+
+export async function deleteHeroSlideFromDB(id: string): Promise<boolean> {
+  try {
+    const sql = getSql();
+    await sql`DELETE FROM hero_slides WHERE id = ${id}`;
+    return true;
+  } catch (err) {
+    console.error('Neon DB deleteHeroSlide error:', err);
+    return false;
+  }
+}
+
+// Database helper queries for Contact Inquiries
 
 export async function fetchContactInquiriesFromDB(): Promise<ContactInquiry[]> {
   try {

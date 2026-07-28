@@ -8,7 +8,10 @@ import {
   saveGalleryItemToDB,
   deleteGalleryItemFromDB,
   fetchContactInquiriesFromDB,
-  saveContactInquiryToDB
+  saveContactInquiryToDB,
+  fetchHeroSlidesFromDB,
+  saveHeroSlideToDB,
+  deleteHeroSlideFromDB
 } from '../utils/neonDB';
 
 export interface DocumentItem {
@@ -825,6 +828,10 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (dbInq && dbInq.length > 0) {
           setContactInquiries(dbInq);
         }
+        const dbHero = await fetchHeroSlidesFromDB();
+        if (dbHero && dbHero.length > 0) {
+          setHeroSlides(dbHero);
+        }
 
         const hCom = await hydrateImagesFromIDB(committeeMembers);
         if (hCom && Array.isArray(hCom)) {
@@ -882,6 +889,9 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateHeroSlides = (slides: HeroSlide[]) => {
     setHeroSlides(slides);
+    slides.forEach((slide, idx) => {
+      saveHeroSlideToDB(slide, idx);
+    });
     safeSaveStorage('pczsc_hero_slides', slides);
   };
 
@@ -908,11 +918,13 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const newSlide: HeroSlide = { ...slide, id: `hero-${Date.now()}` };
     const updated = [...heroSlides, newSlide];
     updateHeroSlides(updated);
+    saveHeroSlideToDB(newSlide, updated.length - 1);
   };
 
   const deleteHeroSlide = (id: string) => {
     const updated = heroSlides.filter((s) => s.id !== id);
     updateHeroSlides(updated);
+    deleteHeroSlideFromDB(id);
   };
 
   const updateNewsMarquee = (items: NewsMarqueeItem[]) => {
