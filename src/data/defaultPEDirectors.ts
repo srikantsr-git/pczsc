@@ -6,7 +6,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-1',
     name: 'Dr. Chikte Anagha Sunil',
-    photo: defaultBlankAvatar,
+    photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
     mobile: '9850710713',
     email: 'anaghaschikte@yahoo.co.in',
     collegeAddress: "Maharshi Karve Stree Shikshan Sanstha's Shri Sidhvinayak Mahila Mahavidyalaya, Karvenagar, Pune"
@@ -14,7 +14,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-2',
     name: 'Prof. (Dr.) Dhamale Shantaram Dattu',
-    photo: defaultBlankAvatar,
+    photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
     mobile: '9421077180',
     email: 'dhamaleshantaram96@gmail.com',
     collegeAddress: "Shri Shivaji Maratha Society's Samajbhushan Baburao Alias Appasaheb Jedhe Arts, Commerce & Science College, 425, Shukrwar Peth, Pune"
@@ -30,7 +30,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-4',
     name: 'Dr. Shendkar Deepak Tanaji',
-    photo: defaultBlankAvatar,
+    photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
     mobile: '9823839014',
     email: 'dtshendkar@gmail.com',
     collegeAddress: "Progressive Education Society's Modern Arts, Commerce & Science College, Ganeshkhind, Pune"
@@ -38,7 +38,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-5',
     name: 'Prof. (Dr.) Bengle Asha Vijaykumar',
-    photo: defaultBlankAvatar,
+    photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
     mobile: '9922223233',
     email: 'asha.bengle007@gmail.com',
     collegeAddress: "Maharashtra Education Society's Abasaheb Garware Mahavidyalay, Karve Road, Pune"
@@ -46,7 +46,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-6',
     name: 'Prof. (Dr.) Amrule Mohan Namdeo',
-    photo: defaultBlankAvatar,
+    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
     mobile: '9881600118',
     email: 'amrulemohan69@gmail.com',
     collegeAddress: "Deccan Education Society's B.M. College of Commerce, 845, Shivajinagar, Daccan Gymkhana, Pune"
@@ -54,7 +54,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-7',
     name: 'Dr. Shaikh Aiyaz Hussain Jiyaull Hussain',
-    photo: defaultBlankAvatar,
+    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
     mobile: '9422517809',
     email: 'aiyaz9422@yahoo.co.in',
     collegeAddress: "Anjuman Khairul Islam's Poona College, 1647, Camp, New Modikhana, Pune"
@@ -78,7 +78,7 @@ export const initialPEDirectorsList: PhysicalEducationDirector[] = [
   {
     id: 'pe-10',
     name: 'Dr. More Shirish Vijay',
-    photo: defaultBlankAvatar,
+    photo: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80',
     mobile: '9545455910',
     email: 'shirish.more100@gmail.com',
     collegeAddress: "Maharashtriy Mandal's Chandrashekhar Agashe College of Physical Eduaction, Gultekadi, Pune"

@@ -252,6 +252,25 @@ export const AboutUsPage: React.FC = () => {
     );
   });
 
+  const getDirectorPhoto = (dir: PhysicalEducationDirector) => {
+    if (dir.photo && dir.photo !== defaultBlankAvatar) {
+      return dir.photo;
+    }
+    const cleanDirName = dir.name.toLowerCase().replace(/^(dr\.|prof\.|mr\.|mrs\.|ms\.|prin\.)\s*/gi, '').trim();
+    const match = committeeMembers.find((cm) => {
+      if (!cm.photo || cm.photo === defaultBlankAvatar) return false;
+      const cleanCmName = cm.name.toLowerCase().replace(/^(dr\.|prof\.|mr\.|mrs\.|ms\.|prin\.)\s*/gi, '').trim();
+      const dirDigits = dir.mobile.replace(/\D/g, '');
+      const cmDigits = cm.contactDetails.replace(/\D/g, '');
+      return (
+        cleanDirName === cleanCmName ||
+        (dirDigits.length > 5 && dirDigits === cmDigits) ||
+        (cleanDirName.length > 6 && cleanCmName.includes(cleanDirName))
+      );
+    });
+    return match?.photo || defaultBlankAvatar;
+  };
+
   const [selectedDirectorPhoto, setSelectedDirectorPhoto] = useState<PhysicalEducationDirector | null>(null);
 
   const handleOpenAddDirector = () => {
@@ -576,7 +595,7 @@ export const AboutUsPage: React.FC = () => {
                               title="Click to expand photo & view details"
                             >
                               <img
-                                src={dir.photo || defaultBlankAvatar}
+                                src={getDirectorPhoto(dir)}
                                 alt={dir.name}
                                 className="w-full h-full object-cover group-hover/photo:scale-110 transition-transform duration-300"
                                 onError={(e) => {
@@ -1473,7 +1492,7 @@ export const AboutUsPage: React.FC = () => {
             </button>
             <div className="w-full h-72 rounded-2xl overflow-hidden border border-slate-200">
               <img
-                src={selectedDirectorPhoto.photo}
+                src={getDirectorPhoto(selectedDirectorPhoto)}
                 alt={selectedDirectorPhoto.name}
                 className="w-full h-full object-cover"
               />
