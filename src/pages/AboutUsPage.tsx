@@ -309,18 +309,18 @@ export const AboutUsPage: React.FC = () => {
       <section className="santic-section bg-white">
         <div className="santic-container space-y-12">
           
-          {/* About Page Navigation Tabs Bar */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200 scrollbar-none sticky top-20 z-30 bg-white/95 backdrop-blur-md py-3">
+          {/* About Page Navigation Tabs Bar (2 Clean Rows, No Scrollbar) */}
+          <div className="flex flex-wrap items-center justify-start gap-2.5 p-3.5 rounded-3xl bg-slate-50 border border-slate-200 shadow-sm sticky top-20 z-30 bg-white/95 backdrop-blur-md">
             {aboutTabs.map((tab) => {
               const isActive = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 whitespace-nowrap transition-all duration-200 ${
+                  className={`px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all duration-200 ${
                     isActive
-                      ? 'bg-santic-red text-white shadow-lg shadow-red-500/20 scale-105'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      ? 'bg-santic-red text-white shadow-md shadow-red-500/20 scale-105'
+                      : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200/80 hover:border-slate-300'
                   }`}
                 >
                   {tab.icon}
