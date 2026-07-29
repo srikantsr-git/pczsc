@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { safeSaveStorage, hydrateImagesFromIDB } from '../utils/persistentStorage';
+import { safeSaveStorage, safeLoadStorage, hydrateImagesFromIDB } from '../utils/persistentStorage';
 import { saveMediaToIDB } from '../utils/mediaDB';
 import { initialPEDirectorsList, defaultBlankAvatar } from '../data/defaultPEDirectors';
 import { allSportsCalendarDocuments } from '../data/allSportsCalendarDocuments';
@@ -313,6 +313,7 @@ interface CMSContextType {
 const defaultHeaderConfig: HeaderConfig = {
   logoTitle: "PCZSC",
   logoSubtitle: "Pune City Zonal Sports Committee",
+  logoIconUrl: "/pczsc-logo.png",
   navItems: [
     { name: 'Home', path: '/en/home' },
     { name: 'About', path: '/en/about-us' },
@@ -699,6 +700,9 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             return item;
           });
         }
+        if (!parsed.logoIconUrl) {
+          parsed.logoIconUrl = '/pczsc-logo.png';
+        }
         return parsed;
       } catch (e) {}
     }
@@ -848,7 +852,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     async function hydrateStores() {
       try {
-        // Hydrate from Neon PostgreSQL database
+        // Hydrate Documents from Neon PostgreSQL database
         const dbDocs = await fetchDocumentsFromDB();
         const hasDbRules = dbDocs && dbDocs.some((d: any) => d.category === 'Rules & Regulations' || d.category === 'Rules and Regulations');
         if (dbDocs && dbDocs.length >= 41 && hasDbRules) {
@@ -860,143 +864,202 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             saveDocumentToDB(doc);
           }
         }
-        // --- Gallery: fetch from Neon DB, hydrate idb: refs, fallback to localStorage ---
+
+        // --- Gallery: fetch from Neon DB + LocalStorage, merge by ID, hydrate IDB refs ---
         const dbGal = await fetchGalleryFromDB();
-        if (dbGal && dbGal.length > 0) {
-          // Hydrate idb: image references back to real data URLs
-          const hydratedGal = await hydrateImagesFromIDB(dbGal);
-          setGalleryItems(hydratedGal && Array.isArray(hydratedGal) ? hydratedGal : dbGal);
-        } else {
-          // DB is empty — fall back to localStorage (may have user-uploaded items with idb: refs)
-          const lsGal = localStorage.getItem('pczsc_gallery');
-          if (lsGal) {
-            try {
-              const parsed = JSON.parse(lsGal);
-              if (Array.isArray(parsed) && parsed.length > 0) {
-                const hydratedLs = await hydrateImagesFromIDB(parsed);
-                setGalleryItems(hydratedLs && Array.isArray(hydratedLs) ? hydratedLs : parsed);
-              }
-            } catch (_e) {}
+        let lsGal: GalleryItem[] = [];
+        const savedLsGal = localStorage.getItem('pczsc_gallery');
+        if (savedLsGal) {
+          try {
+            const parsed = JSON.parse(savedLsGal);
+            if (Array.isArray(parsed)) lsGal = parsed;
+          } catch (_e) {}
+        }
+        const galMap = new Map<string, GalleryItem>();
+        (dbGal || []).forEach((item) => galMap.set(item.id, item));
+        lsGal.forEach((item) => galMap.set(item.id, item));
+        const mergedGal = Array.from(galMap.values());
+        const hydratedGal = await hydrateImagesFromIDB(mergedGal.length > 0 ? mergedGal : initialGallery);
+        setGalleryItems(hydratedGal);
+        safeSaveStorage('pczsc_gallery', hydratedGal);
+        for (const item of lsGal) {
+          if (!dbGal.some((d) => d.id === item.id)) {
+            saveGalleryItemToDB(item);
           }
         }
 
+        // --- Contact Inquiries ---
         const dbInq = await fetchContactInquiriesFromDB();
         if (dbInq && dbInq.length > 0) {
           setContactInquiries(dbInq);
         }
+
+        // --- Hero Slides: merge DB + LocalStorage by ID ---
         const dbHero = await fetchHeroSlidesFromDB();
-        if (dbHero && dbHero.length > 0) {
-          const hydratedHero = await hydrateImagesFromIDB(dbHero);
-          setHeroSlides(hydratedHero && Array.isArray(hydratedHero) ? hydratedHero : dbHero);
-        } else {
-          const hHero = await hydrateImagesFromIDB(heroSlides);
-          if (hHero && Array.isArray(hHero)) {
-            setHeroSlides(hHero);
+        let lsHero: HeroSlide[] = [];
+        const savedLsHero = localStorage.getItem('pczsc_hero_slides');
+        if (savedLsHero) {
+          try {
+            const parsed = JSON.parse(savedLsHero);
+            if (Array.isArray(parsed)) lsHero = parsed;
+          } catch (_e) {}
+        }
+        const heroMap = new Map<string, HeroSlide>();
+        (dbHero || []).forEach((item) => heroMap.set(item.id, item));
+        lsHero.forEach((item) => heroMap.set(item.id, item));
+        const mergedHero = Array.from(heroMap.values());
+        const hydratedHero = await hydrateImagesFromIDB(mergedHero.length > 0 ? mergedHero : defaultHeroSlides);
+        setHeroSlides(hydratedHero);
+        safeSaveStorage('pczsc_hero_slides', hydratedHero);
+        for (const slide of lsHero) {
+          if (!dbHero.some((d) => d.id === slide.id)) {
+            saveHeroSlideToDB(slide);
           }
         }
 
+        // --- PE Directors: merge DB + LocalStorage by ID ---
         const dbDirectors = await fetchPEDirectorsFromDB();
-        if (dbDirectors && dbDirectors.length >= 100) {
-          const syncedDirectors = dbDirectors.map((d: any) => {
-            const match = initialPEDirectorsList.find((ipd) => ipd.id === d.id);
-            if (match && match.photo !== defaultBlankAvatar && (d.photo?.startsWith('data:image') || !d.photo || d.photo === defaultBlankAvatar)) {
-              return { ...d, photo: match.photo };
-            }
-            return d;
-          });
-          setPEDirectors(syncedDirectors);
-          safeSaveStorage('pczsc_pe_directors', syncedDirectors);
-        } else {
-          setPEDirectors(initialPEDirectorsList);
-          safeSaveStorage('pczsc_pe_directors', initialPEDirectorsList);
-          for (const d of initialPEDirectorsList) {
-            savePEDirectorToDB(d);
+        let lsDirectors: PhysicalEducationDirector[] = [];
+        const savedLsDir = localStorage.getItem('pczsc_pe_directors');
+        if (savedLsDir) {
+          try {
+            const parsed = JSON.parse(savedLsDir);
+            if (Array.isArray(parsed)) lsDirectors = parsed;
+          } catch (_e) {}
+        }
+        const dirMap = new Map<string, PhysicalEducationDirector>();
+        (dbDirectors || []).forEach((item) => dirMap.set(item.id, item));
+        lsDirectors.forEach((item) => dirMap.set(item.id, item));
+        const mergedDirList = Array.from(dirMap.values());
+        const baseDirList = mergedDirList.length >= 100 ? mergedDirList : initialPEDirectorsList;
+        const syncedDirectors = baseDirList.map((d: any) => {
+          const match = initialPEDirectorsList.find((ipd) => ipd.id === d.id);
+          if (match && match.photo !== defaultBlankAvatar && (d.photo?.startsWith('data:image') || !d.photo || d.photo === defaultBlankAvatar)) {
+            return { ...d, photo: match.photo };
+          }
+          return d;
+        });
+        setPEDirectors(syncedDirectors);
+        safeSaveStorage('pczsc_pe_directors', syncedDirectors);
+
+        // --- SubPages Hero Store ---
+        const dbSubHero = await fetchSiteSettingFromDB<SubPagesHeroStore | null>('pczsc_subpages_hero', null);
+        const lsSubHero = safeLoadStorage<SubPagesHeroStore | null>('pczsc_subpages_hero', null);
+        const targetSubHero = lsSubHero || dbSubHero || defaultSubPagesHeroStore;
+        const hydratedSub = await hydrateImagesFromIDB(targetSubHero);
+        setSubPagesHeroStore(hydratedSub || targetSubHero);
+        if (!dbSubHero && lsSubHero) {
+          saveSiteSettingToDB('pczsc_subpages_hero', lsSubHero);
+        }
+
+        // --- Home About Config ---
+        const dbHomeAbout = await fetchSiteSettingFromDB<HomeAboutConfig | null>('pczsc_home_about', null);
+        const lsHomeAbout = safeLoadStorage<HomeAboutConfig | null>('pczsc_home_about', null);
+        const targetHomeAbout = lsHomeAbout || dbHomeAbout || defaultHomeAboutConfig;
+        const hydratedHomeAbout = await hydrateImagesFromIDB(targetHomeAbout);
+        setHomeAboutConfig(hydratedHomeAbout || targetHomeAbout);
+        if (!dbHomeAbout && lsHomeAbout) {
+          saveSiteSettingToDB('pczsc_home_about', lsHomeAbout);
+        }
+
+        // --- Key Pillars Config ---
+        const dbPillars = await fetchSiteSettingFromDB<PillarsSectionConfig | null>('pczsc_pillars_cfg', null);
+        const lsPillars = safeLoadStorage<PillarsSectionConfig | null>('pczsc_pillars_cfg', null);
+        const targetPillars = lsPillars || dbPillars || defaultPillarsConfig;
+        const hydratedPillars = await hydrateImagesFromIDB(targetPillars);
+        setPillarsConfig(hydratedPillars || targetPillars);
+        if (!dbPillars && lsPillars) {
+          saveSiteSettingToDB('pczsc_pillars_cfg', lsPillars);
+        }
+
+        // --- About Us Config ---
+        const dbAbout = await fetchSiteSettingFromDB<AboutUsConfig | null>('pczsc_about_cfg', null);
+        const lsAbout = safeLoadStorage<AboutUsConfig | null>('pczsc_about_cfg', null);
+        const targetAbout = lsAbout || dbAbout || defaultAboutUsConfig;
+        const hydratedAbout = await hydrateImagesFromIDB(targetAbout);
+        setAboutUsConfig(hydratedAbout || targetAbout);
+        if (!dbAbout && lsAbout) {
+          saveSiteSettingToDB('pczsc_about_cfg', lsAbout);
+        }
+
+        // --- Committee Members ---
+        const dbCom = await fetchSiteSettingFromDB<CommitteeMember[] | null>('pczsc_committee_members', null);
+        let lsCom: CommitteeMember[] = [];
+        const savedLsCom = localStorage.getItem('pczsc_committee_members');
+        if (savedLsCom) {
+          try {
+            const parsed = JSON.parse(savedLsCom);
+            if (Array.isArray(parsed)) lsCom = parsed;
+          } catch (_e) {}
+        }
+        const comMap = new Map<string, CommitteeMember>();
+        (dbCom || []).forEach((item) => comMap.set(item.id, item));
+        lsCom.forEach((item) => comMap.set(item.id, item));
+        const mergedCom = Array.from(comMap.values());
+        const hydratedCom = await hydrateImagesFromIDB(mergedCom.length > 0 ? mergedCom : initialCommitteeMembers);
+        setCommitteeMembers(hydratedCom);
+        safeSaveStorage('pczsc_committee_members', hydratedCom);
+        if (!dbCom && lsCom.length > 0) {
+          saveSiteSettingToDB('pczsc_committee_members', lsCom);
+        }
+
+        // --- Footer Config ---
+        const dbFooter = await fetchSiteSettingFromDB<FooterConfig | null>('pczsc_footer_cfg', null);
+        const lsFooter = safeLoadStorage<FooterConfig | null>('pczsc_footer_cfg', null);
+        const targetFooter = lsFooter || dbFooter || defaultFooterConfig;
+        setFooterConfig(targetFooter);
+
+        // --- Contact Info ---
+        const dbContact = await fetchSiteSettingFromDB<ContactInfo | null>('pczsc_contact', null);
+        const lsContact = safeLoadStorage<ContactInfo | null>('pczsc_contact', null);
+        const targetContact = lsContact || dbContact || defaultContactInfo;
+        setContactInfo(targetContact);
+
+        // --- SEO Store ---
+        const dbSEO = await fetchSiteSettingFromDB<SEOStore | null>('pczsc_seo_store', null);
+        const lsSEO = safeLoadStorage<SEOStore | null>('pczsc_seo_store', null);
+        const targetSEO = lsSEO || dbSEO || DEFAULT_PAGE_SEO;
+        setSeoStore(targetSEO);
+
+        // --- News Marquee ---
+        const dbMarquee = await fetchSiteSettingFromDB<NewsMarqueeItem[] | null>('pczsc_news_marquee', null);
+        const lsMarquee = safeLoadStorage<NewsMarqueeItem[] | null>('pczsc_news_marquee', null);
+        if (lsMarquee || dbMarquee) {
+          setNewsMarquee(lsMarquee || dbMarquee || []);
+        }
+
+        // --- Metrics ---
+        const dbMetrics = await fetchSiteSettingFromDB<MetricItem[] | null>('pczsc_metrics', null);
+        const lsMetrics = safeLoadStorage<MetricItem[] | null>('pczsc_metrics', null);
+        if (lsMetrics || dbMetrics) {
+          setMetrics(lsMetrics || dbMetrics || defaultMetrics);
+        }
+
+        // --- Vision Mission ---
+        const dbVision = await fetchSiteSettingFromDB<VisionMissionConfig | null>('pczsc_vision_mission', null);
+        const lsVision = safeLoadStorage<VisionMissionConfig | null>('pczsc_vision_mission', null);
+        setVisionMission(lsVision || dbVision || defaultVisionMission);
+
+        // --- Admin Auth Credentials ---
+        const dbAuth = await fetchSiteSettingFromDB<AdminAuthCredentials | null>('pczsc_admin_auth', null);
+        const lsAuth = safeLoadStorage<AdminAuthCredentials | null>('pczsc_admin_auth', null);
+        if (lsAuth || dbAuth) {
+          const authObj = lsAuth || dbAuth;
+          if (authObj && authObj.passwordHash) {
+            setAdminAuth(authObj);
+            safeSaveStorage('pczsc_admin_auth', authObj);
           }
         }
 
-        const dbSubHero = await fetchSiteSettingFromDB<SubPagesHeroStore | null>('pczsc_subpages_hero', null);
-        if (dbSubHero) {
-          const hydratedSub = await hydrateImagesFromIDB(dbSubHero);
-          setSubPagesHeroStore(hydratedSub || dbSubHero);
-        } else {
-          const hSub = await hydrateImagesFromIDB(subPagesHeroStore);
-          if (hSub) setSubPagesHeroStore(hSub);
-        }
-
-        const dbHomeAbout = await fetchSiteSettingFromDB<HomeAboutConfig | null>('pczsc_home_about', null);
-        if (dbHomeAbout) {
-          const hydrated = await hydrateImagesFromIDB(dbHomeAbout);
-          setHomeAboutConfig(hydrated || dbHomeAbout);
-        }
-
-        const dbPillars = await fetchSiteSettingFromDB<PillarsSectionConfig | null>('pczsc_pillars_cfg', null);
-        if (dbPillars) {
-          const hydrated = await hydrateImagesFromIDB(dbPillars);
-          setPillarsConfig(hydrated || dbPillars);
-        }
-
-        const dbAbout = await fetchSiteSettingFromDB<AboutUsConfig | null>('pczsc_about_cfg', null);
-        if (dbAbout) {
-          const hydrated = await hydrateImagesFromIDB(dbAbout);
-          setAboutUsConfig(hydrated || dbAbout);
-        } else {
-          const hAbt = await hydrateImagesFromIDB(aboutUsConfig);
-          if (hAbt) setAboutUsConfig(hAbt);
-        }
-
-        const dbCom = await fetchSiteSettingFromDB<CommitteeMember[] | null>('pczsc_committee_members', null);
-        if (dbCom && Array.isArray(dbCom) && dbCom.length > 0) {
-          const hydrated = await hydrateImagesFromIDB(dbCom);
-          setCommitteeMembers(hydrated && Array.isArray(hydrated) ? hydrated : dbCom);
-        } else {
-          const hCom = await hydrateImagesFromIDB(committeeMembers);
-          if (hCom && Array.isArray(hCom)) setCommitteeMembers(hCom);
-        }
-
-        const dbFooter = await fetchSiteSettingFromDB<FooterConfig | null>('pczsc_footer_cfg', null);
-        if (dbFooter) {
-          setFooterConfig(dbFooter);
-        }
-
-        const dbContact = await fetchSiteSettingFromDB<ContactInfo | null>('pczsc_contact', null);
-        if (dbContact) {
-          setContactInfo(dbContact);
-        }
-
-        const dbSEO = await fetchSiteSettingFromDB<SEOStore | null>('pczsc_seo_store', null);
-        if (dbSEO) {
-          setSeoStore(dbSEO);
-        }
-
-        const dbMarquee = await fetchSiteSettingFromDB<NewsMarqueeItem[] | null>('pczsc_news_marquee', null);
-        if (dbMarquee && Array.isArray(dbMarquee)) {
-          setNewsMarquee(dbMarquee);
-        }
-
-        const dbMetrics = await fetchSiteSettingFromDB<MetricItem[] | null>('pczsc_metrics', null);
-        if (dbMetrics && Array.isArray(dbMetrics)) {
-          setMetrics(dbMetrics);
-        }
-
-        const dbVision = await fetchSiteSettingFromDB<VisionMissionConfig | null>('pczsc_vision_mission', null);
-        if (dbVision) {
-          setVisionMission(dbVision);
-        }
-
-        const dbAuth = await fetchSiteSettingFromDB<AdminAuthCredentials | null>('pczsc_admin_auth', null);
-        if (dbAuth && dbAuth.passwordHash) {
-          setAdminAuth(dbAuth);
-          safeSaveStorage('pczsc_admin_auth', dbAuth);
-        }
-
+        // --- Header Config ---
         const dbHeader = await fetchSiteSettingFromDB<HeaderConfig | null>('pczsc_header_cfg', null);
-        if (dbHeader) {
-          const hydratedHdr = await hydrateImagesFromIDB(dbHeader);
-          setHeaderConfig(hydratedHdr || dbHeader);
-        } else {
-          const hHdr = await hydrateImagesFromIDB(headerConfig);
-          if (hHdr) setHeaderConfig(hHdr);
+        const lsHeader = safeLoadStorage<HeaderConfig | null>('pczsc_header_cfg', null);
+        const targetHeader = lsHeader || dbHeader || defaultHeaderConfig;
+        if (!targetHeader.logoIconUrl) {
+          targetHeader.logoIconUrl = '/pczsc-logo.png';
         }
+        const hydratedHdr = await hydrateImagesFromIDB(targetHeader);
+        setHeaderConfig(hydratedHdr || targetHeader);
       } catch (e) {
         console.warn("Storage hydration warning:", e);
       }

@@ -6,7 +6,7 @@ import {
   exportThemeJson,
   validateThemeJson
 } from '../utils/themeEngine';
-import { safeSaveStorage } from '../utils/persistentStorage';
+import { safeSaveStorage, safeLoadStorage } from '../utils/persistentStorage';
 import { fetchSiteSettingFromDB, saveSiteSettingToDB } from '../utils/neonDB';
 
 interface ThemeContextType {
@@ -60,12 +60,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // AND auto-persist the draft so it survives restarts without needing Publish
   useEffect(() => {
     applyThemeCssVariables(draftTheme);
-    // Auto-save every theme change to localStorage so restart always loads latest
-    try {
-      localStorage.setItem('pczsc_active_theme', JSON.stringify(draftTheme));
-    } catch (e) {
-      console.warn('[Theme] Auto-save to localStorage failed:', e);
-    }
+    safeSaveStorage('pczsc_active_theme', draftTheme);
+    saveSiteSettingToDB('pczsc_active_theme', draftTheme);
   }, [draftTheme]);
 
   // Apply the saved theme immediately on first mount and sync from Neon DB
@@ -73,12 +69,25 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     applyThemeCssVariables(currentTheme);
     async function syncDBTheme() {
       try {
+        const localTheme = safeLoadStorage<ThemeConfig | null>('pczsc_active_theme', null);
         const dbTheme = await fetchSiteSettingFromDB<ThemeConfig | null>('pczsc_active_theme', null);
+
         if (dbTheme && dbTheme.primaryColors) {
-          setCurrentTheme(dbTheme);
-          setDraftTheme(dbTheme);
-          applyThemeCssVariables(dbTheme);
-          safeSaveStorage('pczsc_active_theme', dbTheme);
+          const dbTime = new Date(dbTheme.updatedAt || 0).getTime();
+          const localTime = new Date(localTheme?.updatedAt || 0).getTime();
+
+          if (!localTheme || dbTime >= localTime) {
+            setCurrentTheme(dbTheme);
+            setDraftTheme(dbTheme);
+            applyThemeCssVariables(dbTheme);
+            safeSaveStorage('pczsc_active_theme', dbTheme);
+          } else if (localTheme && localTheme.primaryColors) {
+            // Local theme is newer than DB theme -> sync local theme to DB
+            saveSiteSettingToDB('pczsc_active_theme', localTheme);
+          }
+        } else if (localTheme && localTheme.primaryColors) {
+          // DB has no theme -> push local theme to DB
+          saveSiteSettingToDB('pczsc_active_theme', localTheme);
         }
       } catch (err) {
         console.warn('Theme DB sync warning:', err);

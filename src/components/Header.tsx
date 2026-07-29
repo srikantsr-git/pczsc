@@ -15,6 +15,10 @@ export const Header: React.FC = () => {
   const { headerConfig, isAdmin, isEditMode, logout } = useCMS();
 
   useEffect(() => {
+    setLogoError(false);
+  }, [headerConfig.logoIconUrl]);
+
+  useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 30) {
         setIsScrolled(true);

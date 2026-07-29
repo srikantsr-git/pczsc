@@ -9,7 +9,7 @@ import { saveMediaToIDB, getMediaFromIDB } from './mediaDB';
 /**
  * Recursively replaces large Base64 Data URLs with IndexedDB references
  */
-async function extractAndStoreImages(obj: any, parentKey: string): Promise<any> {
+export async function extractAndStoreImages(obj: any, parentKey: string): Promise<any> {
   if (obj === null || obj === undefined) return obj;
 
   if (typeof obj === 'string') {

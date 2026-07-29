@@ -7,6 +7,7 @@ import {
   HeroSlide,
   PhysicalEducationDirector
 } from '../context/CMSContext';
+import { extractAndStoreImages } from './persistentStorage';
 
 const DEFAULT_DATABASE_URL =
   'postgresql://neondb_owner:npg_7SEFtVy4ieJb@ep-crimson-silence-aufuup71-pooler.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require';
@@ -96,10 +97,11 @@ export async function fetchGalleryFromDB(): Promise<GalleryItem[]> {
 
 export async function saveGalleryItemToDB(item: GalleryItem): Promise<boolean> {
   try {
+    const lightweightItem = await extractAndStoreImages(item, `gal_${item.id}`);
     const sql = getSql();
     await sql`
       INSERT INTO gallery (id, title, category, image_url, description, date)
-      VALUES (${item.id}, ${item.title}, ${item.category}, ${item.imageUrl}, ${item.description}, ${item.date})
+      VALUES (${lightweightItem.id}, ${lightweightItem.title}, ${lightweightItem.category}, ${lightweightItem.imageUrl}, ${lightweightItem.description}, ${lightweightItem.date})
       ON CONFLICT (id) DO UPDATE SET
         title = EXCLUDED.title,
         category = EXCLUDED.category,
@@ -151,10 +153,11 @@ export async function saveHeroSlideToDB(
   orderIndex: number = 0
 ): Promise<boolean> {
   try {
+    const lightweightSlide = await extractAndStoreImages(slide, `hero_${slide.id}`);
     const sql = getSql();
     await sql`
       INSERT INTO hero_slides (id, slide_order, eyebrow, title, subtitle, media_url, cta_text, cta_link)
-      VALUES (${slide.id}, ${orderIndex}, ${slide.eyebrow || ''}, ${slide.title || ''}, ${slide.subtitle || ''}, ${slide.image || ''}, ${slide.ctaText || ''}, ${slide.ctaLink || ''})
+      VALUES (${lightweightSlide.id}, ${orderIndex}, ${lightweightSlide.eyebrow || ''}, ${lightweightSlide.title || ''}, ${lightweightSlide.subtitle || ''}, ${lightweightSlide.image || ''}, ${lightweightSlide.ctaText || ''}, ${lightweightSlide.ctaLink || ''})
       ON CONFLICT (id) DO UPDATE SET
         slide_order = EXCLUDED.slide_order,
         eyebrow = EXCLUDED.eyebrow,
@@ -204,10 +207,11 @@ export async function fetchPEDirectorsFromDB(): Promise<PhysicalEducationDirecto
 
 export async function savePEDirectorToDB(director: PhysicalEducationDirector): Promise<boolean> {
   try {
+    const lightweightDir = await extractAndStoreImages(director, `pe_${director.id}`);
     const sql = getSql();
     await sql`
       INSERT INTO physical_education_directors (id, name, photo, mobile, email, college_address)
-      VALUES (${director.id}, ${director.name}, ${director.photo}, ${director.mobile}, ${director.email}, ${director.collegeAddress})
+      VALUES (${lightweightDir.id}, ${lightweightDir.name}, ${lightweightDir.photo}, ${lightweightDir.mobile}, ${lightweightDir.email}, ${lightweightDir.collegeAddress})
       ON CONFLICT (id) DO UPDATE SET
         name = EXCLUDED.name,
         photo = EXCLUDED.photo,
@@ -290,8 +294,9 @@ export async function fetchSiteSettingFromDB<T>(key: string, defaultValue: T): P
 
 export async function saveSiteSettingToDB(key: string, value: any): Promise<boolean> {
   try {
+    const lightweightValue = await extractAndStoreImages(value, key);
     const sql = getSql();
-    const jsonStr = JSON.stringify(value);
+    const jsonStr = JSON.stringify(lightweightValue);
     await sql`
       INSERT INTO site_settings (key, value, updated_at)
       VALUES (${key}, ${jsonStr}::jsonb, NOW())
