@@ -13,24 +13,34 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose }) => 
   const [username, setUsername] = useState('admin');
   const [password, setPassword] = useState('admin123');
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = login(username, password);
-    if (success) {
-      showToast(
-        '🎉 Welcome Admin!',
-        'You are now logged in with full Inline CMS & Theme Editor permissions.',
-        'success'
-      );
-      onClose();
-    } else {
-      setError('Invalid username or password. Try admin / admin123');
-      showToast(
-        'Login Failed',
-        'Invalid admin credentials. Please enter authorized username (admin) and password (admin123).',
-        'error'
-      );
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      const success = await login(username, password);
+      if (success) {
+        showToast(
+          '🎉 Welcome Admin!',
+          'You are now logged in with full Inline CMS & Theme Editor permissions.',
+          'success'
+        );
+        onClose();
+      } else {
+        setError('Invalid username or password. Please verify your credentials.');
+        showToast(
+          'Login Failed',
+          'Invalid admin credentials. Please enter authorized username and password.',
+          'error'
+        );
+      }
+    } catch (err) {
+      setError('Authentication error occurred.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

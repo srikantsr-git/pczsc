@@ -13,14 +13,17 @@ import {
   Settings,
   Palette,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  Key
 } from 'lucide-react';
 import { AdminLoginModal } from './AdminLoginModal';
 import { AdminConfigModals } from './AdminConfigModals';
+import { ChangePasswordModal } from './admin/ChangePasswordModal';
 
 export const AdminBar: React.FC = () => {
   const { isAdmin, isEditMode, toggleEditMode, logout, contactInquiries } = useCMS();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showChangePassModal, setShowChangePassModal] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeConfigTab, setActiveConfigTab] = useState<
     'header' | 'hero' | 'news' | 'metrics' | 'vision' | 'footer' | null
@@ -130,6 +133,14 @@ export const AdminBar: React.FC = () => {
                 <Settings className="w-3.5 h-3.5" />
                 <span>Footer & Copy</span>
               </button>
+
+              <button
+                onClick={() => setShowChangePassModal(true)}
+                className="w-full flex items-center gap-2 bg-slate-800 hover:bg-santic-red px-3 py-2 rounded-xl text-amber-300 hover:text-white font-bold transition-all text-[11px] text-left"
+              >
+                <Key className="w-3.5 h-3.5 text-amber-400" />
+                <span>Change Password</span>
+              </button>
             </div>
 
             {/* Bottom Edit Mode & Logout */}
@@ -164,6 +175,10 @@ export const AdminBar: React.FC = () => {
           activeTab={activeConfigTab}
           onClose={() => setActiveConfigTab(null)}
         />
+      )}
+
+      {showChangePassModal && (
+        <ChangePasswordModal onClose={() => setShowChangePassModal(false)} />
       )}
     </>
   );

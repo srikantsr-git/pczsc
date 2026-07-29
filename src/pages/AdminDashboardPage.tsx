@@ -31,6 +31,7 @@ import {
   Sliders,
   Check,
   Search,
+  Key,
   Layout,
   Filter,
   Users,
@@ -52,6 +53,7 @@ import {
   saveDocumentToDB
 } from '../utils/neonDB';
 import { getDocumentPdfUrl } from '../utils/documentUtils';
+import { ChangePasswordModal } from '../components/admin/ChangePasswordModal';
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -152,6 +154,7 @@ export const AdminDashboardPage: React.FC = () => {
 
   const [selectedSEOPage, setSelectedSEOPage] = useState<string>('home');
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showChangePassModal, setShowChangePassModal] = useState(false);
 
   // Contact Inquiries Selection & Search State
   const [selectedInquiryId, setSelectedInquiryId] = useState<string | null>(
@@ -478,14 +481,23 @@ export const AdminDashboardPage: React.FC = () => {
                       <h2 className="text-2xl font-extrabold text-white">Dashboard Overview</h2>
                       <p className="text-xs text-slate-400">System metrics and live database synchronization controls.</p>
                     </div>
-                    <button
-                      onClick={handleSyncAllToDB}
-                      disabled={isSyncing}
-                      className="bg-santic-red hover:bg-santic-hoverRed text-white px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 shadow-xl border border-white/20 uppercase tracking-wider transition-all hover:scale-105 shrink-0"
-                    >
-                      <Globe className="w-4 h-4 animate-spin-slow" />
-                      <span>{isSyncing ? 'Syncing to Live DB...' : 'Push All Local Edits to Live Site (Neon DB)'}</span>
-                    </button>
+                    <div className="flex items-center gap-2 flex-wrap shrink-0">
+                      <button
+                        onClick={() => setShowChangePassModal(true)}
+                        className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 border border-slate-700 uppercase tracking-wider transition-all hover:scale-105 shrink-0"
+                      >
+                        <Key className="w-4 h-4 text-amber-400" />
+                        <span>Change Admin Password</span>
+                      </button>
+                      <button
+                        onClick={handleSyncAllToDB}
+                        disabled={isSyncing}
+                        className="bg-santic-red hover:bg-santic-hoverRed text-white px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 shadow-xl border border-white/20 uppercase tracking-wider transition-all hover:scale-105 shrink-0"
+                      >
+                        <Globe className="w-4 h-4 animate-spin-slow" />
+                        <span>{isSyncing ? 'Syncing to Live DB...' : 'Push All Local Edits to Live Site (Neon DB)'}</span>
+                      </button>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1910,6 +1922,10 @@ export const AdminDashboardPage: React.FC = () => {
           activeTab={activeConfigTab}
           onClose={() => setActiveConfigTab(null)}
         />
+      )}
+
+      {showChangePassModal && (
+        <ChangePasswordModal onClose={() => setShowChangePassModal(false)} />
       )}
     </main>
   );

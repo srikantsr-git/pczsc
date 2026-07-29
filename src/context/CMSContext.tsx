@@ -23,6 +23,12 @@ import {
   fetchSiteSettingFromDB,
   saveSiteSettingToDB
 } from '../utils/neonDB';
+import {
+  hashPassword,
+  DEFAULT_ADMIN_AUTH,
+  DEFAULT_ADMIN_HASH,
+  AdminAuthCredentials
+} from '../utils/cryptoAuth';
 
 export interface DocumentItem {
   id: string;
@@ -215,9 +221,11 @@ export interface SubPagesHeroStore {
 interface CMSContextType {
   isAdmin: boolean;
   isEditMode: boolean;
-  login: (username: string, password: string) => boolean;
+  adminAuth: AdminAuthCredentials;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
   toggleEditMode: () => void;
+  updateAdminCredentials: (newUsername: string, newPassword: string) => Promise<boolean>;
   // Header Config
   headerConfig: HeaderConfig;
   updateHeaderConfig: (config: HeaderConfig) => void;
@@ -665,11 +673,19 @@ const defaultGalleryCategories = [
 const CMSContext = createContext<CMSContextType | undefined>(undefined);
 
 export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
-    return localStorage.getItem('pczsc_is_admin') === 'true';
-  });
-
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
+
+  const [adminAuth, setAdminAuth] = useState<AdminAuthCredentials>(() => {
+    const saved = localStorage.getItem('pczsc_admin_auth');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.passwordHash) return parsed;
+      } catch (_e) {}
+    }
+    return DEFAULT_ADMIN_AUTH;
+  });
 
   const [headerConfig, setHeaderConfig] = useState<HeaderConfig>(() => {
     const saved = localStorage.getItem('pczsc_header_cfg');
@@ -967,6 +983,12 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setVisionMission(dbVision);
         }
 
+        const dbAuth = await fetchSiteSettingFromDB<AdminAuthCredentials | null>('pczsc_admin_auth', null);
+        if (dbAuth && dbAuth.passwordHash) {
+          setAdminAuth(dbAuth);
+          safeSaveStorage('pczsc_admin_auth', dbAuth);
+        }
+
         const dbHeader = await fetchSiteSettingFromDB<HeaderConfig | null>('pczsc_header_cfg', null);
         if (dbHeader) {
           const hydratedHdr = await hydrateImagesFromIDB(dbHeader);
@@ -982,13 +1004,33 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     hydrateStores();
   }, []);
 
-  const login = (username: string, password: string): boolean => {
-    if (username === 'admin' && password === 'admin123') {
+  const login = async (username: string, password: string): Promise<boolean> => {
+    const inputHash = await hashPassword(password);
+    const targetUsername = (adminAuth.username || 'admin').trim().toLowerCase();
+    const targetHash = adminAuth.passwordHash || DEFAULT_ADMIN_HASH;
+
+    if (username.trim().toLowerCase() === targetUsername && inputHash === targetHash) {
       setIsAdmin(true);
       setIsEditMode(true);
       return true;
     }
     return false;
+  };
+
+  const updateAdminCredentials = async (
+    newUsername: string,
+    newPassword: string
+  ): Promise<boolean> => {
+    const newHash = await hashPassword(newPassword);
+    const updated: AdminAuthCredentials = {
+      username: newUsername.trim() || adminAuth.username || 'admin',
+      passwordHash: newHash,
+      updatedAt: new Date().toISOString()
+    };
+    setAdminAuth(updated);
+    safeSaveStorage('pczsc_admin_auth', updated);
+    saveSiteSettingToDB('pczsc_admin_auth', updated);
+    return true;
   };
 
   const logout = () => {
@@ -1410,9 +1452,11 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       value={{
         isAdmin,
         isEditMode,
+        adminAuth,
         login,
         logout,
         toggleEditMode,
+        updateAdminCredentials,
         headerConfig,
         updateHeaderConfig,
         heroSlides,
