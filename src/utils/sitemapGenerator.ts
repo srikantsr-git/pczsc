@@ -1,10 +1,10 @@
 import { SEOStore, PageSEOConfig } from '../types/seo';
 
 const defaultFavicon = {
-  faviconUrl: '/favicon.ico',
-  favicon32Url: '/favicon-32x32.png',
-  favicon16Url: '/favicon-16x16.png',
-  appleTouchIconUrl: '/apple-touch-icon.png',
+  faviconUrl: '/pczsc-logo.png',
+  favicon32Url: '/pczsc-logo.png',
+  favicon16Url: '/pczsc-logo.png',
+  appleTouchIconUrl: '/pczsc-logo.png',
   manifestUrl: '/site.webmanifest'
 };
 
