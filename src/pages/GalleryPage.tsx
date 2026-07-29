@@ -7,6 +7,8 @@ import { Plus, Trash2, X, Maximize2, Play, FolderPlus, Tag } from 'lucide-react'
 import { isVideoUrl } from '../utils/fileUpload';
 import { SEOHead } from '../components/SEOHead';
 
+import { PaginationControls } from '../components/PaginationControls';
+
 export const GalleryPage: React.FC = () => {
   const {
     galleryItems,
@@ -20,6 +22,10 @@ export const GalleryPage: React.FC = () => {
 
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [activeLightbox, setActiveLightbox] = useState<GalleryItem | null>(null);
+
+  // Pagination State (20 items per page)
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 20;
 
   // Add Photo/Video Modal
   const [showAddModal, setShowAddModal] = useState(false);
@@ -36,6 +42,12 @@ export const GalleryPage: React.FC = () => {
 
   const filteredItems = galleryItems.filter(
     (item) => selectedCategory === 'All' || item.category === selectedCategory
+  );
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const paginatedItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   const handleAddSubmit = (e: React.FormEvent) => {
@@ -121,7 +133,7 @@ export const GalleryPage: React.FC = () => {
 
           {/* Photo & Video Gallery Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredItems.map((item) => {
+            {paginatedItems.map((item) => {
               const isVid = isVideoUrl(item.imageUrl);
               return (
                 <div
@@ -187,6 +199,15 @@ export const GalleryPage: React.FC = () => {
               );
             })}
           </div>
+
+          {/* Pagination Controls */}
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={filteredItems.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
 
         </div>
       </section>

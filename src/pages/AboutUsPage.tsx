@@ -25,6 +25,7 @@ import { ImageWithTextBlock } from '../components/ImageWithTextBlock';
 import { AdminConfigModals } from '../components/AdminConfigModals';
 import { useToast } from '../context/ToastContext';
 import { SEOHead } from '../components/SEOHead';
+import { PaginationControls } from '../components/PaginationControls';
 
 export const AboutUsPage: React.FC = () => {
   const { showToast } = useToast();
@@ -242,16 +243,25 @@ export const AboutUsPage: React.FC = () => {
   const [dirCollegeAddress, setDirCollegeAddress] = useState('');
   const [directorSearch, setDirectorSearch] = useState('');
 
+  const [directorPage, setDirectorPage] = useState<number>(1);
+  const directorsPerPage = 20;
+
   const filteredDirectors = peDirectors.filter((dir) => {
     const q = directorSearch.toLowerCase().trim();
     if (!q) return true;
     return (
       dir.name.toLowerCase().includes(q) ||
       dir.collegeAddress.toLowerCase().includes(q) ||
-      dir.mobile.toLowerCase().includes(q) ||
-      dir.email.toLowerCase().includes(q)
+      dir.email.toLowerCase().includes(q) ||
+      dir.mobile.includes(q)
     );
   });
+
+  const totalDirectorPages = Math.ceil(filteredDirectors.length / directorsPerPage);
+  const paginatedDirectors = filteredDirectors.slice(
+    (directorPage - 1) * directorsPerPage,
+    directorPage * directorsPerPage
+  );
 
   const getDirectorPhoto = (dir: PhysicalEducationDirector) => {
     if (dir.photo && dir.photo !== defaultBlankAvatar) {
@@ -587,7 +597,7 @@ export const AboutUsPage: React.FC = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 text-slate-700 text-xs sm:text-sm">
-                      {filteredDirectors.map((dir) => (
+                      {paginatedDirectors.map((dir) => (
                         <tr key={dir.id} className="hover:bg-slate-50/80 transition-colors">
                           <td className="py-4 px-4 text-center">
                             <button
@@ -653,6 +663,15 @@ export const AboutUsPage: React.FC = () => {
                   </table>
                 </div>
               )}
+
+              {/* Pagination Controls for PE Directors */}
+              <PaginationControls
+                currentPage={directorPage}
+                totalPages={totalDirectorPages}
+                totalItems={filteredDirectors.length}
+                itemsPerPage={directorsPerPage}
+                onPageChange={(page) => setDirectorPage(page)}
+              />
             </div>
           )}
 

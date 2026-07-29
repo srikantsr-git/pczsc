@@ -15,6 +15,9 @@ import {
 } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
 
+import { PaginationControls } from '../components/PaginationControls';
+import { useToast } from '../context/ToastContext';
+
 export const DocumentsPage: React.FC = () => {
   const {
     documents,
@@ -26,10 +29,13 @@ export const DocumentsPage: React.FC = () => {
     toggleDocumentNewsMarquee
   } = useCMS();
 
+  const { showToast } = useToast();
   const showAdminControls = isAdmin || isEditMode;
 
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 20;
 
   // Add Document Modal State
   const [showAddModal, setShowAddModal] = useState(false);
@@ -64,6 +70,12 @@ export const DocumentsPage: React.FC = () => {
     const matchesSearch = doc.title.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const totalPages = Math.ceil(filteredDocs.length / itemsPerPage);
+  const paginatedDocs = filteredDocs.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -175,8 +187,9 @@ export const DocumentsPage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-sm font-medium text-slate-800">
-                  {filteredDocs.length > 0 ? (
-                    filteredDocs.map((doc, idx) => {
+                  {paginatedDocs.length > 0 ? (
+                    paginatedDocs.map((doc, idx) => {
+                      const globalIdx = (currentPage - 1) * itemsPerPage + idx + 1;
                       const getCategoryBadgeClass = (category: string) => {
                         const c = category.toLowerCase();
                         if (c.includes('circular')) return 'bg-red-50 text-santic-red border-red-200';
@@ -191,7 +204,7 @@ export const DocumentsPage: React.FC = () => {
                       return (
                         <tr key={doc.id} className="odd:bg-white even:bg-slate-50/50 hover:bg-red-50/20 transition-colors">
                           <td className="py-4 px-5 text-center font-extrabold text-slate-400 font-numeric text-sm">
-                            {idx + 1}
+                            {globalIdx}
                           </td>
                           <td className="py-4 px-6">
                             <div className="space-y-1">
@@ -316,6 +329,15 @@ export const DocumentsPage: React.FC = () => {
               </table>
             </div>
           </div>
+
+          {/* Pagination Controls */}
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={filteredDocs.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
 
         </div>
       </section>
