@@ -187,7 +187,7 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       {/* 1. HERO SLIDER & VERTICAL NEWS MARQUEE PANEL (FULL SCREEN HEIGHT FITTED) */}
       {/* ========================================================================= */}
-      <section className="relative min-h-screen lg:h-[100vh] min-h-[680px] flex flex-col justify-between pt-28 pb-10 lg:pb-12 overflow-hidden bg-slate-950 text-white">
+      <section className="relative min-h-screen lg:h-[100vh] min-h-[640px] flex flex-col justify-between pt-24 lg:pt-24 pb-6 lg:pb-8 overflow-hidden bg-slate-950 text-white">
         {/* Slider Background Images / Videos with dynamic key to reflect updates instantly */}
         {heroSlides.map((slide, index) => (
           <div
@@ -253,8 +253,8 @@ export const HomePage: React.FC = () => {
         )}
 
         {/* Main Hero Content & News Marquee Grid */}
-        <div className="santic-container relative z-20 my-auto pt-4 lg:pt-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="santic-container relative z-20 my-auto pt-2 lg:pt-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
             
             {/* Left Column: Hero Slider Content */}
             <div className="lg:col-span-8 space-y-4 md:space-y-6">
@@ -298,7 +298,7 @@ export const HomePage: React.FC = () => {
             </div>
 
             {/* Right Column: News Panel with Vertical Marquee */}
-            <div className="lg:col-span-4 relative">
+            <div className="lg:col-span-4 relative lg:-mt-4">
               {isEditMode && (
                 <button
                   onClick={() => setActiveConfigTab('news')}
@@ -309,13 +309,13 @@ export const HomePage: React.FC = () => {
                 </button>
               )}
 
-              <div className="bg-slate-900/85 border border-white/15 backdrop-blur-xl rounded-3xl p-6 shadow-2xl space-y-4">
+              <div className="bg-slate-900/85 border border-white/15 backdrop-blur-xl rounded-3xl p-5 shadow-2xl space-y-3.5">
                 {/* Panel Header */}
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                   <div className="flex items-center gap-2 text-santic-red">
                     <Bell className="w-4 h-4 animate-bounce" />
                     <span className="text-xs font-extrabold uppercase tracking-wider text-white">
-                      Latest Circulars Marquee
+                      Latest News & Circulars
                     </span>
                   </div>
                   <Link
@@ -328,7 +328,7 @@ export const HomePage: React.FC = () => {
                 </div>
 
                 {/* Vertical Scrolling Marquee Window */}
-                <div className="relative h-96 overflow-hidden rounded-2xl bg-black/40 border border-white/10">
+                <div className="relative h-[320px] overflow-hidden rounded-2xl bg-black/40 border border-white/10">
                   {(() => {
                     const activeDocNews = documents
                       .filter((doc) => doc.showOnNewsMarquee)
@@ -361,7 +361,7 @@ export const HomePage: React.FC = () => {
 
                     return (
                       <div
-                        className="animate-vertical-marquee p-3 space-y-3"
+                        className="animate-vertical-marquee p-2.5 space-y-2.5"
                         style={{ animationDuration: `${Math.max(10, marqueeSpeed)}s` }}
                       >
                         {loopList.map((item, index) => (
@@ -370,15 +370,15 @@ export const HomePage: React.FC = () => {
                             href={item.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block p-3.5 rounded-xl bg-white/5 hover:bg-santic-red/20 border border-white/10 hover:border-santic-red/50 transition-all duration-200 group"
+                            className="block p-2.5 sm:p-3 rounded-xl bg-white/5 hover:bg-santic-red/20 border border-white/10 hover:border-santic-red/50 transition-all duration-200 group"
                           >
-                            <div className="flex items-center justify-between gap-2 mb-1.5">
-                              <span className="text-[10px] font-extrabold text-santic-red uppercase tracking-wider bg-santic-red/10 px-2 py-0.5 rounded border border-santic-red/20">
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                              <span className="text-[9.5px] font-semibold text-santic-red uppercase tracking-wider bg-santic-red/10 px-2 py-0.5 rounded border border-santic-red/20">
                                 {item.tag}
                               </span>
-                              <span className="text-[10px] font-mono text-white/60 font-bold">{item.date}</span>
+                              <span className="text-[9.5px] font-mono text-white/60 font-normal">{item.date}</span>
                             </div>
-                            <h4 className="text-xs sm:text-sm font-extrabold text-white group-hover:text-amber-300 leading-normal break-words">
+                            <h4 className="text-[11px] sm:text-xs font-normal text-white group-hover:text-amber-300 leading-snug break-words">
                               {item.title}
                             </h4>
                           </a>
@@ -390,7 +390,7 @@ export const HomePage: React.FC = () => {
                   <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                 </div>
 
-                <p className="text-[11px] text-white/40 text-center italic pt-1">
+                <p className="text-[11px] text-white/40 text-center italic pt-0.5">
                   Hover marquee to pause news stream
                 </p>
               </div>
