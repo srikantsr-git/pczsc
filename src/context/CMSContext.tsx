@@ -53,6 +53,7 @@ export interface DocumentItem {
     | 'Draws'
     | 'Results';
   date: string;
+  academicYear?: string;
   viewUrl: string;
   downloadUrl: string;
   showOnNewsMarquee?: boolean;
@@ -739,8 +740,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       try {
         // Hydrate Documents from Neon PostgreSQL database
         const dbDocs = await fetchDocumentsFromDB();
-        const hasDbRules = dbDocs && dbDocs.some((d: any) => d.category === 'Rules & Regulations' || d.category === 'Rules and Regulations');
-        if (dbDocs && dbDocs.length >= 41 && hasDbRules) {
+        if (dbDocs && dbDocs.length > 0) {
           setDocuments(dbDocs);
         } else {
           setDocuments(allSportsCalendarDocuments);

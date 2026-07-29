@@ -34,6 +34,7 @@ export const DocumentsPage: React.FC = () => {
   const showAdminControls = isAdmin || isEditMode;
 
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedYear, setSelectedYear] = useState<string>('All Years');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 20;
@@ -61,19 +62,88 @@ export const DocumentsPage: React.FC = () => {
     'Results'
   ];
 
+  const academicYears = [
+    'All Years',
+    '2025-26',
+    '2024-25',
+    '2023-24',
+    '2022-23',
+    '2021-22',
+    '2019-20',
+    '2018-19',
+    '2017-18',
+    '2016-17',
+    '2015-16',
+    '2014-15',
+    '2013-14'
+  ];
+
+  const normCategory = (c: string) => c.toLowerCase().replace(/&/g, 'and').trim();
+
   const filteredDocs = documents.filter((doc) => {
-    const normCategory = (c: string) => c.toLowerCase().replace(/&/g, 'and').trim();
     const matchesCategory =
       selectedCategory === 'All' ||
       normCategory(doc.category) === normCategory(selectedCategory) ||
       (selectedCategory.toLowerCase().includes('rules') &&
         normCategory(doc.category).includes('rules'));
+
+    const matchesYear =
+      selectedYear === 'All Years' ||
+      doc.date.includes(selectedYear) ||
+      doc.title.includes(selectedYear) ||
+      doc.academicYear === selectedYear;
+
     const matchesSearch = doc.title.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+
+    return matchesCategory && matchesYear && matchesSearch;
   });
 
-  const totalPages = Math.ceil(filteredDocs.length / itemsPerPage);
-  const paginatedDocs = filteredDocs.slice(
+  const parseDocDateTimestamp = (dateStr?: string): number => {
+    if (!dateStr) return 0;
+    const str = dateStr.trim();
+
+    // Pattern 1: DD.MM.YYYY or DD/MM/YYYY or DD.MM.YY (e.g. 21.10.2024, 06.09.2024, 21.11.24)
+    const dmyMatch = str.match(/^(\d{1,2})[\.\/-](\d{1,2})[\.\/-](\d{2,4})$/);
+    if (dmyMatch) {
+      const day = parseInt(dmyMatch[1], 10);
+      const month = parseInt(dmyMatch[2], 10) - 1;
+      let year = parseInt(dmyMatch[3], 10);
+      if (year < 100) year += 2000;
+      return new Date(year, month, day).getTime();
+    }
+
+    // Pattern 2: YYYY-MM-DD or YYYY/MM/DD (e.g. 2024-10-21)
+    const ymdMatch = str.match(/^(\d{4})[\.\/-](\d{1,2})[\.\/-](\d{1,2})$/);
+    if (ymdMatch) {
+      const year = parseInt(ymdMatch[1], 10);
+      const month = parseInt(ymdMatch[2], 10) - 1;
+      const day = parseInt(ymdMatch[3], 10);
+      return new Date(year, month, day).getTime();
+    }
+
+    // Pattern 3: Academic Year YYYY-YY (e.g. 2025-26, 2024-25)
+    const acadMatch = str.match(/^(\d{4})[-–\/]\d{2,4}$/);
+    if (acadMatch) {
+      const year = parseInt(acadMatch[1], 10);
+      return new Date(year, 0, 1).getTime();
+    }
+
+    const parsed = Date.parse(str);
+    return isNaN(parsed) ? 0 : parsed;
+  };
+
+  const sortedDocs = [...filteredDocs].sort((a, b) => {
+    const timeA = parseDocDateTimestamp(a.date);
+    const timeB = parseDocDateTimestamp(b.date);
+
+    if (timeA !== timeB) {
+      return timeB - timeA; // Latest date first
+    }
+    return (b.srNo || 0) - (a.srNo || 0);
+  });
+
+  const totalPages = Math.ceil(sortedDocs.length / itemsPerPage);
+  const paginatedDocs = sortedDocs.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -197,6 +267,56 @@ export const DocumentsPage: React.FC = () => {
               );
             })}
           </div>
+
+          {/* Academic Year Filter Sub-Bar for Draws & Results */}
+          {(selectedCategory === 'Draws' || selectedCategory === 'Results' || selectedCategory === 'All') && (
+            <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white p-4 sm:p-5 rounded-3xl shadow-xl border border-slate-800 space-y-3 animate-fade-in">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
+                    Academic Year Filter ({selectedCategory})
+                  </span>
+                </div>
+                <span className="text-xs font-mono font-extrabold text-slate-400 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+                  Showing {filteredDocs.length} Documents
+                </span>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                {academicYears.map((yr) => {
+                  const isActive = selectedYear === yr;
+                  const countForYear = yr === 'All Years'
+                    ? documents.filter((d) => selectedCategory === 'All' || normCategory(d.category) === normCategory(selectedCategory)).length
+                    : documents.filter(
+                        (d) =>
+                          (selectedCategory === 'All' || normCategory(d.category) === normCategory(selectedCategory)) &&
+                          (d.date.includes(yr) || d.title.includes(yr) || d.academicYear === yr)
+                      ).length;
+
+                  return (
+                    <button
+                      key={yr}
+                      onClick={() => {
+                        setSelectedYear(yr);
+                        setCurrentPage(1);
+                      }}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all border flex items-center gap-1.5 ${
+                        isActive
+                          ? 'bg-santic-red text-white border-santic-red shadow-lg shadow-red-600/30 scale-105'
+                          : 'bg-white/5 text-slate-300 border-white/10 hover:bg-white/15 hover:text-white'
+                      }`}
+                    >
+                      <span>{yr}</span>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${isActive ? 'bg-white/20 text-white font-black' : 'bg-slate-800 text-amber-400 font-bold'}`}>
+                        {countForYear}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Categorized Document Data Table */}
           <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden">

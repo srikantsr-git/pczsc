@@ -25,7 +25,7 @@ export const getSql = () => {
 export async function fetchDocumentsFromDB(): Promise<DocumentItem[]> {
   try {
     const sql = getSql();
-    const rows = await sql`SELECT * FROM documents ORDER BY sr_no ASC, created_at DESC`;
+    const rows = await sql`SELECT * FROM documents ORDER BY created_at DESC, sr_no DESC`;
     return rows.map((r: any) => ({
       id: r.id,
       srNo: r.sr_no || 1,
