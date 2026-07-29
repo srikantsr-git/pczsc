@@ -349,11 +349,11 @@ export const AboutUsPage: React.FC = () => {
     { id: 'all', label: 'All Sections', icon: <Trophy className="w-3.5 h-3.5" /> },
     { id: 'committee', label: 'PCZSC Committee', icon: <Users className="w-3.5 h-3.5" /> },
     { id: 'directors', label: 'Director of Physical Education & Sports', icon: <Users className="w-3.5 h-3.5" /> },
-    { id: 'history', label: 'Overview & History', icon: <Trophy className="w-3.5 h-3.5" /> },
     { id: 'objectives', label: 'Objectives & Directives', icon: <CheckCircle2 className="w-3.5 h-3.5" /> },
     { id: 'leadership', label: 'President & Secretariat', icon: <Award className="w-3.5 h-3.5" /> },
     { id: 'vision', label: 'Vision & Mission', icon: <Target className="w-3.5 h-3.5" /> },
     { id: 'values', label: 'Core Values', icon: <Award className="w-3.5 h-3.5" /> },
+    { id: 'history', label: 'Overview & History', icon: <Trophy className="w-3.5 h-3.5" /> },
     ...(aboutSections.length > 0
       ? [{ id: 'dynamic', label: 'Additional Sections', icon: <Tv className="w-3.5 h-3.5" /> }]
       : [])
@@ -693,60 +693,6 @@ export const AboutUsPage: React.FC = () => {
             </div>
           )}
 
-          {/* Section 1: History & Governance Overview (Editable) */}
-          {(activeTab === 'all' || activeTab === 'history') && (
-            <div className="relative group animate-fade-in">
-              {isEditMode && (
-                <div className="absolute -top-6 right-0 z-20">
-                  <button
-                    onClick={() => {
-                      setHistoryBadge(aboutUsConfig.historyBadge);
-                      setHistoryTitle(aboutUsConfig.historyTitle);
-                      setHistoryBody(aboutUsConfig.historyBody);
-                      setHistoryImage(aboutUsConfig.historyImage);
-                      setShowHistoryEdit(true);
-                    }}
-                    className="bg-santic-red text-white text-xs font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-lg border border-white/20 uppercase tracking-wider"
-                  >
-                    <Edit className="w-3.5 h-3.5" />
-                    <span>Edit History Section</span>
-                  </button>
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div className="lg:col-span-7 space-y-6">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-santic-red/10 border border-santic-red/20 text-santic-red text-xs font-extrabold uppercase tracking-wider">
-                    <Trophy className="w-3.5 h-3.5" />
-                    <span>{aboutUsConfig.historyBadge}</span>
-                  </div>
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight">
-                    {aboutUsConfig.historyTitle}
-                  </h2>
-                  <div className="text-slate-600 text-base md:text-lg leading-relaxed font-normal space-y-4">
-                    {aboutUsConfig.historyBody.split('\n\n').map((paragraph, idx) => (
-                      <p key={idx}>{paragraph}</p>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="lg:col-span-5">
-                  <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 group">
-                    <img
-                      src={aboutUsConfig.historyImage}
-                      alt="PCZSC Sports Championship"
-                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent p-6 flex flex-col justify-end text-white">
-                      <span className="text-xs font-bold uppercase tracking-wider text-santic-red">PCZSC Legacy</span>
-                      <h4 className="text-lg font-bold">Uniting Higher Education Institutions in Pune</h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* Section 2: Detailed Objectives & Talent Development (Editable) */}
           {(activeTab === 'all' || activeTab === 'objectives') && (
             <div className="relative p-8 md:p-14 rounded-3xl bg-slate-50 border border-slate-200/90 shadow-sm space-y-6 animate-fade-in">
@@ -960,6 +906,60 @@ export const AboutUsPage: React.FC = () => {
                     </p>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* Section: History & Governance Overview (Editable) */}
+          {(activeTab === 'all' || activeTab === 'history') && (
+            <div className="relative group animate-fade-in">
+              {isEditMode && (
+                <div className="absolute -top-6 right-0 z-20">
+                  <button
+                    onClick={() => {
+                      setHistoryBadge(aboutUsConfig.historyBadge);
+                      setHistoryTitle(aboutUsConfig.historyTitle);
+                      setHistoryBody(aboutUsConfig.historyBody);
+                      setHistoryImage(aboutUsConfig.historyImage);
+                      setShowHistoryEdit(true);
+                    }}
+                    className="bg-santic-red text-white text-xs font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-lg border border-white/20 uppercase tracking-wider"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                    <span>Edit History Section</span>
+                  </button>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div className="lg:col-span-7 space-y-6">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-santic-red/10 border border-santic-red/20 text-santic-red text-xs font-extrabold uppercase tracking-wider">
+                    <Trophy className="w-3.5 h-3.5" />
+                    <span>{aboutUsConfig.historyBadge}</span>
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight">
+                    {aboutUsConfig.historyTitle}
+                  </h2>
+                  <div className="text-slate-600 text-base md:text-lg leading-relaxed font-normal space-y-4">
+                    {aboutUsConfig.historyBody.split('\n\n').map((paragraph, idx) => (
+                      <p key={idx}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="lg:col-span-5">
+                  <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 group">
+                    <img
+                      src={aboutUsConfig.historyImage}
+                      alt="PCZSC Sports Championship"
+                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent p-6 flex flex-col justify-end text-white">
+                      <span className="text-xs font-bold uppercase tracking-wider text-santic-red">PCZSC Legacy</span>
+                      <h4 className="text-lg font-bold">Uniting Higher Education Institutions in Pune</h4>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
