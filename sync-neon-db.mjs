@@ -1,7 +1,8 @@
 import { neon } from '@neondatabase/serverless';
+import fs from 'fs';
 
 const DEFAULT_DATABASE_URL =
-  'postgresql://neondb_owner:npg_7SEFtVy4ieJb@ep-crimson-silence-aufuup71-pooler.c-10.us-east-1.aws.neon.tech/neondb?sslmode=require';
+  'postgresql://neondb_owner:npg_Ko7RbCqA5lsG@ep-winter-bar-azhp79jj.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=require';
 
 const sql = neon(process.env.VITE_DATABASE_URL || DEFAULT_DATABASE_URL);
 
@@ -340,6 +341,28 @@ async function runSync() {
         description = EXCLUDED.description,
         date = EXCLUDED.date;
     `;
+  }
+
+  // 8. Documents Table
+  try {
+    const docData = JSON.parse(fs.readFileSync('./src/data/documents_data.json', 'utf-8'));
+    for (const doc of docData) {
+      await sql`
+        INSERT INTO documents (id, sr_no, title, category, date, view_url, download_url, show_on_news_marquee)
+        VALUES (${doc.id}, ${doc.srNo}, ${doc.title}, ${doc.category}, ${doc.date}, ${doc.viewUrl}, ${doc.downloadUrl}, ${Boolean(doc.showOnNewsMarquee)})
+        ON CONFLICT (id) DO UPDATE SET
+          sr_no = EXCLUDED.sr_no,
+          title = EXCLUDED.title,
+          category = EXCLUDED.category,
+          date = EXCLUDED.date,
+          view_url = EXCLUDED.view_url,
+          download_url = EXCLUDED.download_url,
+          show_on_news_marquee = EXCLUDED.show_on_news_marquee;
+      `;
+    }
+    console.log(`✅ Seeded ${docData.length} documents into Neon DB.`);
+  } catch (e) {
+    console.warn('Note on document seeding:', e.message);
   }
 
   console.log('✅ Successfully populated Neon DB with all site settings, themes, photos, and committee members!');
