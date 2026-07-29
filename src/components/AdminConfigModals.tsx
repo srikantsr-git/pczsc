@@ -67,8 +67,8 @@ export const AdminConfigModals: React.FC<AdminConfigModalsProps> = ({ activeTab,
 
   const handleSaveNews = (e: React.FormEvent) => {
     e.preventDefault();
-    updateNewsMarquee(localNews);
-    showToast('News Marquee Saved Successfully!', 'News items and marquee scroll speed updated.', 'success');
+    updateMarqueeSpeed(marqueeSpeed);
+    showToast('Marquee Speed Saved Successfully!', `Home page marquee speed set to ${marqueeSpeed} seconds.`, 'success');
     onClose();
   };
 

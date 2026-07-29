@@ -357,7 +357,7 @@ export const HomePage: React.FC = () => {
                     return (
                       <div
                         className="animate-vertical-marquee p-2.5 space-y-2.5"
-                        style={{ animationDuration: `${Math.max(10, marqueeSpeed)}s` }}
+                        style={{ animationDuration: `${Math.max(3, marqueeSpeed)}s` }}
                       >
                         {loopList.map((item, index) => (
                           <a

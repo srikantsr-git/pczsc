@@ -875,11 +875,19 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const targetSEO = dbSEO || lsSEO || getUserStateFallback('pczsc_seo_store', DEFAULT_PAGE_SEO);
         setSeoStore(targetSEO);
 
-        // --- News Marquee ---
+        // --- News Marquee & Speed ---
         const dbMarquee = await fetchSiteSettingFromDB<NewsMarqueeItem[] | null>('pczsc_news_marquee', null);
         const lsMarquee = safeLoadStorage<NewsMarqueeItem[] | null>('pczsc_news_marquee', null);
         const targetMarquee = dbMarquee || lsMarquee || getUserStateFallback('pczsc_news_marquee', defaultNewsMarquee);
         setNewsMarquee(targetMarquee);
+
+        const dbSpeed = await fetchSiteSettingFromDB<number | null>('pczsc_marquee_speed', null);
+        const lsSpeed = safeLoadStorage<number | null>('pczsc_marquee_speed', null);
+        if (typeof dbSpeed === 'number' && dbSpeed > 0) {
+          setMarqueeSpeed(dbSpeed);
+        } else if (typeof lsSpeed === 'number' && lsSpeed > 0) {
+          setMarqueeSpeed(lsSpeed);
+        }
 
         // --- Metrics ---
         const dbMetrics = await fetchSiteSettingFromDB<MetricItem[] | null>('pczsc_metrics', null);
@@ -1024,8 +1032,10 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const updateMarqueeSpeed = (speed: number) => {
-    setMarqueeSpeed(speed);
-    saveSiteSettingToDB('pczsc_marquee_speed', speed);
+    const validSpeed = Math.max(3, Math.min(60, speed));
+    setMarqueeSpeed(validSpeed);
+    safeSaveStorage('pczsc_marquee_speed', validSpeed);
+    saveSiteSettingToDB('pczsc_marquee_speed', validSpeed);
   };
 
   const updateMetrics = (m: MetricItem[]) => {
