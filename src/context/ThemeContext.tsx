@@ -7,6 +7,7 @@ import {
   validateThemeJson
 } from '../utils/themeEngine';
 import { safeSaveStorage } from '../utils/persistentStorage';
+import { fetchSiteSettingFromDB, saveSiteSettingToDB } from '../utils/neonDB';
 
 interface ThemeContextType {
   currentTheme: ThemeConfig;
@@ -67,9 +68,23 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [draftTheme]);
 
-  // Apply the saved theme immediately on first mount (prevents default-light flash)
+  // Apply the saved theme immediately on first mount and sync from Neon DB
   useEffect(() => {
     applyThemeCssVariables(currentTheme);
+    async function syncDBTheme() {
+      try {
+        const dbTheme = await fetchSiteSettingFromDB<ThemeConfig | null>('pczsc_active_theme', null);
+        if (dbTheme && dbTheme.primaryColors) {
+          setCurrentTheme(dbTheme);
+          setDraftTheme(dbTheme);
+          applyThemeCssVariables(dbTheme);
+          safeSaveStorage('pczsc_active_theme', dbTheme);
+        }
+      } catch (err) {
+        console.warn('Theme DB sync warning:', err);
+      }
+    }
+    syncDBTheme();
   }, []);
 
   const canUndo = historyIndex > 0;
@@ -163,8 +178,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const publishTheme = () => {
     setCurrentTheme(draftTheme);
     setIsPublished(true);
-    // Explicitly publish — also saves to localStorage (already auto-saved on draft change)
     safeSaveStorage('pczsc_active_theme', draftTheme);
+    saveSiteSettingToDB('pczsc_active_theme', draftTheme);
   };
 
   const undo = () => {

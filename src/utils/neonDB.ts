@@ -271,3 +271,38 @@ export async function saveContactInquiryToDB(inquiry: ContactInquiry): Promise<b
     return false;
   }
 }
+
+// Database helper queries for Generic Site Settings (Active Theme, Header Config, etc.)
+
+export async function fetchSiteSettingFromDB<T>(key: string, defaultValue: T): Promise<T> {
+  try {
+    const sql = getSql();
+    const rows = await sql`SELECT value FROM site_settings WHERE key = ${key}`;
+    if (rows && rows.length > 0 && rows[0].value) {
+      return rows[0].value as T;
+    }
+    return defaultValue;
+  } catch (err) {
+    console.warn(`Neon DB fetchSiteSetting error for key [${key}]:`, err);
+    return defaultValue;
+  }
+}
+
+export async function saveSiteSettingToDB(key: string, value: any): Promise<boolean> {
+  try {
+    const sql = getSql();
+    const jsonStr = JSON.stringify(value);
+    await sql`
+      INSERT INTO site_settings (key, value, updated_at)
+      VALUES (${key}, ${jsonStr}::jsonb, NOW())
+      ON CONFLICT (key) DO UPDATE SET
+        value = EXCLUDED.value,
+        updated_at = NOW();
+    `;
+    return true;
+  } catch (err) {
+    console.error(`Neon DB saveSiteSetting error for key [${key}]:`, err);
+    return false;
+  }
+}
+

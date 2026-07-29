@@ -19,7 +19,9 @@ import {
   deleteHeroSlideFromDB,
   fetchPEDirectorsFromDB,
   savePEDirectorToDB,
-  deletePEDirectorFromDB
+  deletePEDirectorFromDB,
+  fetchSiteSettingFromDB,
+  saveSiteSettingToDB
 } from '../utils/neonDB';
 
 export interface DocumentItem {
@@ -868,8 +870,15 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
         const dbHero = await fetchHeroSlidesFromDB();
         if (dbHero && dbHero.length > 0) {
-          setHeroSlides(dbHero);
+          const hydratedHero = await hydrateImagesFromIDB(dbHero);
+          setHeroSlides(hydratedHero && Array.isArray(hydratedHero) ? hydratedHero : dbHero);
+        } else {
+          const hHero = await hydrateImagesFromIDB(heroSlides);
+          if (hHero && Array.isArray(hHero)) {
+            setHeroSlides(hHero);
+          }
         }
+
         const dbDirectors = await fetchPEDirectorsFromDB();
         if (dbDirectors && dbDirectors.length >= 100) {
           const syncedDirectors = dbDirectors.map((d: any) => {
@@ -889,25 +898,62 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           }
         }
 
-        const hCom = await hydrateImagesFromIDB(committeeMembers);
-        if (hCom && Array.isArray(hCom)) {
-          setCommitteeMembers(hCom);
+        const dbSubHero = await fetchSiteSettingFromDB<SubPagesHeroStore | null>('pczsc_subpages_hero', null);
+        if (dbSubHero) {
+          const hydratedSub = await hydrateImagesFromIDB(dbSubHero);
+          setSubPagesHeroStore(hydratedSub || dbSubHero);
+        } else {
+          const hSub = await hydrateImagesFromIDB(subPagesHeroStore);
+          if (hSub) setSubPagesHeroStore(hSub);
         }
-        const hSub = await hydrateImagesFromIDB(subPagesHeroStore);
-        if (hSub) {
-          setSubPagesHeroStore(hSub);
+
+        const dbHomeAbout = await fetchSiteSettingFromDB<HomeAboutConfig | null>('pczsc_home_about', null);
+        if (dbHomeAbout) {
+          const hydrated = await hydrateImagesFromIDB(dbHomeAbout);
+          setHomeAboutConfig(hydrated || dbHomeAbout);
         }
-        const hHero = await hydrateImagesFromIDB(heroSlides);
-        if (hHero && Array.isArray(hHero)) {
-          setHeroSlides(hHero);
+
+        const dbPillars = await fetchSiteSettingFromDB<PillarsSectionConfig | null>('pczsc_pillars_cfg', null);
+        if (dbPillars) {
+          const hydrated = await hydrateImagesFromIDB(dbPillars);
+          setPillarsConfig(hydrated || dbPillars);
         }
-        const hAbt = await hydrateImagesFromIDB(aboutUsConfig);
-        if (hAbt) {
-          setAboutUsConfig(hAbt);
+
+        const dbAbout = await fetchSiteSettingFromDB<AboutUsConfig | null>('pczsc_about_cfg', null);
+        if (dbAbout) {
+          const hydrated = await hydrateImagesFromIDB(dbAbout);
+          setAboutUsConfig(hydrated || dbAbout);
+        } else {
+          const hAbt = await hydrateImagesFromIDB(aboutUsConfig);
+          if (hAbt) setAboutUsConfig(hAbt);
         }
-        const hHdr = await hydrateImagesFromIDB(headerConfig);
-        if (hHdr) {
-          setHeaderConfig(hHdr);
+
+        const dbCom = await fetchSiteSettingFromDB<CommitteeMember[] | null>('pczsc_committee_members', null);
+        if (dbCom && Array.isArray(dbCom) && dbCom.length > 0) {
+          const hydrated = await hydrateImagesFromIDB(dbCom);
+          setCommitteeMembers(hydrated && Array.isArray(hydrated) ? hydrated : dbCom);
+        } else {
+          const hCom = await hydrateImagesFromIDB(committeeMembers);
+          if (hCom && Array.isArray(hCom)) setCommitteeMembers(hCom);
+        }
+
+        const dbFooter = await fetchSiteSettingFromDB<FooterConfig | null>('pczsc_footer_cfg', null);
+        if (dbFooter) {
+          setFooterConfig(dbFooter);
+        }
+
+        const dbContact = await fetchSiteSettingFromDB<ContactInfo | null>('pczsc_contact', null);
+        if (dbContact) {
+          setContactInfo(dbContact);
+        }
+
+        const dbHeader = await fetchSiteSettingFromDB<HeaderConfig | null>('pczsc_header_cfg', null);
+        if (dbHeader) {
+          const hydratedHdr = await hydrateImagesFromIDB(dbHeader);
+          setHeaderConfig(hydratedHdr || dbHeader);
+        } else {
+          const hHdr = await hydrateImagesFromIDB(headerConfig);
+          if (hHdr) setHeaderConfig(hHdr);
         }
       } catch (e) {
         console.warn("Storage hydration warning:", e);
@@ -937,6 +983,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const updateHeaderConfig = (config: HeaderConfig) => {
     setHeaderConfig(config);
     safeSaveStorage('pczsc_header_cfg', config);
+    saveSiteSettingToDB('pczsc_header_cfg', config);
   };
 
   const updateHeroSlides = (slides: HeroSlide[]) => {
@@ -950,11 +997,13 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const updateHomeAboutConfig = (cfg: HomeAboutConfig) => {
     setHomeAboutConfig(cfg);
     safeSaveStorage('pczsc_home_about', cfg);
+    saveSiteSettingToDB('pczsc_home_about', cfg);
   };
 
   const updatePillarsConfig = (cfg: PillarsSectionConfig) => {
     setPillarsConfig(cfg);
     safeSaveStorage('pczsc_pillars_cfg', cfg);
+    saveSiteSettingToDB('pczsc_pillars_cfg', cfg);
   };
 
   const updateSubPageHero = (
@@ -964,6 +1013,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const updated = { ...subPagesHeroStore, [pageKey]: config };
     setSubPagesHeroStore(updated);
     safeSaveStorage('pczsc_subpages_hero', updated);
+    saveSiteSettingToDB('pczsc_subpages_hero', updated);
   };
 
   const addHeroSlide = (slide: Omit<HeroSlide, 'id'>) => {
@@ -1025,16 +1075,19 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const updateAboutUsConfig = (cfg: AboutUsConfig) => {
     setAboutUsConfig(cfg);
     safeSaveStorage('pczsc_about_cfg', cfg);
+    saveSiteSettingToDB('pczsc_about_cfg', cfg);
   };
 
   const updateFooterConfig = (config: FooterConfig) => {
     setFooterConfig(config);
     safeSaveStorage('pczsc_footer_cfg', config);
+    saveSiteSettingToDB('pczsc_footer_cfg', config);
   };
 
   const updateContactInfo = (info: ContactInfo) => {
     setContactInfo(info);
     safeSaveStorage('pczsc_contact', info);
+    saveSiteSettingToDB('pczsc_contact', info);
   };
 
   const addContactInquiry = (inquiry: Omit<ContactInquiry, 'id' | 'submittedAt' | 'status'>) => {
@@ -1200,27 +1253,8 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     const updated = [newItem, ...galleryItems];
     setGalleryItems(updated);
-    // Save to localStorage immediately (handles large base64 via IDB offloading)
     safeSaveStorage('pczsc_gallery', updated);
-    // Async: extract base64 image to IDB, store compact idb: key in Neon DB
-    // This prevents oversized SQL payloads that silently fail on Neon
-    (async () => {
-      try {
-        let dbImageUrl = newItem.imageUrl;
-        if (
-          newItem.imageUrl &&
-          (newItem.imageUrl.startsWith('data:image/') ||
-            newItem.imageUrl.startsWith('data:video/'))
-        ) {
-          const idbKey = `gallery_img_${newItem.id}`;
-          await saveMediaToIDB(idbKey, newItem.imageUrl);
-          dbImageUrl = `idb:${idbKey}`;
-        }
-        await saveGalleryItemToDB({ ...newItem, imageUrl: dbImageUrl });
-      } catch (e) {
-        console.warn('[Gallery] DB save failed, data preserved in localStorage/IDB:', e);
-      }
-    })();
+    saveGalleryItemToDB(newItem);
   };
 
   const deleteGalleryItem = (id: string) => {
@@ -1264,6 +1298,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const updated = [...committeeMembers, newMember];
     setCommitteeMembers(updated);
     safeSaveStorage('pczsc_committee_members', updated);
+    saveSiteSettingToDB('pczsc_committee_members', updated);
   };
 
   const editCommitteeMember = (id: string, member: Partial<CommitteeMember>) => {
@@ -1272,17 +1307,20 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
     setCommitteeMembers(updated);
     safeSaveStorage('pczsc_committee_members', updated);
+    saveSiteSettingToDB('pczsc_committee_members', updated);
   };
 
   const deleteCommitteeMember = (id: string) => {
     const updated = committeeMembers.filter((m) => m.id !== id);
     setCommitteeMembers(updated);
     safeSaveStorage('pczsc_committee_members', updated);
+    saveSiteSettingToDB('pczsc_committee_members', updated);
   };
 
   const resetCommitteeMembers = () => {
     setCommitteeMembers(initialCommitteeMembers);
     safeSaveStorage('pczsc_committee_members', initialCommitteeMembers);
+    saveSiteSettingToDB('pczsc_committee_members', initialCommitteeMembers);
   };
 
   const addPEDirector = (director: Omit<PhysicalEducationDirector, 'id'>) => {
@@ -1293,41 +1331,14 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const updated = [...peDirectors, newDir];
     setPEDirectors(updated);
     safeSaveStorage('pczsc_pe_directors', updated);
-    // Async: extract base64 photo to IDB before saving to Neon DB
-    (async () => {
-      try {
-        let dbPhoto = newDir.photo;
-        if (newDir.photo && (newDir.photo.startsWith('data:image/') || newDir.photo.startsWith('data:video/'))) {
-          const idbKey = `pe_photo_${newDir.id}`;
-          await saveMediaToIDB(idbKey, newDir.photo);
-          dbPhoto = `idb:${idbKey}`;
-        }
-        await savePEDirectorToDB({ ...newDir, photo: dbPhoto });
-      } catch (e) {
-        console.warn('[PEDirector] DB save failed, data preserved in localStorage/IDB:', e);
-      }
-    })();
+    savePEDirectorToDB(newDir);
   };
 
   const editPEDirector = (id: string, updatedFields: Partial<PhysicalEducationDirector>) => {
     const updated = peDirectors.map((d) => {
       if (d.id === id) {
         const merged = { ...d, ...updatedFields };
-        safeSaveStorage('pczsc_pe_directors', updated);
-        // Async: extract base64 photo to IDB before DB update
-        (async () => {
-          try {
-            let dbPhoto = merged.photo;
-            if (merged.photo && (merged.photo.startsWith('data:image/') || merged.photo.startsWith('data:video/'))) {
-              const idbKey = `pe_photo_${merged.id}`;
-              await saveMediaToIDB(idbKey, merged.photo);
-              dbPhoto = `idb:${idbKey}`;
-            }
-            await savePEDirectorToDB({ ...merged, photo: dbPhoto });
-          } catch (e) {
-            console.warn('[PEDirector] DB update failed:', e);
-          }
-        })();
+        savePEDirectorToDB(merged);
         return merged;
       }
       return d;
