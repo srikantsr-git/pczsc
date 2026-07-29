@@ -23,6 +23,7 @@ import { AdminConfigModals } from '../components/AdminConfigModals';
 import { MediaRenderer } from '../components/MediaRenderer';
 import { FileUploadInput } from '../components/FileUploadInput';
 import { SEOHead } from '../components/SEOHead';
+import { getDocumentPdfUrl } from '../utils/documentUtils';
 
 export const HomePage: React.FC = () => {
   const {
@@ -336,7 +337,7 @@ export const HomePage: React.FC = () => {
                         tag: doc.category,
                         date: doc.date,
                         title: doc.title,
-                        link: doc.viewUrl || '/en/documents'
+                        link: getDocumentPdfUrl(doc)
                       }));
 
                     const itemsToDisplay =

@@ -17,6 +17,7 @@ import { SEOHead } from '../components/SEOHead';
 
 import { PaginationControls } from '../components/PaginationControls';
 import { useToast } from '../context/ToastContext';
+import { getDocumentPdfUrl } from '../utils/documentUtils';
 
 export const DocumentsPage: React.FC = () => {
   const {
@@ -211,7 +212,7 @@ export const DocumentsPage: React.FC = () => {
                               <div className="flex items-start gap-2.5">
                                 <FileText className="w-4.5 h-4.5 text-santic-red shrink-0 mt-0.5" />
                                 <a
-                                  href={doc.viewUrl || doc.downloadUrl}
+                                  href={getDocumentPdfUrl(doc)}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="font-extrabold text-slate-900 hover:text-santic-red transition-colors leading-snug text-sm sm:text-base cursor-pointer"
@@ -241,7 +242,7 @@ export const DocumentsPage: React.FC = () => {
                             <div className="flex items-center justify-center gap-2 flex-wrap">
                               {/* View Document */}
                               <a
-                                href={doc.viewUrl}
+                                href={getDocumentPdfUrl(doc)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-800 px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all border border-slate-200 shadow-sm"
@@ -252,7 +253,7 @@ export const DocumentsPage: React.FC = () => {
 
                               {/* Download Document */}
                               <a
-                                href={doc.downloadUrl}
+                                href={getDocumentPdfUrl(doc)}
                                 download
                                 target="_blank"
                                 rel="noopener noreferrer"

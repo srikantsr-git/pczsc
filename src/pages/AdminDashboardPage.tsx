@@ -51,6 +51,7 @@ import {
   saveGalleryItemToDB,
   saveDocumentToDB
 } from '../utils/neonDB';
+import { getDocumentPdfUrl } from '../utils/documentUtils';
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -1245,7 +1246,7 @@ export const AdminDashboardPage: React.FC = () => {
                               )}
                             </div>
                             <a
-                              href={doc.viewUrl || doc.downloadUrl}
+                              href={getDocumentPdfUrl(doc)}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-xs font-extrabold text-white hover:text-amber-300 transition-colors leading-snug cursor-pointer block"
@@ -1261,7 +1262,7 @@ export const AdminDashboardPage: React.FC = () => {
                         <div className="pt-2 border-t border-slate-900 flex items-center justify-between gap-2 flex-wrap text-xs">
                           <div className="flex items-center gap-2">
                             <a
-                              href={doc.viewUrl}
+                              href={getDocumentPdfUrl(doc)}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold text-[11px] flex items-center gap-1 border border-slate-800"
