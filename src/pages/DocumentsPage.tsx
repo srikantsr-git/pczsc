@@ -43,6 +43,8 @@ export const DocumentsPage: React.FC = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [docTitle, setDocTitle] = useState('');
   const [docCategory, setDocCategory] = useState<DocumentItem['category']>('Circulars');
+  const [docAcademicYear, setDocAcademicYear] = useState('2026-27');
+  const [customYear, setCustomYear] = useState('');
   const [docDate, setDocDate] = useState(new Date().toISOString().split('T')[0]);
   const [docViewUrl, setDocViewUrl] = useState('');
 
@@ -62,8 +64,8 @@ export const DocumentsPage: React.FC = () => {
     'Results'
   ];
 
-  const academicYears = [
-    'All Years',
+  const defaultAcademicYears = [
+    '2026-27',
     '2025-26',
     '2024-25',
     '2023-24',
@@ -77,6 +79,46 @@ export const DocumentsPage: React.FC = () => {
     '2014-15',
     '2013-14'
   ];
+
+  // Dynamically collect all academic years present in documents
+  const academicYears = Array.from(
+    new Set([
+      'All Years',
+      ...defaultAcademicYears,
+      ...documents.map((d) => d.academicYear).filter(Boolean) as string[]
+    ])
+  );
+
+  const handleAddSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const finalYear = docAcademicYear === 'Custom' ? customYear.trim() || '2026-27' : docAcademicYear;
+    addDocument({
+      title: docTitle,
+      category: docCategory,
+      academicYear: finalYear,
+      date: docDate ? `${docDate} (${finalYear})` : finalYear,
+      viewUrl: docViewUrl || '#',
+      downloadUrl: docViewUrl || '#'
+    });
+    setDocTitle('');
+    setDocViewUrl('');
+    setShowAddModal(false);
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingDoc) {
+      editDocument(editingDoc.id, {
+        title: editingDoc.title,
+        category: editingDoc.category,
+        academicYear: editingDoc.academicYear || '2026-27',
+        date: editingDoc.date,
+        viewUrl: editingDoc.viewUrl,
+        downloadUrl: editingDoc.viewUrl
+      });
+      setEditingDoc(null);
+    }
+  };
 
   const normCategory = (c: string) => c.toLowerCase().replace(/&/g, 'and').trim();
 
@@ -147,34 +189,6 @@ export const DocumentsPage: React.FC = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  const handleAddSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    addDocument({
-      title: docTitle,
-      category: docCategory,
-      date: docDate,
-      viewUrl: docViewUrl || '#',
-      downloadUrl: docViewUrl || '#'
-    });
-    setDocTitle('');
-    setDocViewUrl('');
-    setShowAddModal(false);
-  };
-
-  const handleEditSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (editingDoc) {
-      editDocument(editingDoc.id, {
-        title: editingDoc.title,
-        category: editingDoc.category,
-        date: editingDoc.date,
-        viewUrl: editingDoc.viewUrl,
-        downloadUrl: editingDoc.viewUrl
-      });
-      setEditingDoc(null);
-    }
-  };
 
   return (
     <main className="min-h-screen bg-white text-slate-900 font-sans">
@@ -525,6 +539,41 @@ export const DocumentsPage: React.FC = () => {
               </div>
 
               <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Academic Year (used for Yearwise Filtering & Sorting)
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <select
+                    value={docAcademicYear}
+                    onChange={(e) => {
+                      setDocAcademicYear(e.target.value);
+                      if (e.target.value !== 'Custom') {
+                        setCustomYear('');
+                      }
+                    }}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-bold bg-white cursor-pointer"
+                  >
+                    {defaultAcademicYears.map((yr) => (
+                      <option key={yr} value={yr}>
+                        {yr}
+                      </option>
+                    ))}
+                    <option value="Custom">+ Custom Academic Year...</option>
+                  </select>
+                  {docAcademicYear === 'Custom' && (
+                    <input
+                      type="text"
+                      placeholder="e.g. 2027-28"
+                      value={customYear}
+                      onChange={(e) => setCustomYear(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-bold"
+                      required
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Date / Year</label>
                 <input
                   type="date"
@@ -609,6 +658,19 @@ export const DocumentsPage: React.FC = () => {
                   <option value="Draws">Draws</option>
                   <option value="Results">Results</option>
                 </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Academic Year (used for Yearwise Filtering & Sorting)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. 2026-27"
+                  value={editingDoc.academicYear || '2026-27'}
+                  onChange={(e) => setEditingDoc({ ...editingDoc, academicYear: e.target.value })}
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-bold"
+                />
               </div>
 
               <div>

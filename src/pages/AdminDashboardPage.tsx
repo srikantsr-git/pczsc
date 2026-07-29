@@ -169,6 +169,7 @@ export const AdminDashboardPage: React.FC = () => {
   const [showAddDocAdmin, setShowAddDocAdmin] = useState(false);
   const [addDocTitle, setAddDocTitle] = useState('');
   const [addDocCategory, setAddDocCategory] = useState<any>('Circulars');
+  const [addDocAcademicYear, setAddDocAcademicYear] = useState('2026-27');
   const [addDocDate, setAddDocDate] = useState(new Date().toISOString().split('T')[0]);
   const [addDocUrl, setAddDocUrl] = useState('');
 
@@ -1352,7 +1353,8 @@ export const AdminDashboardPage: React.FC = () => {
                             addDocument({
                               title: addDocTitle,
                               category: addDocCategory,
-                              date: addDocDate,
+                              academicYear: addDocAcademicYear || '2026-27',
+                              date: addDocDate ? `${addDocDate} (${addDocAcademicYear || '2026-27'})` : (addDocAcademicYear || '2026-27'),
                               viewUrl: addDocUrl || '#',
                               downloadUrl: addDocUrl || '#'
                             });
@@ -1390,6 +1392,17 @@ export const AdminDashboardPage: React.FC = () => {
                               <option value="Draws">Draws</option>
                               <option value="Results">Results</option>
                             </select>
+                          </div>
+
+                          <div>
+                            <label className="block text-slate-300 mb-1 uppercase">Academic Year (used for Yearwise Filtering & Sorting)</label>
+                            <input
+                              type="text"
+                              value={addDocAcademicYear}
+                              onChange={(e) => setAddDocAcademicYear(e.target.value)}
+                              className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white font-bold"
+                              placeholder="e.g. 2026-27"
+                            />
                           </div>
 
                           <div>
@@ -1473,6 +1486,17 @@ export const AdminDashboardPage: React.FC = () => {
                               <option value="Draws">Draws</option>
                               <option value="Results">Results</option>
                             </select>
+                          </div>
+
+                          <div>
+                            <label className="block text-slate-300 mb-1 uppercase">Academic Year (used for Yearwise Filtering & Sorting)</label>
+                            <input
+                              type="text"
+                              placeholder="e.g. 2026-27"
+                              value={editingDocAdmin.academicYear || '2026-27'}
+                              onChange={(e) => setEditingDocAdmin({ ...editingDocAdmin, academicYear: e.target.value })}
+                              className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white font-bold"
+                            />
                           </div>
 
                           <div>
