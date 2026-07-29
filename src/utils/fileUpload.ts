@@ -27,6 +27,72 @@ export const isVideoUrl = (url?: string): boolean => {
   );
 };
 
+export const compressImageFile = (
+  file: File,
+  maxWidth = 1920,
+  maxHeight = 1080,
+  quality = 0.75
+): Promise<File> => {
+  if (!file.type.startsWith('image/') || file.type.includes('svg')) {
+    return Promise.resolve(file);
+  }
+
+  return new Promise((resolve) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      img.src = e.target?.result as string;
+    };
+
+    img.onload = () => {
+      let width = img.width;
+      let height = img.height;
+
+      if (width > maxWidth || height > maxHeight) {
+        if (width / height > maxWidth / maxHeight) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        } else {
+          width = Math.round((width * maxHeight) / height);
+          height = maxHeight;
+        }
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        resolve(file);
+        return;
+      }
+
+      ctx.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            resolve(file);
+            return;
+          }
+          const compressedFile = new File([blob], file.name, {
+            type: 'image/jpeg',
+            lastModified: Date.now()
+          });
+          resolve(compressedFile);
+        },
+        'image/jpeg',
+        quality
+      );
+    };
+
+    img.onerror = () => resolve(file);
+    reader.readAsDataURL(file);
+  });
+};
+
 export const readUploadedFile = async (
   file: File,
   sectionName: string
@@ -34,15 +100,19 @@ export const readUploadedFile = async (
   const sanitizedFolder = sectionName.toLowerCase().replace(/[^a-z0-9]/g, '');
   const isVideo = file.type.startsWith('video/') || isVideoUrl(file.name);
 
+  // Compress image to web format (1920x1080 JPEG ~150KB) before uploading
+  const fileToUpload = isVideo ? file : await compressImageFile(file);
+
   // Upload file (PDF, MP4 video, PNG, JPEG) to Vercel Blob CDN
-  const cdnUrl = await uploadToVercelBlob(file, sanitizedFolder);
+  const cdnUrl = await uploadToVercelBlob(fileToUpload, sanitizedFolder);
   const mediaKey = `media_${sanitizedFolder}_${Date.now()}`;
   const virtualPath = cdnUrl.startsWith('http')
     ? cdnUrl
     : `uploads/${sanitizedFolder}/${file.name}`;
 
-  // Also cache in local IndexedDB for instant offline preview
-  await saveMediaToIDB(mediaKey, cdnUrl);
+  if (!cdnUrl.startsWith('http') && cdnUrl.length > 0) {
+    await saveMediaToIDB(mediaKey, cdnUrl);
+  }
 
   return {
     virtualPath,
