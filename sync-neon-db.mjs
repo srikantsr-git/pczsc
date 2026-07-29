@@ -72,6 +72,26 @@ async function runSync() {
 
   console.log('Database tables verified.');
 
+  // Sync userSiteState.json keys if available
+  try {
+    const rawState = fs.readFileSync('./src/data/userSiteState.json', 'utf-8');
+    const userState = JSON.parse(rawState);
+    if (userState && typeof userState === 'object') {
+      for (const [key, value] of Object.entries(userState)) {
+        if (value) {
+          await sql`
+            INSERT INTO site_settings (key, value, updated_at)
+            VALUES (${key}, ${JSON.stringify(value)}::jsonb, NOW())
+            ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW();
+          `;
+          console.log(`Synced user site setting key: [${key}]`);
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('userSiteState sync warning:', e.message);
+  }
+
   // 2. Active Theme Config
   const activeTheme = {
     id: 'default-light',
