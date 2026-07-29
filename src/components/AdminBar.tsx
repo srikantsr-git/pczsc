@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCMS } from '../context/CMSContext';
+import { useToast } from '../context/ToastContext';
+import { saveSiteSettingToDB } from '../utils/neonDB';
 import {
   ShieldCheck,
   Edit3,
@@ -24,6 +26,7 @@ import { ChangePasswordModal } from './admin/ChangePasswordModal';
 
 export const AdminBar: React.FC = () => {
   const { isAdmin, isEditMode, toggleEditMode, logout, contactInquiries } = useCMS();
+  const { showToast } = useToast();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showChangePassModal, setShowChangePassModal] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
@@ -79,19 +82,20 @@ export const AdminBar: React.FC = () => {
         });
       } catch (_e) {}
 
-      // 2. Trigger browser download of pczsc-site-backup.json
-      const jsonStr = JSON.stringify(data, null, 2);
-      const blob = new Blob([jsonStr], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `pczsc-site-backup-${Date.now()}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
+      // 2. Direct Sync into Neon DB
+      for (const [key, val] of Object.entries(data)) {
+        if (val) {
+          await saveSiteSettingToDB(key, val);
+        }
+      }
 
-      alert('✅ All your local edits have been exported to pczsc-site-backup.json and synced to the local codebase!');
+      showToast(
+        'Synced to Cloud Database & Vercel!',
+        'All your custom themes, uploaded photos, and edits are live in Neon DB & Vercel.',
+        'success'
+      );
     } catch (err: any) {
-      alert('Sync error: ' + (err?.message || 'Failed'));
+      showToast('Sync Error', err?.message || 'Failed to sync with cloud database.', 'error');
     } finally {
       setIsSyncing(false);
     }

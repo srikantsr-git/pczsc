@@ -97,11 +97,10 @@ export async function fetchGalleryFromDB(): Promise<GalleryItem[]> {
 
 export async function saveGalleryItemToDB(item: GalleryItem): Promise<boolean> {
   try {
-    const lightweightItem = await extractAndStoreImages(item, `gal_${item.id}`);
     const sql = getSql();
     await sql`
       INSERT INTO gallery (id, title, category, image_url, description, date)
-      VALUES (${lightweightItem.id}, ${lightweightItem.title}, ${lightweightItem.category}, ${lightweightItem.imageUrl}, ${lightweightItem.description}, ${lightweightItem.date})
+      VALUES (${item.id}, ${item.title}, ${item.category}, ${item.imageUrl}, ${item.description}, ${item.date})
       ON CONFLICT (id) DO UPDATE SET
         title = EXCLUDED.title,
         category = EXCLUDED.category,
@@ -153,11 +152,10 @@ export async function saveHeroSlideToDB(
   orderIndex: number = 0
 ): Promise<boolean> {
   try {
-    const lightweightSlide = await extractAndStoreImages(slide, `hero_${slide.id}`);
     const sql = getSql();
     await sql`
       INSERT INTO hero_slides (id, slide_order, eyebrow, title, subtitle, media_url, cta_text, cta_link)
-      VALUES (${lightweightSlide.id}, ${orderIndex}, ${lightweightSlide.eyebrow || ''}, ${lightweightSlide.title || ''}, ${lightweightSlide.subtitle || ''}, ${lightweightSlide.image || ''}, ${lightweightSlide.ctaText || ''}, ${lightweightSlide.ctaLink || ''})
+      VALUES (${slide.id}, ${orderIndex}, ${slide.eyebrow || ''}, ${slide.title || ''}, ${slide.subtitle || ''}, ${slide.image || ''}, ${slide.ctaText || ''}, ${slide.ctaLink || ''})
       ON CONFLICT (id) DO UPDATE SET
         slide_order = EXCLUDED.slide_order,
         eyebrow = EXCLUDED.eyebrow,
@@ -207,11 +205,10 @@ export async function fetchPEDirectorsFromDB(): Promise<PhysicalEducationDirecto
 
 export async function savePEDirectorToDB(director: PhysicalEducationDirector): Promise<boolean> {
   try {
-    const lightweightDir = await extractAndStoreImages(director, `pe_${director.id}`);
     const sql = getSql();
     await sql`
       INSERT INTO physical_education_directors (id, name, photo, mobile, email, college_address)
-      VALUES (${lightweightDir.id}, ${lightweightDir.name}, ${lightweightDir.photo}, ${lightweightDir.mobile}, ${lightweightDir.email}, ${lightweightDir.collegeAddress})
+      VALUES (${director.id}, ${director.name}, ${director.photo}, ${director.mobile}, ${director.email}, ${director.collegeAddress})
       ON CONFLICT (id) DO UPDATE SET
         name = EXCLUDED.name,
         photo = EXCLUDED.photo,
@@ -294,9 +291,8 @@ export async function fetchSiteSettingFromDB<T>(key: string, defaultValue: T): P
 
 export async function saveSiteSettingToDB(key: string, value: any): Promise<boolean> {
   try {
-    const lightweightValue = await extractAndStoreImages(value, key);
     const sql = getSql();
-    const jsonStr = JSON.stringify(lightweightValue);
+    const jsonStr = JSON.stringify(value);
     await sql`
       INSERT INTO site_settings (key, value, updated_at)
       VALUES (${key}, ${jsonStr}::jsonb, NOW())
