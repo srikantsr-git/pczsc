@@ -3,7 +3,7 @@ import { SubPageHero } from '../components/SubPageHero';
 import { useCMS, GalleryItem } from '../context/CMSContext';
 import { FileUploadInput } from '../components/FileUploadInput';
 import { MediaRenderer } from '../components/MediaRenderer';
-import { Plus, Trash2, X, Maximize2, Play, FolderPlus, Tag } from 'lucide-react';
+import { Plus, Trash2, X, Maximize2, Play, FolderPlus, Tag, Loader2, Images } from 'lucide-react';
 import { isVideoUrl } from '../utils/fileUpload';
 import { SEOHead } from '../components/SEOHead';
 
@@ -12,6 +12,7 @@ import { PaginationControls } from '../components/PaginationControls';
 export const GalleryPage: React.FC = () => {
   const {
     galleryItems,
+    galleryLoading,
     galleryCategories,
     addGalleryCategory,
     deleteGalleryCategory,
@@ -157,73 +158,92 @@ export const GalleryPage: React.FC = () => {
           </div>
 
           {/* Photo & Video Gallery Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {paginatedItems.map((item) => {
-              const isVid = isVideoUrl(item.imageUrl);
-              return (
-                <div
-                  key={item.id}
-                  className="group rounded-3xl bg-white border border-slate-200/90 overflow-hidden flex flex-col justify-between shadow-md hover:shadow-2xl hover:border-santic-red/40 transition-all duration-300 relative"
-                >
-                  <div>
-                    <div className="relative h-64 overflow-hidden bg-slate-950">
-                      <MediaRenderer
-                        src={item.imageUrl}
-                        alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        controls={false}
-                        autoPlay={true}
-                        loop={true}
-                        muted={true}
-                      />
+          {galleryLoading ? (
+            /* Loading state while fetching from Neon DB server */
+            <div className="flex flex-col items-center justify-center py-24 text-slate-400">
+              <Loader2 className="w-10 h-10 animate-spin text-santic-red mb-4" />
+              <p className="text-sm font-bold text-slate-500">Loading gallery from server...</p>
+            </div>
+          ) : paginatedItems.length === 0 ? (
+            /* Empty state */
+            <div className="flex flex-col items-center justify-center py-24 text-slate-300">
+              <Images className="w-14 h-14 mb-4 text-slate-200" />
+              <p className="text-base font-bold text-slate-500">
+                {selectedCategory === 'All' ? 'No photos or videos uploaded yet.' : `No media in "${selectedCategory}" category.`}
+              </p>
+              {isEditMode && (
+                <p className="text-xs text-slate-400 mt-2">Click "Upload Media to Gallery" above to add photos.</p>
+              )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {paginatedItems.map((item) => {
+                const isVid = isVideoUrl(item.imageUrl);
+                return (
+                  <div
+                    key={item.id}
+                    className="group rounded-3xl bg-white border border-slate-200/90 overflow-hidden flex flex-col justify-between shadow-md hover:shadow-2xl hover:border-santic-red/40 transition-all duration-300 relative"
+                  >
+                    <div>
+                      <div className="relative h-64 overflow-hidden bg-slate-950">
+                        <MediaRenderer
+                          src={item.imageUrl}
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          controls={false}
+                          autoPlay={true}
+                          loop={true}
+                          muted={true}
+                        />
 
-                      <div className="absolute top-4 left-4 flex items-center gap-2">
-                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-white bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
-                          {item.category}
-                        </span>
-                        {isVid && (
-                          <span className="text-[10px] font-extrabold uppercase text-santic-red bg-santic-red/20 border border-santic-red px-2 py-0.5 rounded-full flex items-center gap-1">
-                            <Play className="w-3 h-3 fill-current" />
-                            <span>VIDEO</span>
+                        <div className="absolute top-4 left-4 flex items-center gap-2">
+                          <span className="text-[10px] font-extrabold uppercase tracking-widest text-white bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
+                            {item.category}
                           </span>
-                        )}
+                          {isVid && (
+                            <span className="text-[10px] font-extrabold uppercase text-santic-red bg-santic-red/20 border border-santic-red px-2 py-0.5 rounded-full flex items-center gap-1">
+                              <Play className="w-3 h-3 fill-current" />
+                              <span>VIDEO</span>
+                            </span>
+                          )}
+                        </div>
+
+                        <button
+                          onClick={() => setActiveLightbox(item)}
+                          className="absolute bottom-4 right-4 p-2.5 rounded-full bg-white/90 text-slate-900 hover:bg-santic-red hover:text-white shadow-lg transition-colors"
+                          title="View Full Size"
+                        >
+                          <Maximize2 className="w-4 h-4" />
+                        </button>
                       </div>
 
-                      <button
-                        onClick={() => setActiveLightbox(item)}
-                        className="absolute bottom-4 right-4 p-2.5 rounded-full bg-white/90 text-slate-900 hover:bg-santic-red hover:text-white shadow-lg transition-colors"
-                        title="View Full Size"
-                      >
-                        <Maximize2 className="w-4 h-4" />
-                      </button>
+                      <div className="p-6 space-y-3">
+                        <h3 className="text-base font-extrabold text-slate-900 group-hover:text-santic-red transition-colors leading-snug">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                          {item.description}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="p-6 space-y-3">
-                      <h3 className="text-base font-extrabold text-slate-900 group-hover:text-santic-red transition-colors leading-snug">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                        {item.description}
-                      </p>
-                    </div>
+                    {/* Admin-Only Delete Action */}
+                    {isEditMode && (
+                      <div className="px-6 pb-6 pt-0 flex justify-end border-t border-slate-100">
+                        <button
+                          onClick={() => deleteGalleryItem(item.id)}
+                          className="inline-flex items-center gap-1 text-xs text-red-600 hover:text-red-700 font-bold"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Delete Media</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
-
-                  {/* Admin-Only Delete Action */}
-                  {isEditMode && (
-                    <div className="px-6 pb-6 pt-0 flex justify-end border-t border-slate-100">
-                      <button
-                        onClick={() => deleteGalleryItem(item.id)}
-                        className="inline-flex items-center gap-1 text-xs text-red-600 hover:text-red-700 font-bold"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        <span>Delete Media</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
 
           {/* Pagination Controls */}
           <PaginationControls
@@ -349,7 +369,7 @@ export const GalleryPage: React.FC = () => {
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-8 border border-slate-200 shadow-2xl space-y-4 text-slate-900 my-auto scrollbar-thin">
             <div className="flex items-center justify-between border-b pb-3">
-              <h3 className="text-lg font-extrabold text-slate-900">Upload Media to Gallery (uploads/gallery/)</h3>
+              <h3 className="text-lg font-extrabold text-slate-900">Upload Media to Gallery</h3>
               <button
                 type="button"
                 onClick={() => setShowAddModal(false)}

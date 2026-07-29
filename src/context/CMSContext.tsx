@@ -288,6 +288,7 @@ interface CMSContextType {
   deleteDocument: (id: string) => void;
   toggleDocumentNewsMarquee: (id: string) => void;
   // Gallery & Dynamic Categories
+  galleryLoading: boolean;
   galleryCategories: string[];
   addGalleryCategory: (category: string) => void;
   deleteGalleryCategory: (category: string) => void;
@@ -685,6 +686,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
+  // Admin auth: still loaded from localStorage on init (no image data, very small)
   const [adminAuth, setAdminAuth] = useState<AdminAuthCredentials>(() => {
     const saved = localStorage.getItem('pczsc_admin_auth');
     if (saved) {
@@ -696,158 +698,34 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return DEFAULT_ADMIN_AUTH;
   });
 
-  const [headerConfig, setHeaderConfig] = useState<HeaderConfig>(() => {
-    const saved = localStorage.getItem('pczsc_header_cfg');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed.navItems && Array.isArray(parsed.navItems)) {
-          parsed.navItems = parsed.navItems.map((item: any) => {
-            if (item.name === 'About Us') return { ...item, name: 'About' };
-            if (item.name === 'Documents & Circulars') return { ...item, name: 'Downloads' };
-            return item;
-          });
-        }
-        if (!parsed.logoIconUrl) {
-          parsed.logoIconUrl = '/pczsc-logo.png';
-        }
-        return parsed;
-      } catch (e) {}
-    }
-    return getUserStateFallback('pczsc_header_cfg', defaultHeaderConfig);
-  });
+  // All other state uses defaults — hydrateStores() loads from Neon DB on mount
+  // Do NOT read from localStorage for image-bearing sections (images vanish on PC restart)
+  const [headerConfig, setHeaderConfig] = useState<HeaderConfig>(defaultHeaderConfig);
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(defaultHeroSlides);
+  const [homeAboutConfig, setHomeAboutConfig] = useState<HomeAboutConfig>(defaultHomeAboutConfig);
+  const [pillarsConfig, setPillarsConfig] = useState<PillarsSectionConfig>(defaultPillarsConfig);
+  const [subPagesHeroStore, setSubPagesHeroStore] = useState<SubPagesHeroStore>(defaultSubPagesHeroStore);
+  const [newsMarquee, setNewsMarquee] = useState<NewsMarqueeItem[]>(defaultNewsMarquee);
+  const [marqueeSpeed, setMarqueeSpeed] = useState<number>(18);
+  const [metrics, setMetrics] = useState<MetricItem[]>(defaultMetrics);
+  const [visionMission, setVisionMission] = useState<VisionMissionConfig>(defaultVisionMission);
+  const [aboutUsConfig, setAboutUsConfig] = useState<AboutUsConfig>(defaultAboutUsConfig);
+  const [footerConfig, setFooterConfig] = useState<FooterConfig>(defaultFooterConfig);
+  const [contactInfo, setContactInfo] = useState<ContactInfo>(defaultContactInfo);
+  const [contactInquiries, setContactInquiries] = useState<ContactInquiry[]>(initialInquiries);
 
-  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(() => {
-    const saved = localStorage.getItem('pczsc_hero_slides');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_hero_slides', defaultHeroSlides);
-  });
+  const [documents, setDocuments] = useState<DocumentItem[]>(allSportsCalendarDocuments);
 
-  const [homeAboutConfig, setHomeAboutConfig] = useState<HomeAboutConfig>(() => {
-    const saved = localStorage.getItem('pczsc_home_about');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_home_about', defaultHomeAboutConfig);
-  });
+  // Gallery state: always load from Neon DB server — never from localStorage
+  // Initialized to empty arrays; populated by hydrateStores() on mount
+  const [galleryLoading, setGalleryLoading] = useState<boolean>(true);
+  const [galleryCategories, setGalleryCategories] = useState<string[]>(defaultGalleryCategories);
 
-  const [pillarsConfig, setPillarsConfig] = useState<PillarsSectionConfig>(() => {
-    const saved = localStorage.getItem('pczsc_pillars_cfg');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_pillars_cfg', defaultPillarsConfig);
-  });
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
 
-  const [subPagesHeroStore, setSubPagesHeroStore] = useState<SubPagesHeroStore>(() => {
-    const saved = localStorage.getItem('pczsc_subpages_hero');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_subpages_hero', defaultSubPagesHeroStore);
-  });
-
-  const [newsMarquee, setNewsMarquee] = useState<NewsMarqueeItem[]>(() => {
-    const saved = localStorage.getItem('pczsc_news_marquee');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_news_marquee', defaultNewsMarquee);
-  });
-
-  const [marqueeSpeed, setMarqueeSpeed] = useState<number>(() => {
-    const saved = localStorage.getItem('pczsc_marquee_speed');
-    return saved ? Number(saved) : getUserStateFallback('pczsc_marquee_speed', 18);
-  });
-
-  const [metrics, setMetrics] = useState<MetricItem[]>(() => {
-    const saved = localStorage.getItem('pczsc_metrics');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_metrics', defaultMetrics);
-  });
-
-  const [visionMission, setVisionMission] = useState<VisionMissionConfig>(() => {
-    const saved = localStorage.getItem('pczsc_vision_mission');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_vision_mission', defaultVisionMission);
-  });
-
-  const [aboutUsConfig, setAboutUsConfig] = useState<AboutUsConfig>(() => {
-    const saved = localStorage.getItem('pczsc_about_cfg');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_about_cfg', defaultAboutUsConfig);
-  });
-
-  const [footerConfig, setFooterConfig] = useState<FooterConfig>(() => {
-    const saved = localStorage.getItem('pczsc_footer_cfg');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_footer_cfg', defaultFooterConfig);
-  });
-
-  const [contactInfo, setContactInfo] = useState<ContactInfo>(() => {
-    const saved = localStorage.getItem('pczsc_contact');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_contact', defaultContactInfo);
-  });
-
-  const [contactInquiries, setContactInquiries] = useState<ContactInquiry[]>(() => {
-    const saved = localStorage.getItem('pczsc_contact_inquiries');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_contact_inquiries', initialInquiries);
-  });
-
-  const [documents, setDocuments] = useState<DocumentItem[]>(() => {
-    const saved = localStorage.getItem('pczsc_docs');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        const hasRules = Array.isArray(parsed) && parsed.some((d: any) => d.category === 'Rules & Regulations' || d.category === 'Rules and Regulations');
-        if (Array.isArray(parsed) && parsed.length >= 41 && hasRules) {
-          return parsed;
-        }
-      } catch (e) {}
-    }
-    const fallbackDocs = getUserStateFallback('pczsc_docs', allSportsCalendarDocuments);
-    safeSaveStorage('pczsc_docs', fallbackDocs);
-    return fallbackDocs;
-  });
-
-  const [galleryCategories, setGalleryCategories] = useState<string[]>(() => {
-    const saved = localStorage.getItem('pczsc_gallery_categories');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_gallery_categories', defaultGalleryCategories);
-  });
-
-  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() => {
-    const saved = localStorage.getItem('pczsc_gallery');
-    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_gallery', initialGallery);
-  });
-
-  const [committeeMembers, setCommitteeMembers] = useState<CommitteeMember[]>(() => {
-    const saved = localStorage.getItem('pczsc_committee_members');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const updated = parsed.map((m: any) => {
-            const match = initialCommitteeMembers.find((icm) => icm.id === m.id);
-            if (match && (!m.photo || m.photo === defaultBlankAvatar)) {
-              return { ...m, photo: match.photo };
-            }
-            return m;
-          });
-          safeSaveStorage('pczsc_committee_members', updated);
-          return updated;
-        }
-      } catch (e) {}
-    }
-    const fallbackCom = getUserStateFallback('pczsc_committee_members', initialCommitteeMembers);
-    safeSaveStorage('pczsc_committee_members', fallbackCom);
-    return fallbackCom;
-  });
-
-  const [peDirectors, setPEDirectors] = useState<PhysicalEducationDirector[]>(() => {
-    const saved = localStorage.getItem('pczsc_pe_directors');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const updated = parsed.map((d: any) => {
-            const match = initialPEDirectorsList.find((ipd) => ipd.id === d.id);
-            if (match && match.photo !== defaultBlankAvatar && (!d.photo || d.photo === defaultBlankAvatar)) {
-              return { ...d, photo: match.photo };
-            }
-            return d;
-          });
-          safeSaveStorage('pczsc_pe_directors', updated);
-          return updated;
-        }
-      } catch (e) {}
-    }
-    const fallbackDir = getUserStateFallback('pczsc_pe_directors', initialPEDirectorsList);
-    safeSaveStorage('pczsc_pe_directors', fallbackDir);
-    return fallbackDir;
-  });
+  // Committee & Directors: use defaults; hydrateStores() loads real data from Neon DB
+  const [committeeMembers, setCommitteeMembers] = useState<CommitteeMember[]>(initialCommitteeMembers);
+  const [peDirectors, setPEDirectors] = useState<PhysicalEducationDirector[]>(initialPEDirectorsList);
 
   const [homeSections, setHomeSections] = useState<SectionContent[]>([]);
   const [aboutSections, setAboutSections] = useState<SectionContent[]>([]);
@@ -872,23 +750,17 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           }
         }
 
-        // --- Gallery: fetch from Neon DB + LocalStorage, merge by ID, hydrate IDB refs ---
+        // --- Gallery: load ONLY from Neon DB (server is single source of truth) ---
+        // No localStorage or IndexedDB merge — uploaded photos use /api/media permanent URLs
         const dbGal = await fetchGalleryFromDB();
-        let lsGal: GalleryItem[] = [];
-        const savedLsGal = localStorage.getItem('pczsc_gallery');
-        if (savedLsGal) {
-          try {
-            const parsed = JSON.parse(savedLsGal);
-            if (Array.isArray(parsed)) lsGal = parsed;
-          } catch (_e) {}
+        setGalleryItems(Array.isArray(dbGal) ? dbGal : []);
+        setGalleryLoading(false);
+
+        // --- Gallery Categories: load from Neon DB site_settings ---
+        const dbGalCats = await fetchSiteSettingFromDB<string[] | null>('pczsc_gallery_categories', null);
+        if (dbGalCats && Array.isArray(dbGalCats) && dbGalCats.length > 0) {
+          setGalleryCategories(dbGalCats);
         }
-        const galMap = new Map<string, GalleryItem>();
-        lsGal.forEach((item) => galMap.set(item.id, item));
-        (dbGal || []).forEach((item) => galMap.set(item.id, item));
-        const mergedGal = Array.from(galMap.values());
-        const hydratedGal = await hydrateImagesFromIDB(mergedGal.length > 0 ? mergedGal : initialGallery);
-        setGalleryItems(hydratedGal);
-        safeSaveStorage('pczsc_gallery', hydratedGal);
 
         // --- Contact Inquiries ---
         const dbInq = await fetchContactInquiriesFromDB();
@@ -1041,6 +913,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setHeaderConfig(hydratedHdr || targetHeader);
       } catch (e) {
         console.warn("Storage hydration warning:", e);
+        setGalleryLoading(false);
       }
     }
     hydrateStores();
@@ -1086,27 +959,28 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateHeaderConfig = (config: HeaderConfig) => {
     setHeaderConfig(config);
-    safeSaveStorage('pczsc_header_cfg', config);
+    // Save to Neon DB only — never to localStorage (logo image must persist across PC restarts)
     saveSiteSettingToDB('pczsc_header_cfg', config);
   };
 
   const updateHeroSlides = (slides: HeroSlide[]) => {
     setHeroSlides(slides);
+    // Save each slide to hero_slides table AND to site_settings for backup
     slides.forEach((slide, idx) => {
       saveHeroSlideToDB(slide, idx);
     });
-    safeSaveStorage('pczsc_hero_slides', slides);
+    saveSiteSettingToDB('pczsc_hero_slides_backup', slides);
   };
 
   const updateHomeAboutConfig = (cfg: HomeAboutConfig) => {
     setHomeAboutConfig(cfg);
-    safeSaveStorage('pczsc_home_about', cfg);
+    // Save to Neon DB only — never to localStorage (images must persist)
     saveSiteSettingToDB('pczsc_home_about', cfg);
   };
 
   const updatePillarsConfig = (cfg: PillarsSectionConfig) => {
     setPillarsConfig(cfg);
-    safeSaveStorage('pczsc_pillars_cfg', cfg);
+    // Save to Neon DB only
     saveSiteSettingToDB('pczsc_pillars_cfg', cfg);
   };
 
@@ -1116,7 +990,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   ) => {
     const updated = { ...subPagesHeroStore, [pageKey]: config };
     setSubPagesHeroStore(updated);
-    safeSaveStorage('pczsc_subpages_hero', updated);
+    // Save to Neon DB only
     saveSiteSettingToDB('pczsc_subpages_hero', updated);
   };
 
@@ -1135,11 +1009,6 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateNewsMarquee = (items: NewsMarqueeItem[]) => {
     setNewsMarquee(items);
-    try {
-      localStorage.setItem('pczsc_news_marquee', JSON.stringify(items));
-    } catch (e) {
-      console.warn("Storage warning:", e);
-    }
     saveSiteSettingToDB('pczsc_news_marquee', items);
   };
 
@@ -1156,45 +1025,32 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateMarqueeSpeed = (speed: number) => {
     setMarqueeSpeed(speed);
-    try {
-      localStorage.setItem('pczsc_marquee_speed', String(speed));
-    } catch (e) {
-      console.warn("Storage warning:", e);
-    }
     saveSiteSettingToDB('pczsc_marquee_speed', speed);
   };
 
   const updateMetrics = (m: MetricItem[]) => {
     setMetrics(m);
-    try {
-      localStorage.setItem('pczsc_metrics', JSON.stringify(m));
-    } catch (e) {
-      console.warn("Storage warning:", e);
-    }
     saveSiteSettingToDB('pczsc_metrics', m);
   };
 
   const updateVisionMission = (vm: VisionMissionConfig) => {
     setVisionMission(vm);
-    safeSaveStorage('pczsc_vision_mission', vm);
     saveSiteSettingToDB('pczsc_vision_mission', vm);
   };
 
   const updateAboutUsConfig = (cfg: AboutUsConfig) => {
     setAboutUsConfig(cfg);
-    safeSaveStorage('pczsc_about_cfg', cfg);
+    // Save to Neon DB only — president photo and history images must persist
     saveSiteSettingToDB('pczsc_about_cfg', cfg);
   };
 
   const updateFooterConfig = (config: FooterConfig) => {
     setFooterConfig(config);
-    safeSaveStorage('pczsc_footer_cfg', config);
     saveSiteSettingToDB('pczsc_footer_cfg', config);
   };
 
   const updateContactInfo = (info: ContactInfo) => {
     setContactInfo(info);
-    safeSaveStorage('pczsc_contact', info);
     saveSiteSettingToDB('pczsc_contact', info);
   };
 
@@ -1256,11 +1112,6 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const updated = [newDoc, ...documents];
     setDocuments(updated);
     saveDocumentToDB(newDoc);
-    try {
-      localStorage.setItem('pczsc_docs', JSON.stringify(updated));
-    } catch (e) {
-      console.warn("Storage warning:", e);
-    }
   };
 
   const editDocument = (id: string, updatedFields: Partial<DocumentItem>) => {
@@ -1273,22 +1124,12 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return d;
     });
     setDocuments(newDocs);
-    try {
-      localStorage.setItem('pczsc_docs', JSON.stringify(newDocs));
-    } catch (e) {
-      console.warn("Storage warning:", e);
-    }
   };
 
   const deleteDocument = (id: string) => {
     const newDocs = documents.filter((d) => d.id !== id);
     setDocuments(newDocs);
     deleteDocumentFromDB(id);
-    try {
-      localStorage.setItem('pczsc_docs', JSON.stringify(newDocs));
-    } catch (e) {
-      console.warn("Storage warning:", e);
-    }
   };
 
   const toggleDocumentNewsMarquee = (id: string) => {
@@ -1336,22 +1177,16 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (trimmed && !galleryCategories.includes(trimmed)) {
       const updated = [...galleryCategories, trimmed];
       setGalleryCategories(updated);
-      try {
-        localStorage.setItem('pczsc_gallery_categories', JSON.stringify(updated));
-      } catch (e) {
-        console.warn("Storage warning:", e);
-      }
+      // Persist to Neon DB — server is single source of truth
+      saveSiteSettingToDB('pczsc_gallery_categories', updated);
     }
   };
 
   const deleteGalleryCategory = (category: string) => {
     const updated = galleryCategories.filter((c) => c !== category);
     setGalleryCategories(updated);
-    try {
-      localStorage.setItem('pczsc_gallery_categories', JSON.stringify(updated));
-    } catch (e) {
-      console.warn("Storage warning:", e);
-    }
+    // Persist to Neon DB — server is single source of truth
+    saveSiteSettingToDB('pczsc_gallery_categories', updated);
   };
 
   const addGalleryItem = (item: Omit<GalleryItem, 'id'>) => {
@@ -1361,15 +1196,15 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     const updated = [newItem, ...galleryItems];
     setGalleryItems(updated);
-    safeSaveStorage('pczsc_gallery', updated);
+    // Save to Neon DB only — no localStorage dependency
     saveGalleryItemToDB(newItem);
   };
 
   const deleteGalleryItem = (id: string) => {
     const updated = galleryItems.filter((g) => g.id !== id);
     setGalleryItems(updated);
+    // Delete from Neon DB only — no localStorage dependency
     deleteGalleryItemFromDB(id);
-    safeSaveStorage('pczsc_gallery', updated);
   };
 
   const updateSection = (page: 'home' | 'about', section: SectionContent) => {
@@ -1405,7 +1240,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     const updated = [...committeeMembers, newMember];
     setCommitteeMembers(updated);
-    safeSaveStorage('pczsc_committee_members', updated);
+    // Save to Neon DB only — member photos must persist across PC restarts
     saveSiteSettingToDB('pczsc_committee_members', updated);
   };
 
@@ -1414,20 +1249,18 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       m.id === id ? { ...m, ...member } : m
     );
     setCommitteeMembers(updated);
-    safeSaveStorage('pczsc_committee_members', updated);
+    // Save to Neon DB only
     saveSiteSettingToDB('pczsc_committee_members', updated);
   };
 
   const deleteCommitteeMember = (id: string) => {
     const updated = committeeMembers.filter((m) => m.id !== id);
     setCommitteeMembers(updated);
-    safeSaveStorage('pczsc_committee_members', updated);
     saveSiteSettingToDB('pczsc_committee_members', updated);
   };
 
   const resetCommitteeMembers = () => {
     setCommitteeMembers(initialCommitteeMembers);
-    safeSaveStorage('pczsc_committee_members', initialCommitteeMembers);
     saveSiteSettingToDB('pczsc_committee_members', initialCommitteeMembers);
   };
 
@@ -1438,7 +1271,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     const updated = [...peDirectors, newDir];
     setPEDirectors(updated);
-    safeSaveStorage('pczsc_pe_directors', updated);
+    // Save to Neon DB only — director photos must persist across PC restarts
     savePEDirectorToDB(newDir);
   };
 
@@ -1452,7 +1285,6 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return d;
     });
     setPEDirectors(updated);
-    safeSaveStorage('pczsc_pe_directors', updated);
   };
 
   const [seoStore, setSeoStore] = useState<SEOStore>(() => {
@@ -1486,7 +1318,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const updated = peDirectors.filter((d) => d.id !== id);
     setPEDirectors(updated);
     deletePEDirectorFromDB(id);
-    safeSaveStorage('pczsc_pe_directors', updated);
+    // No localStorage — DB is source of truth
   };
 
   return (
@@ -1536,6 +1368,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         editDocument,
         deleteDocument,
         toggleDocumentNewsMarquee,
+        galleryLoading,
         galleryCategories,
         addGalleryCategory,
         deleteGalleryCategory,

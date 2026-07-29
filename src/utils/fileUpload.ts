@@ -1,7 +1,7 @@
 /**
  * File Upload & Media Storage Helper Utilities for PCZSC CMS
- * Uploads media files (PNG, JPEG, PDF, MP4) directly to Cloud Storage (Vercel Blob / CDN)
- * and keeps local browser cache in IndexedDB.
+ * Uploads media files (PNG, JPEG, PDF, MP4) to Cloud Storage (Vercel Blob / Neon DB API).
+ * Images get permanent server-side URLs that survive browser clears and PC restarts.
  */
 
 import { saveMediaToIDB } from './mediaDB';
@@ -103,14 +103,18 @@ export const readUploadedFile = async (
   // Compress image to web format (1920x1080 JPEG ~150KB) before uploading
   const fileToUpload = isVideo ? file : await compressImageFile(file);
 
-  // Upload file (PDF, MP4 video, PNG, JPEG) to Vercel Blob CDN
+  // Upload file to Vercel Blob CDN or Neon DB media storage (permanent server URL)
   const cdnUrl = await uploadToVercelBlob(fileToUpload, sanitizedFolder);
-  const mediaKey = `media_${sanitizedFolder}_${Date.now()}`;
-  const virtualPath = cdnUrl.startsWith('http')
+
+  // Determine virtual path for display
+  const isServerUrl = cdnUrl.startsWith('http') || cdnUrl.startsWith('/api/media');
+  const virtualPath = isServerUrl
     ? cdnUrl
     : `uploads/${sanitizedFolder}/${file.name}`;
 
-  if (!cdnUrl.startsWith('http') && cdnUrl.length > 0) {
+  // Only cache in IDB if it's a data URL (Vercel Blob/Neon gives real server URLs, no IDB needed)
+  if (cdnUrl.startsWith('data:') && cdnUrl.length > 0) {
+    const mediaKey = `media_${sanitizedFolder}_${Date.now()}`;
     await saveMediaToIDB(mediaKey, cdnUrl);
   }
 

@@ -328,7 +328,7 @@ export const HomePage: React.FC = () => {
                 </div>
 
                 {/* Vertical Scrolling Marquee Window */}
-                <div className="relative h-64 overflow-hidden rounded-2xl bg-black/40 border border-white/10">
+                <div className="relative h-96 overflow-hidden rounded-2xl bg-black/40 border border-white/10">
                   {(() => {
                     const activeDocNews = documents
                       .filter((doc) => doc.showOnNewsMarquee)
