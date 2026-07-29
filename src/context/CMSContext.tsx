@@ -3,6 +3,8 @@ import { safeSaveStorage, hydrateImagesFromIDB } from '../utils/persistentStorag
 import { saveMediaToIDB } from '../utils/mediaDB';
 import { initialPEDirectorsList, defaultBlankAvatar } from '../data/defaultPEDirectors';
 import { allSportsCalendarDocuments } from '../data/allSportsCalendarDocuments';
+import { SEOStore, PageSEOConfig } from '../types/seo';
+import { DEFAULT_PAGE_SEO } from '../utils/sitemapGenerator';
 import {
   fetchDocumentsFromDB,
   saveDocumentToDB,
@@ -292,6 +294,10 @@ interface CMSContextType {
   addPEDirector: (director: Omit<PhysicalEducationDirector, 'id'>) => void;
   editPEDirector: (id: string, director: Partial<PhysicalEducationDirector>) => void;
   deletePEDirector: (id: string) => void;
+  // SEO & Meta Tags Configuration Store
+  seoStore: SEOStore;
+  updatePageSEO: (pageKey: string, config: PageSEOConfig) => void;
+  resetPageSEO: (pageKey: string) => void;
 }
 
 const defaultHeaderConfig: HeaderConfig = {
@@ -1330,6 +1336,32 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     safeSaveStorage('pczsc_pe_directors', updated);
   };
 
+  const [seoStore, setSeoStore] = useState<SEOStore>(() => {
+    const saved = localStorage.getItem('pczsc_seo_store');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object') {
+          return { ...DEFAULT_PAGE_SEO, ...parsed };
+        }
+      } catch (_e) {}
+    }
+    return DEFAULT_PAGE_SEO;
+  });
+
+  const updatePageSEO = (pageKey: string, config: PageSEOConfig) => {
+    const updated = { ...seoStore, [pageKey]: config };
+    setSeoStore(updated);
+    safeSaveStorage('pczsc_seo_store', updated);
+  };
+
+  const resetPageSEO = (pageKey: string) => {
+    const defaultCfg = DEFAULT_PAGE_SEO[pageKey];
+    if (defaultCfg) {
+      updatePageSEO(pageKey, defaultCfg);
+    }
+  };
+
   const deletePEDirector = (id: string) => {
     const updated = peDirectors.filter((d) => d.id !== id);
     setPEDirectors(updated);
@@ -1402,7 +1434,10 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         peDirectors,
         addPEDirector,
         editPEDirector,
-        deletePEDirector
+        deletePEDirector,
+        seoStore,
+        updatePageSEO,
+        resetPageSEO
       }}
     >
       {children}

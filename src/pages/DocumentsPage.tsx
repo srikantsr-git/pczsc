@@ -13,6 +13,7 @@ import {
   Edit,
   Sparkles
 } from 'lucide-react';
+import { SEOHead } from '../components/SEOHead';
 
 export const DocumentsPage: React.FC = () => {
   const {
@@ -94,6 +95,7 @@ export const DocumentsPage: React.FC = () => {
 
   return (
     <main className="min-h-screen bg-white text-slate-900 font-sans">
+      <SEOHead pageKey="documents" />
       <SubPageHero pageKey="documents" />
 
       <section className="santic-section bg-slate-50/70 border-b border-slate-200/80">

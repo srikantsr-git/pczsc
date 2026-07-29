@@ -5,6 +5,7 @@ import { FileUploadInput } from '../components/FileUploadInput';
 import { MediaRenderer } from '../components/MediaRenderer';
 import { Plus, Trash2, X, Maximize2, Play, FolderPlus, Tag } from 'lucide-react';
 import { isVideoUrl } from '../utils/fileUpload';
+import { SEOHead } from '../components/SEOHead';
 
 export const GalleryPage: React.FC = () => {
   const {
@@ -64,6 +65,7 @@ export const GalleryPage: React.FC = () => {
 
   return (
     <main className="min-h-screen bg-white text-slate-900 font-sans">
+      <SEOHead pageKey="gallery" />
       <SubPageHero pageKey="gallery" />
 
       <section className="santic-section bg-slate-50/70 border-b border-slate-200/80">

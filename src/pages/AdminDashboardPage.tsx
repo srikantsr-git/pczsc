@@ -34,11 +34,14 @@ import {
   Layout,
   Filter,
   Users,
+  Globe,
   X
 } from 'lucide-react';
 import { AdminLoginModal } from '../components/AdminLoginModal';
 import { AdminConfigModals } from '../components/AdminConfigModals';
 import { FileUploadInput } from '../components/FileUploadInput';
+import { SEOSettingsForm } from '../components/admin/SEOSettingsForm';
+import { generateXmlSitemap, generateRobotsTxt } from '../utils/sitemapGenerator';
 import { useToast } from '../context/ToastContext';
 import { sanitizeInput, containsSqlInjection } from '../utils/security';
 
@@ -94,8 +97,11 @@ export const AdminDashboardPage: React.FC = () => {
     );
   };
   const [activeNav, setActiveNav] = useState<
-    'overview' | 'theme' | 'inquiries' | 'documents' | 'gallery' | 'cms' | 'committee'
+    'overview' | 'theme' | 'inquiries' | 'documents' | 'gallery' | 'cms' | 'committee' | 'seo'
   >(initialTab);
+
+  const [selectedSEOPage, setSelectedSEOPage] = useState<string>('home');
+  const { seoStore } = useCMS();
 
   const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -318,6 +324,7 @@ export const AdminDashboardPage: React.FC = () => {
     },
     { id: 'documents', label: 'Documents & Circulars', icon: <FileText className="w-4 h-4" /> },
     { id: 'gallery', label: 'Photo & Video Gallery', icon: <ImageIcon className="w-4 h-4" /> },
+    { id: 'seo', label: 'SEO & Meta Tags', icon: <Globe className="w-4 h-4 text-sky-400" /> },
     { id: 'cms', label: 'Site CMS Settings', icon: <Settings className="w-4 h-4" /> }
   ];
 
@@ -1684,6 +1691,134 @@ export const AdminDashboardPage: React.FC = () => {
                       </div>
                     </div>
                   )}
+                </div>
+              )}
+
+              {/* ========================================================================= */}
+              {/* 8. SEO & META TAGS MANAGEMENT TAB */}
+              {/* ========================================================================= */}
+              {activeNav === 'seo' && (
+                <div className="space-y-8 animate-fade-in text-slate-900">
+                  {/* Page Selector Bar */}
+                  <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800 text-white space-y-4 shadow-xl">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div>
+                        <h3 className="text-lg font-extrabold text-white flex items-center gap-2">
+                          <Globe className="w-5 h-5 text-sky-400" />
+                          <span>Select Page to Manage SEO Settings</span>
+                        </h3>
+                        <p className="text-xs text-slate-400 mt-1">
+                          Choose a website page below to edit its basic meta tags, social sharing cards, indexing rules, and sitemap settings.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Page Selector Buttons */}
+                    <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800">
+                      {[
+                        { key: 'home', name: 'Home Page', path: '/en/home' },
+                        { key: 'about', name: 'About Us', path: '/en/about-us' },
+                        { key: 'documents', name: 'Documents & Circulars', path: '/en/documents' },
+                        { key: 'gallery', name: 'Photo & Video Gallery', path: '/en/gallery' },
+                        { key: 'contact', name: 'Contact Us', path: '/en/contact-us' }
+                      ].map((pg) => {
+                        const isSelected = selectedSEOPage === pg.key;
+                        return (
+                          <button
+                            key={pg.key}
+                            type="button"
+                            onClick={() => setSelectedSEOPage(pg.key)}
+                            className={`px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all border ${
+                              isSelected
+                                ? 'bg-santic-red text-white border-santic-red shadow-lg shadow-red-500/20 scale-105'
+                                : 'bg-slate-900 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
+                            }`}
+                          >
+                            <Globe className="w-3.5 h-3.5" />
+                            <span>{pg.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* SEO Settings Multi-tab Form Component */}
+                  <SEOSettingsForm pageKey={selectedSEOPage} />
+
+                  {/* XML Sitemap & Robots.txt Output & Exporter */}
+                  <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800 text-white space-y-6 shadow-xl">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                      <div>
+                        <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+                          <FileText className="w-4 h-4 text-santic-yellow" />
+                          <span>Generated XML Sitemap & Robots.txt Files</span>
+                        </h3>
+                        <p className="text-xs text-slate-400 mt-1">
+                          Files are generated automatically and placed on the website root (<code className="text-santic-yellow">/sitemap.xml</code> and <code className="text-santic-yellow">/robots.txt</code>).
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const xml = generateXmlSitemap(seoStore);
+                            navigator.clipboard.writeText(xml);
+                            showToast('Copied to Clipboard', 'XML Sitemap copied to clipboard.', 'info');
+                          }}
+                          className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold flex items-center gap-1.5 border border-slate-700 transition-colors"
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Copy Sitemap XML</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const xml = generateXmlSitemap(seoStore);
+                            const blob = new Blob([xml], { type: 'application/xml' });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'sitemap.xml';
+                            a.click();
+                            URL.revokeObjectURL(url);
+                            showToast('Downloaded', 'sitemap.xml downloaded successfully.', 'success');
+                          }}
+                          className="px-3.5 py-2 rounded-xl bg-santic-red hover:bg-santic-hoverRed text-white text-xs font-bold flex items-center gap-1.5 transition-colors"
+                        >
+                          <Download className="w-3.5 h-3.5" />
+                          <span>Download sitemap.xml</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Sitemap XML Live Code Block */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-extrabold text-slate-300 uppercase tracking-wider block">
+                        Live <code className="font-mono text-santic-yellow">sitemap.xml</code> Output:
+                      </label>
+                      <textarea
+                        rows={8}
+                        readOnly
+                        value={generateXmlSitemap(seoStore)}
+                        className="w-full p-4 rounded-2xl bg-slate-900 border border-slate-800 text-santic-yellow font-mono text-xs focus:outline-none"
+                      />
+                    </div>
+
+                    {/* Robots.txt Live Code Block */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-extrabold text-slate-300 uppercase tracking-wider block">
+                        Live <code className="font-mono text-santic-yellow">robots.txt</code> Output:
+                      </label>
+                      <textarea
+                        rows={5}
+                        readOnly
+                        value={generateRobotsTxt(seoStore)}
+                        className="w-full p-4 rounded-2xl bg-slate-900 border border-slate-800 text-santic-yellow font-mono text-xs focus:outline-none"
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
 

@@ -22,6 +22,7 @@ import { ImageWithTextBlock } from '../components/ImageWithTextBlock';
 import { AdminConfigModals } from '../components/AdminConfigModals';
 import { MediaRenderer } from '../components/MediaRenderer';
 import { FileUploadInput } from '../components/FileUploadInput';
+import { SEOHead } from '../components/SEOHead';
 
 export const HomePage: React.FC = () => {
   const {
@@ -181,6 +182,7 @@ export const HomePage: React.FC = () => {
 
   return (
     <main className="min-h-screen bg-white text-slate-900 font-sans">
+      <SEOHead pageKey="home" />
       {/* ========================================================================= */}
       {/* 1. HERO SLIDER & VERTICAL NEWS MARQUEE PANEL (FULL SCREEN HEIGHT FITTED) */}
       {/* ========================================================================= */}

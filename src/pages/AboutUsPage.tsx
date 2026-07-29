@@ -24,6 +24,7 @@ import {
 import { ImageWithTextBlock } from '../components/ImageWithTextBlock';
 import { AdminConfigModals } from '../components/AdminConfigModals';
 import { useToast } from '../context/ToastContext';
+import { SEOHead } from '../components/SEOHead';
 
 export const AboutUsPage: React.FC = () => {
   const { showToast } = useToast();
@@ -350,6 +351,7 @@ export const AboutUsPage: React.FC = () => {
 
   return (
     <main className="min-h-screen bg-white text-slate-900 font-sans">
+      <SEOHead pageKey="about" />
       <SubPageHero pageKey="about" />
 
       <section className="santic-section bg-white">

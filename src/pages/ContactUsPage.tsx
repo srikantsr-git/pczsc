@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SubPageHero } from '../components/SubPageHero';
 import { useCMS } from '../context/CMSContext';
 import { useToast } from '../context/ToastContext';
+import { SEOHead } from '../components/SEOHead';
 import { containsSqlInjection, sanitizeInput, isValidEmail, isValidPhone } from '../utils/security';
 import {
   MapPin,
@@ -127,6 +128,7 @@ export const ContactUsPage: React.FC = () => {
 
   return (
     <main className="min-h-screen bg-white text-slate-900 font-sans">
+      <SEOHead pageKey="contact" />
       <SubPageHero pageKey="contact" />
 
       <section className="santic-section bg-slate-50/70 border-b border-slate-200/80">
