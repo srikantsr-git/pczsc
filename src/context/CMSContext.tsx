@@ -5,6 +5,14 @@ import { initialPEDirectorsList, defaultBlankAvatar } from '../data/defaultPEDir
 import { allSportsCalendarDocuments } from '../data/allSportsCalendarDocuments';
 import { SEOStore, PageSEOConfig } from '../types/seo';
 import { DEFAULT_PAGE_SEO } from '../utils/sitemapGenerator';
+import userSiteState from '../data/userSiteState.json';
+
+function getUserStateFallback<T>(key: string, fallback: T): T {
+  if (userSiteState && typeof userSiteState === 'object' && (userSiteState as any)[key]) {
+    return (userSiteState as any)[key] as T;
+  }
+  return fallback;
+}
 import {
   fetchDocumentsFromDB,
   saveDocumentToDB,
@@ -706,67 +714,67 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return parsed;
       } catch (e) {}
     }
-    return defaultHeaderConfig;
+    return getUserStateFallback('pczsc_header_cfg', defaultHeaderConfig);
   });
 
   const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(() => {
     const saved = localStorage.getItem('pczsc_hero_slides');
-    return saved ? JSON.parse(saved) : defaultHeroSlides;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_hero_slides', defaultHeroSlides);
   });
 
   const [homeAboutConfig, setHomeAboutConfig] = useState<HomeAboutConfig>(() => {
     const saved = localStorage.getItem('pczsc_home_about');
-    return saved ? JSON.parse(saved) : defaultHomeAboutConfig;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_home_about', defaultHomeAboutConfig);
   });
 
   const [pillarsConfig, setPillarsConfig] = useState<PillarsSectionConfig>(() => {
     const saved = localStorage.getItem('pczsc_pillars_cfg');
-    return saved ? JSON.parse(saved) : defaultPillarsConfig;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_pillars_cfg', defaultPillarsConfig);
   });
 
   const [subPagesHeroStore, setSubPagesHeroStore] = useState<SubPagesHeroStore>(() => {
     const saved = localStorage.getItem('pczsc_subpages_hero');
-    return saved ? JSON.parse(saved) : defaultSubPagesHeroStore;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_subpages_hero', defaultSubPagesHeroStore);
   });
 
   const [newsMarquee, setNewsMarquee] = useState<NewsMarqueeItem[]>(() => {
     const saved = localStorage.getItem('pczsc_news_marquee');
-    return saved ? JSON.parse(saved) : defaultNewsMarquee;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_news_marquee', defaultNewsMarquee);
   });
 
   const [marqueeSpeed, setMarqueeSpeed] = useState<number>(() => {
     const saved = localStorage.getItem('pczsc_marquee_speed');
-    return saved ? Number(saved) : 18;
+    return saved ? Number(saved) : getUserStateFallback('pczsc_marquee_speed', 18);
   });
 
   const [metrics, setMetrics] = useState<MetricItem[]>(() => {
     const saved = localStorage.getItem('pczsc_metrics');
-    return saved ? JSON.parse(saved) : defaultMetrics;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_metrics', defaultMetrics);
   });
 
   const [visionMission, setVisionMission] = useState<VisionMissionConfig>(() => {
     const saved = localStorage.getItem('pczsc_vision_mission');
-    return saved ? JSON.parse(saved) : defaultVisionMission;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_vision_mission', defaultVisionMission);
   });
 
   const [aboutUsConfig, setAboutUsConfig] = useState<AboutUsConfig>(() => {
     const saved = localStorage.getItem('pczsc_about_cfg');
-    return saved ? JSON.parse(saved) : defaultAboutUsConfig;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_about_cfg', defaultAboutUsConfig);
   });
 
   const [footerConfig, setFooterConfig] = useState<FooterConfig>(() => {
     const saved = localStorage.getItem('pczsc_footer_cfg');
-    return saved ? JSON.parse(saved) : defaultFooterConfig;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_footer_cfg', defaultFooterConfig);
   });
 
   const [contactInfo, setContactInfo] = useState<ContactInfo>(() => {
     const saved = localStorage.getItem('pczsc_contact');
-    return saved ? JSON.parse(saved) : defaultContactInfo;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_contact', defaultContactInfo);
   });
 
   const [contactInquiries, setContactInquiries] = useState<ContactInquiry[]>(() => {
     const saved = localStorage.getItem('pczsc_contact_inquiries');
-    return saved ? JSON.parse(saved) : initialInquiries;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_contact_inquiries', initialInquiries);
   });
 
   const [documents, setDocuments] = useState<DocumentItem[]>(() => {
@@ -780,18 +788,19 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
       } catch (e) {}
     }
-    safeSaveStorage('pczsc_docs', allSportsCalendarDocuments);
-    return allSportsCalendarDocuments;
+    const fallbackDocs = getUserStateFallback('pczsc_docs', allSportsCalendarDocuments);
+    safeSaveStorage('pczsc_docs', fallbackDocs);
+    return fallbackDocs;
   });
 
   const [galleryCategories, setGalleryCategories] = useState<string[]>(() => {
     const saved = localStorage.getItem('pczsc_gallery_categories');
-    return saved ? JSON.parse(saved) : defaultGalleryCategories;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_gallery_categories', defaultGalleryCategories);
   });
 
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() => {
     const saved = localStorage.getItem('pczsc_gallery');
-    return saved ? JSON.parse(saved) : initialGallery;
+    return saved ? JSON.parse(saved) : getUserStateFallback('pczsc_gallery', initialGallery);
   });
 
   const [committeeMembers, setCommitteeMembers] = useState<CommitteeMember[]>(() => {
@@ -800,10 +809,6 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       try {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          if (parsed.length <= 4 && parsed[0]?.name === 'Dr. Aftab Anwar Shaikh') {
-            safeSaveStorage('pczsc_committee_members', initialCommitteeMembers);
-            return initialCommitteeMembers;
-          }
           const updated = parsed.map((m: any) => {
             const match = initialCommitteeMembers.find((icm) => icm.id === m.id);
             if (match && (m.photo?.startsWith('data:image') || !m.photo || m.photo === defaultBlankAvatar)) {
@@ -816,8 +821,9 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
       } catch (e) {}
     }
-    safeSaveStorage('pczsc_committee_members', initialCommitteeMembers);
-    return initialCommitteeMembers;
+    const fallbackCom = getUserStateFallback('pczsc_committee_members', initialCommitteeMembers);
+    safeSaveStorage('pczsc_committee_members', fallbackCom);
+    return fallbackCom;
   });
 
   const [peDirectors, setPEDirectors] = useState<PhysicalEducationDirector[]>(() => {
@@ -838,8 +844,9 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
       } catch (e) {}
     }
-    safeSaveStorage('pczsc_pe_directors', initialPEDirectorsList);
-    return initialPEDirectorsList;
+    const fallbackDir = getUserStateFallback('pczsc_pe_directors', initialPEDirectorsList);
+    safeSaveStorage('pczsc_pe_directors', fallbackDir);
+    return fallbackDir;
   });
 
   const [homeSections, setHomeSections] = useState<SectionContent[]>([]);

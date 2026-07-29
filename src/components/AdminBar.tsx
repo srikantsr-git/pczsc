@@ -14,7 +14,9 @@ import {
   Palette,
   ChevronRight,
   ChevronLeft,
-  Key
+  Key,
+  UploadCloud,
+  Download
 } from 'lucide-react';
 import { AdminLoginModal } from './AdminLoginModal';
 import { AdminConfigModals } from './AdminConfigModals';
@@ -25,11 +27,75 @@ export const AdminBar: React.FC = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showChangePassModal, setShowChangePassModal] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [activeConfigTab, setActiveConfigTab] = useState<
     'header' | 'hero' | 'news' | 'metrics' | 'vision' | 'footer' | null
   >(null);
 
   const pendingInquiriesCount = contactInquiries.filter((i) => i.status === 'Pending').length;
+
+  const handleSyncSiteState = async () => {
+    try {
+      setIsSyncing(true);
+      const keys = [
+        'pczsc_active_theme',
+        'pczsc_custom_themes',
+        'pczsc_header_cfg',
+        'pczsc_home_about',
+        'pczsc_pillars_cfg',
+        'pczsc_subpages_hero',
+        'pczsc_about_cfg',
+        'pczsc_committee_members',
+        'pczsc_footer_cfg',
+        'pczsc_contact',
+        'pczsc_gallery',
+        'pczsc_hero_slides',
+        'pczsc_docs',
+        'pczsc_pe_directors',
+        'pczsc_seo_store',
+        'pczsc_news_marquee',
+        'pczsc_metrics',
+        'pczsc_vision_mission',
+        'pczsc_admin_auth'
+      ];
+      const data: Record<string, any> = {};
+      for (const key of keys) {
+        const val = localStorage.getItem(key);
+        if (val) {
+          try {
+            data[key] = JSON.parse(val);
+          } catch (_e) {
+            data[key] = val;
+          }
+        }
+      }
+
+      // 1. Post to local dev endpoint /api/save-site-state
+      try {
+        await fetch('/api/save-site-state', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+      } catch (_e) {}
+
+      // 2. Trigger browser download of pczsc-site-backup.json
+      const jsonStr = JSON.stringify(data, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pczsc-site-backup-${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      alert('✅ All your local edits have been exported to pczsc-site-backup.json and synced to the local codebase!');
+    } catch (err: any) {
+      alert('Sync error: ' + (err?.message || 'Failed'));
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   if (!isAdmin) {
     return (
@@ -132,6 +198,16 @@ export const AdminBar: React.FC = () => {
               >
                 <Settings className="w-3.5 h-3.5" />
                 <span>Footer & Copy</span>
+              </button>
+
+              <button
+                onClick={handleSyncSiteState}
+                disabled={isSyncing}
+                className="w-full flex items-center gap-2 bg-emerald-700 hover:bg-emerald-600 px-3 py-2 rounded-xl text-white font-extrabold transition-all text-[11px] text-left shadow-md"
+                title="Click here to sync all your Chrome browser edits to the server codebase so Vercel matches your browser 100%!"
+              >
+                <UploadCloud className="w-3.5 h-3.5 text-emerald-200" />
+                <span>{isSyncing ? 'Syncing Edits...' : 'Sync Edits to Vercel'}</span>
               </button>
 
               <button

@@ -9,6 +9,8 @@ import {
 import { safeSaveStorage, safeLoadStorage } from '../utils/persistentStorage';
 import { fetchSiteSettingFromDB, saveSiteSettingToDB } from '../utils/neonDB';
 
+import userSiteState from '../data/userSiteState.json';
+
 interface ThemeContextType {
   currentTheme: ThemeConfig;
   draftTheme: ThemeConfig;
@@ -39,12 +41,16 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [savedThemes, setSavedThemes] = useState<ThemeConfig[]>(() => {
     const saved = localStorage.getItem('pczsc_custom_themes');
-    return saved ? JSON.parse(saved) : Object.values(PRESET_THEMES);
+    if (saved) return JSON.parse(saved);
+    if (userSiteState && (userSiteState as any).pczsc_custom_themes) return (userSiteState as any).pczsc_custom_themes;
+    return Object.values(PRESET_THEMES);
   });
 
   const [currentTheme, setCurrentTheme] = useState<ThemeConfig>(() => {
     const saved = localStorage.getItem('pczsc_active_theme');
-    return saved ? JSON.parse(saved) : PRESET_THEMES['default-light'];
+    if (saved) return JSON.parse(saved);
+    if (userSiteState && (userSiteState as any).pczsc_active_theme) return (userSiteState as any).pczsc_active_theme;
+    return PRESET_THEMES['default-light'];
   });
 
   const [draftTheme, setDraftTheme] = useState<ThemeConfig>(currentTheme);
