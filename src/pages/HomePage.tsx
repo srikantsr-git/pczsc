@@ -330,7 +330,7 @@ export const HomePage: React.FC = () => {
                 {/* Vertical Scrolling Marquee Window */}
                 <div className="relative h-[320px] overflow-hidden rounded-2xl bg-black/40 border border-white/10">
                   {(() => {
-                    const activeDocNews = documents
+                    const itemsToDisplay = documents
                       .filter((doc) => doc.showOnNewsMarquee)
                       .map((doc) => ({
                         id: `news-doc-${doc.id}`,
@@ -339,11 +339,6 @@ export const HomePage: React.FC = () => {
                         title: doc.title,
                         link: getDocumentPdfUrl(doc)
                       }));
-
-                    const itemsToDisplay =
-                      activeDocNews.length > 0
-                        ? activeDocNews
-                        : newsMarquee.filter((item) => item.id.startsWith('news-doc-'));
 
                     if (itemsToDisplay.length === 0) {
                       return (

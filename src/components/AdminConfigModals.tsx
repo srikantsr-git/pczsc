@@ -493,76 +493,18 @@ export const AdminConfigModals: React.FC<AdminConfigModalsProps> = ({ activeTab,
                 </div>
               </div>
 
-              <div className="flex items-center justify-between border-b pb-2">
-                <h3 className="text-base font-extrabold text-slate-900">
-                  Vertical News Marquee Items
-                </h3>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setLocalNews([
-                      ...localNews,
-                      {
-                        id: `news-${Date.now()}`,
-                        tag: "Announcement",
-                        date: "NEW 2026",
-                        title: "New tournament announcement headline",
-                        link: "/en/news"
-                      }
-                    ])
-                  }
-                  className="bg-slate-900 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5"
-                >
-                  <Plus className="w-3.5 h-3.5 text-santic-red" />
-                  <span>Add News Marquee Item</span>
-                </button>
-              </div>
-
-              <div className="space-y-4">
-                {localNews.map((item, idx) => (
-                  <div key={item.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center gap-3">
-                    <input
-                      type="text"
-                      value={item.tag}
-                      onChange={(e) => {
-                        const updated = [...localNews];
-                        updated[idx].tag = e.target.value;
-                        setLocalNews(updated);
-                      }}
-                      className="w-24 px-3 py-2 rounded-xl border text-xs font-bold text-santic-red"
-                      placeholder="Tag"
-                    />
-                    <input
-                      type="text"
-                      value={item.date}
-                      onChange={(e) => {
-                        const updated = [...localNews];
-                        updated[idx].date = e.target.value;
-                        setLocalNews(updated);
-                      }}
-                      className="w-28 px-3 py-2 rounded-xl border text-xs font-medium"
-                      placeholder="Date"
-                    />
-                    <input
-                      type="text"
-                      value={item.title}
-                      onChange={(e) => {
-                        const updated = [...localNews];
-                        updated[idx].title = e.target.value;
-                        setLocalNews(updated);
-                      }}
-                      className="flex-1 px-3 py-2 rounded-xl border text-xs font-bold"
-                      placeholder="News Headline Title"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setLocalNews(localNews.filter((n) => n.id !== item.id))}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
+              {/* Informational Banner for Document-based Marquee */}
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700 space-y-3">
+                <h4 className="text-xs font-extrabold text-slate-900 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-santic-red" />
+                  <span>Home Page Marquee Content Source</span>
+                </h4>
+                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  The home page marquee displays official circulars and sports calendars directly from the <strong>Downloads & Documents</strong> section.
+                </p>
+                <p className="text-xs text-slate-500 italic bg-amber-500/10 p-3 rounded-xl border border-amber-500/20 text-slate-700">
+                  💡 <strong>How to feature documents on the Home Page Marquee:</strong> Go to the <strong>Downloads</strong> page (or Document Management in Admin Panel) and click the <strong>"Show on Home Page Marquee"</strong> toggle button next to any uploaded circular.
+                </p>
               </div>
 
               <div className="pt-4 border-t flex justify-end">
@@ -570,7 +512,7 @@ export const AdminConfigModals: React.FC<AdminConfigModalsProps> = ({ activeTab,
                   type="submit"
                   className="bg-santic-red text-white px-6 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider shadow-md"
                 >
-                  Save News Marquee Configuration
+                  Save Scroll Speed Configuration
                 </button>
               </div>
             </form>
