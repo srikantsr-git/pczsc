@@ -2,146 +2,146 @@
   "pczsc_active_theme": {
     "id": "preset-ocean-cyan",
     "name": "Ocean Cyan",
-    "presetId": "ocean-cyan",
-    "description": "Refreshing cyan & aquatic deep blue sports dashboard theme.",
-    "updatedAt": "2026-07-29T08:41:42.463Z",
-    "primaryColors": {
-      "primary": "#0891b2",
-      "secondary": "#155e75",
-      "accent": "#06b6d4",
-      "success": "#10b981",
-      "warning": "#f59e0b",
-      "danger": "#ef4444",
-      "info": "#3b82f6"
-    },
-    "backgroundColors": {
-      "body": "#ecfeff",
-      "page": "#cffaff",
-      "card": "#ffffff",
-      "section": "#a5f3fc",
-      "sidebar": "#083344",
-      "navbar": "#ffffff",
-      "footer": "#083344",
-      "modal": "#ffffff",
-      "dropdown": "#ffffff"
-    },
-    "textColors": {
-      "primary": "#083344",
-      "secondary": "#155e75",
-      "muted": "#0e7490",
-      "heading": "#155e75",
-      "link": "#0891b2",
-      "linkHover": "#0e7490",
-      "disabled": "#a5f3fc",
-      "placeholder": "#67e8f9"
-    },
-    "borderColors": {
-      "normal": "#a5f3fc",
-      "hover": "#67e8f9",
-      "active": "#0891b2",
-      "focus": "#0891b2",
-      "divider": "#cffaff"
-    },
-    "typography": {
-      "bodyFont": "Work Sans",
-      "headingFont": "Montserrat",
-      "buttonFont": "Work Sans",
-      "tableFont": "Work Sans",
-      "sidebarFont": "Work Sans",
-      "navbarFont": "Work Sans",
-      "codeFont": "monospace",
-      "baseFontSize": 16,
-      "lineHeight": 1.5,
-      "letterSpacing": "0em",
-      "fontWeight": "400",
-      "textTransform": "none"
-    },
-    "headingStyles": {
-      "h1": {
-        "fontSize": "2.5rem",
-        "fontWeight": "800",
-        "color": "#155e75",
-        "marginBottom": "1rem",
-        "letterSpacing": "-0.025em"
-      },
-      "h2": {
-        "fontSize": "2rem",
-        "fontWeight": "800",
-        "color": "#155e75",
-        "marginBottom": "0.75rem",
-        "letterSpacing": "-0.025em"
-      },
-      "h3": {
-        "fontSize": "1.5rem",
-        "fontWeight": "700",
-        "color": "#155e75",
-        "marginBottom": "0.5rem",
-        "letterSpacing": "0em"
-      },
-      "h4": {
-        "fontSize": "1.25rem",
-        "fontWeight": "700",
-        "color": "#155e75",
-        "marginBottom": "0.5rem",
-        "letterSpacing": "0em"
-      },
-      "h5": {
-        "fontSize": "1rem",
-        "fontWeight": "600",
-        "color": "#155e75",
-        "marginBottom": "0.25rem",
-        "letterSpacing": "0em"
-      },
-      "h6": {
-        "fontSize": "0.875rem",
-        "fontWeight": "600",
-        "color": "#0e7490",
-        "marginBottom": "0.25rem",
-        "letterSpacing": "0em"
-      }
-    },
-    "layout": {
-      "containerWidth": "1280px",
-      "sidebarWidth": "280px",
-      "navbarHeight": "72px",
-      "footerHeight": "80px",
-      "pagePadding": "1.5rem",
-      "cardPadding": "1.5rem",
-      "gridGap": "1.5rem"
-    },
     "radii": {
-      "global": "0.75rem",
       "card": "1rem",
-      "button": "0.75rem",
       "input": "0.75rem",
       "modal": "1.5rem",
-      "dropdown": "0.75rem",
       "table": "1rem",
-      "avatar": "9999px"
+      "avatar": "9999px",
+      "button": "0.75rem",
+      "global": "0.75rem",
+      "dropdown": "0.75rem"
+    },
+    "layout": {
+      "gridGap": "1.5rem",
+      "cardPadding": "1.5rem",
+      "pagePadding": "1.5rem",
+      "footerHeight": "80px",
+      "navbarHeight": "72px",
+      "sidebarWidth": "280px",
+      "containerWidth": "1280px"
     },
     "shadows": {
       "card": "md",
-      "button": "sm",
       "modal": "xl",
+      "button": "sm",
       "dropdown": "md"
-    },
-    "animations": {
-      "enabled": true,
-      "type": "slide",
-      "duration": 300,
-      "timingFunction": "ease-in-out"
     },
     "darkMode": {
       "mode": "light",
       "isDark": false
     },
+    "presetId": "ocean-cyan",
+    "updatedAt": "2026-07-29T08:41:42.463Z",
+    "animations": {
+      "type": "slide",
+      "enabled": true,
+      "duration": 300,
+      "timingFunction": "ease-in-out"
+    },
+    "textColors": {
+      "link": "#0891b2",
+      "muted": "#0e7490",
+      "heading": "#155e75",
+      "primary": "#083344",
+      "disabled": "#a5f3fc",
+      "linkHover": "#0e7490",
+      "secondary": "#155e75",
+      "placeholder": "#67e8f9"
+    },
+    "typography": {
+      "bodyFont": "Work Sans",
+      "codeFont": "monospace",
+      "tableFont": "Work Sans",
+      "buttonFont": "Work Sans",
+      "fontWeight": "400",
+      "lineHeight": 1.5,
+      "navbarFont": "Work Sans",
+      "headingFont": "Montserrat",
+      "sidebarFont": "Work Sans",
+      "baseFontSize": 16,
+      "letterSpacing": "0em",
+      "textTransform": "none"
+    },
+    "description": "Refreshing cyan & aquatic deep blue sports dashboard theme.",
+    "borderColors": {
+      "focus": "#0891b2",
+      "hover": "#67e8f9",
+      "active": "#0891b2",
+      "normal": "#a5f3fc",
+      "divider": "#cffaff"
+    },
     "accessibility": {
-      "highContrast": false,
-      "colorBlindSafe": false,
-      "largeFonts": false,
-      "reducedMotion": false,
       "focusRings": true,
+      "largeFonts": false,
+      "highContrast": false,
+      "reducedMotion": false,
+      "colorBlindSafe": false,
       "wcagCompliance": "AA"
+    },
+    "headingStyles": {
+      "h1": {
+        "color": "#155e75",
+        "fontSize": "2.5rem",
+        "fontWeight": "800",
+        "marginBottom": "1rem",
+        "letterSpacing": "-0.025em"
+      },
+      "h2": {
+        "color": "#155e75",
+        "fontSize": "2rem",
+        "fontWeight": "800",
+        "marginBottom": "0.75rem",
+        "letterSpacing": "-0.025em"
+      },
+      "h3": {
+        "color": "#155e75",
+        "fontSize": "1.5rem",
+        "fontWeight": "700",
+        "marginBottom": "0.5rem",
+        "letterSpacing": "0em"
+      },
+      "h4": {
+        "color": "#155e75",
+        "fontSize": "1.25rem",
+        "fontWeight": "700",
+        "marginBottom": "0.5rem",
+        "letterSpacing": "0em"
+      },
+      "h5": {
+        "color": "#155e75",
+        "fontSize": "1rem",
+        "fontWeight": "600",
+        "marginBottom": "0.25rem",
+        "letterSpacing": "0em"
+      },
+      "h6": {
+        "color": "#0e7490",
+        "fontSize": "0.875rem",
+        "fontWeight": "600",
+        "marginBottom": "0.25rem",
+        "letterSpacing": "0em"
+      }
+    },
+    "primaryColors": {
+      "info": "#3b82f6",
+      "accent": "#06b6d4",
+      "danger": "#ef4444",
+      "primary": "#0891b2",
+      "success": "#10b981",
+      "warning": "#f59e0b",
+      "secondary": "#155e75"
+    },
+    "backgroundColors": {
+      "body": "#ecfeff",
+      "card": "#ffffff",
+      "page": "#cffaff",
+      "modal": "#ffffff",
+      "footer": "#083344",
+      "navbar": "#ffffff",
+      "section": "#a5f3fc",
+      "sidebar": "#083344",
+      "dropdown": "#ffffff"
     }
   },
   "pczsc_header_cfg": {
@@ -368,19 +368,19 @@
   ],
   "pczsc_gallery": [
     {
-      "id": "gal-1",
-      "title": "Intercollegiate Championship Opening Ceremony",
-      "category": "Intercollegiate Competitions",
-      "imageUrl": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1200&q=80",
-      "description": "Principals, Directors, and student-athletes gathered at Poona College ground for the annual sports inauguration.",
-      "date": "2024"
-    },
-    {
       "id": "gal-2",
       "title": "Live Streaming Setup for Final Match",
       "category": "Live Streaming Events",
       "imageUrl": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80",
       "description": "Introducing high-definition live streaming for parents and alumni to watch intercollegiate finals remotely.",
+      "date": "2024"
+    },
+    {
+      "id": "gal-1",
+      "title": "Intercollegiate Championship Opening Ceremony",
+      "category": "Intercollegiate Competitions",
+      "imageUrl": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1200&q=80",
+      "description": "Principals, Directors, and student-athletes gathered at Poona College ground for the annual sports inauguration.",
       "date": "2024"
     }
   ],
@@ -390,7 +390,7 @@
       "eyebrow": "Savitribai Phule Pune University (SPPU)",
       "title": "Pune City Zonal Sports Committee (PCZSC)",
       "subtitle": "Empowering Student-Athletes, Organizing Intercollegiate Championships & Fostering Sporting Excellence across Pune Colleges",
-      "image": "idb:idb_pczsc_hero_slides_0_image_1785318212895_vq7guk",
+      "image": "idb:idb_pczsc_hero_slides_0_image_1785322994382_5g1yr7",
       "ctaText": "About PCZSC",
       "ctaLink": "/en/about-us"
     },
@@ -399,7 +399,7 @@
       "eyebrow": "Savitribai Phule Pune University (SPPU)",
       "title": "International Yoga Day",
       "subtitle": "nternational Day of Yoga is celebrated worldwide on 21 June each year to raise awareness of the physical, mental, and spiritual benefits of yoga.",
-      "image": "idb:idb_pczsc_hero_slides_1_image_1785318212942_co19t1",
+      "image": "idb:idb_pczsc_hero_slides_1_image_1785322994427_k48acm",
       "ctaText": "About PCZSC",
       "ctaLink": "/en/about-us"
     },
@@ -408,7 +408,7 @@
       "eyebrow": "Savitribai Phule Pune University (SPPU)",
       "title": "Interzonal Competitions",
       "subtitle": "A multi-tier sports and cultural event where different local administrative regions or educational zones compete against each other",
-      "image": "idb:idb_pczsc_hero_slides_2_image_1785318212951_ha43xu",
+      "image": "idb:idb_pczsc_hero_slides_2_image_1785322994508_qusvfc",
       "ctaText": "About PCZSC",
       "ctaLink": "/en/about-us"
     }

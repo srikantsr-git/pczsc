@@ -811,7 +811,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (Array.isArray(parsed) && parsed.length > 0) {
           const updated = parsed.map((m: any) => {
             const match = initialCommitteeMembers.find((icm) => icm.id === m.id);
-            if (match && (m.photo?.startsWith('data:image') || !m.photo || m.photo === defaultBlankAvatar)) {
+            if (match && (!m.photo || m.photo === defaultBlankAvatar)) {
               return { ...m, photo: match.photo };
             }
             return m;
@@ -834,7 +834,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (Array.isArray(parsed) && parsed.length > 0) {
           const updated = parsed.map((d: any) => {
             const match = initialPEDirectorsList.find((ipd) => ipd.id === d.id);
-            if (match && match.photo !== defaultBlankAvatar && (d.photo?.startsWith('data:image') || !d.photo || d.photo === defaultBlankAvatar)) {
+            if (match && match.photo !== defaultBlankAvatar && (!d.photo || d.photo === defaultBlankAvatar)) {
               return { ...d, photo: match.photo };
             }
             return d;
@@ -941,7 +941,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const baseDirList = mergedDirList.length >= 100 ? mergedDirList : initialPEDirectorsList;
         const syncedDirectors = baseDirList.map((d: any) => {
           const match = initialPEDirectorsList.find((ipd) => ipd.id === d.id);
-          if (match && match.photo !== defaultBlankAvatar && (d.photo?.startsWith('data:image') || !d.photo || d.photo === defaultBlankAvatar)) {
+          if (match && match.photo !== defaultBlankAvatar && (!d.photo || d.photo === defaultBlankAvatar)) {
             return { ...d, photo: match.photo };
           }
           return d;
