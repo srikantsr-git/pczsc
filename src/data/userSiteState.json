@@ -147,18 +147,17 @@
   "pczsc_header_cfg": {
     "logoTitle": "PCZSC",
     "logoSubtitle": "Pune City Zonal Sports Committee",
-    "logoIconUrl": "idb:idb_pczsc_header_cfg_logoIconUrl_1785314285595_yqo3uz",
     "navItems": [
       {
         "name": "Home",
         "path": "/en/home"
       },
       {
-        "name": "About",
+        "name": "About Us",
         "path": "/en/about-us"
       },
       {
-        "name": "Downloads",
+        "name": "Documents & Circulars",
         "path": "/en/documents"
       },
       {
@@ -171,93 +170,15 @@
       }
     ],
     "ctaText": "Contact Us",
-    "ctaPath": "/en/contact-us"
-  },
-  "pczsc_home_about": {
-    "badge": "About PCZSC",
-    "title": "Pune City Zonal Sports Committee (PCZSC)",
-    "description": "Officially authorized body under Savitribai Phule Pune University (SPPU) entrusted with organizing, coordinating, and managing intercollegiate sports competitions across affiliated colleges and institutes in Pune City.",
-    "imageUrl": "idb:idb_pczsc_home_about_imageUrl_1785314370080_h28wfs",
-    "ctaText": "READ FULL ABOUT US",
-    "ctaLink": "/en/about-us"
-  },
-  "pczsc_pillars_cfg": {
-    "badge": "Key Pillars",
-    "title": "Four Core Pillars Driving Collegiate Sports Excellence in Pune",
-    "showcaseImage": "idb:idb_pczsc_pillars_cfg_showcaseImage_1785314382859_3jumjr",
-    "pillars": [
-      {
-        "id": 0,
-        "title": "Fair Intercollegiate Competitions",
-        "description": "Organizing transparent, rule-abiding championships across multiple sporting disciplines for all affiliated Pune City colleges."
-      },
-      {
-        "id": 1,
-        "title": "Coaching & Selection Camps",
-        "description": "Identifying promising talent and hosting specialized university coaching camps to prepare athletes for Inter-Zonal tournaments."
-      },
-      {
-        "id": 2,
-        "title": "Live Streaming & Digital Tech",
-        "description": "Broadcasting tournament finals live online to enable faculty, parents, alumni, and sports fans to cheer for student-athletes remotely."
-      },
-      {
-        "id": 3,
-        "title": "Holistic Character Building",
-        "description": "Instilling lifelong values of sportsmanship, leadership, discipline, and ethical conduct through higher education sports."
-      }
-    ]
-  },
-  "pczsc_subpages_hero": {
-    "about": {
-      "category": "Savitribai Phule Pune University (SPPU)",
-      "title": "About Pune City Zonal Sports Committee",
-      "subtitle": "Empowering student-athletes, fostering sporting excellence, and organizing transparent collegiate sports across Pune City colleges.",
-      "bgImageUrl": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=2000&q=80"
-    },
-    "documents": {
-      "category": "Official Document Center",
-      "title": "Circulars, Schedules & Results Repository",
-      "subtitle": "Access intercollegiate sports calendars, tournament draws, souvenirs, annual reports, circulars, and competition results.",
-      "bgImageUrl": "https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=2000&q=80"
-    },
-    "gallery": {
-      "category": "PCZSC Media Center",
-      "title": "Official Photo & Video Gallery",
-      "subtitle": "Explore action photographs and video highlights from intercollegiate championships, coaching camps, live streaming events, and prize distribution ceremonies.",
-      "bgImageUrl": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=2000&q=80"
-    },
-    "contact": {
-      "category": "Get In Touch",
-      "title": "Contact PCZSC Secretariat",
-      "subtitle": "Reach out to Pune City Zonal Sports Committee office at Poona College Camp, Pune for inquiries, event schedules, and sports administration.",
-      "bgImageUrl": "https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=2000&q=80"
-    }
-  },
-  "pczsc_about_cfg": {
-    "historyBadge": "Authorized Governing Body",
-    "historyTitle": "Fostering Sporting Excellence Across Pune Higher Educational Institutions",
-    "historyBody": "The Pune City Zonal Sports Committee (PCZSC) is the officially authorized body entrusted with planning, coordinating, and promoting intercollegiate sports activities among the affiliated colleges and institutes within Pune City under the jurisdiction of Savitribai Phule Pune University (formerly the University of Pune).\n\nEstablished with the vision of fostering sporting excellence and encouraging a healthy competitive spirit, the committee plays a pivotal role in developing a vibrant sports culture across higher educational institutions.\n\nEvery academic year, the committee is democratically constituted through the unanimous support and election of the Principals of affiliated colleges, Directors of Institutes, and Directors of Physical Education. This collaborative governance model ensures transparent administration, effective coordination, and equal representation of all participating institutions.",
-    "historyImage": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1200&q=80",
-    "objectivesTitle": "Intercollegiate Competitions & Character Development",
-    "objectivesBody": "PCZSC is primarily responsible for organizing a wide range of Intercollegiate Sports Competitions across various disciplines, providing talented student-athletes with opportunities to compete at the highest collegiate level. The committee also identifies promising players and conducts specialized coaching camps, training programmes, and selection trials to prepare university teams for Inter-Zonal Competitions and other prestigious tournaments organized by Savitribai Phule Pune University.\n\nBeyond organizing competitions, the committee is committed to nurturing sporting talent, encouraging participation, and promoting values such as discipline, teamwork, leadership, perseverance, and sportsmanship. Through systematic planning and professional management, PCZSC ensures that competitions are conducted according to established rules and regulations, maintaining fairness, transparency, and the highest standards of sports administration.\n\nSport is much more than physical activity—it is a powerful medium for character building, personal development, and social integration. It develops physical fitness, mental resilience, strategic thinking, and the ability to perform under pressure. Participation in sports cultivates confidence, respect for opponents, ethical conduct, and lifelong healthy habits that contribute to the holistic development of students.\n\nOver the years, Pune City has established itself as one of the strongest sporting zones within the university system, producing numerous athletes who have represented the university at state, national, and international levels. PCZSC remains dedicated to sustaining this legacy by providing quality sporting opportunities, improving competitive standards, and strengthening collaboration among affiliated colleges.",
-    "presidentTitle": "President's Message",
-    "presidentSubtitle": "Official Leadership Address",
-    "presidentBody": "It gives me immense pleasure and pride to present the successful completion of the Pune City Zonal Sports Committee (PCZSC) Intercollegiate Sports Competitions. Every edition of these competitions reflects our collective commitment to promoting excellence in sports, encouraging healthy competition, and nurturing the all-round development of students.\n\nThis year's sporting calendar has been a remarkable journey of dedication, discipline, teamwork, and outstanding performances. Our student-athletes displayed exceptional determination, resilience, and true sportsmanship, making every event memorable. Their achievements stand as a testament to the spirit of collegiate sports and the values that sports instill in young minds.",
-    "presidentHighlightTitle": "Key Highlight: Introduction of Live Streaming",
-    "presidentHighlightBody": "One of the significant highlights this year was the introduction of Live Streaming of selected sporting events. This initiative enabled students, faculty members, parents, alumni, and sports enthusiasts to witness the competitions from anywhere, ensuring that academic commitments or geographical distance did not limit participation.",
-    "presidentName": "Prin. Dr. Iqbal N. Shaikh",
-    "presidentPhoto": "/committee/Prin. Dr. Iqbal N. Shaikh.jpg",
-    "presidentRole": "President",
-    "presidentOrganization": "Pune City Zonal Sports Committee (PCZSC)",
-    "presidentUniversity": "Anjuman Khairul Islam Poona College, Camp, Pune"
+    "ctaPath": "/en/contact-us",
+    "logoIconUrl": "idb:idb_pczsc_header_cfg_logoIconUrl_1785325671211_njfes6"
   },
   "pczsc_committee_members": [
     {
       "id": "cm-1",
       "name": "Prin. Dr. Iqbal N. Shaikh",
       "designation": "President",
-      "photo": "/committee/Prin. Dr. Iqbal N. Shaikh.jpg",
+      "photo": "idb:idb_pczsc_committee_members_0_photo_1785325687561_yl2h5g",
       "collegeAddress": "Anjuman Khairul Islam Poona College, 1647, Camp, New Modikhana, Pune.",
       "contactDetails": "Mobile No. : -"
     },
@@ -265,7 +186,7 @@
       "id": "cm-2",
       "name": "Dr. Shaikh Aiyaz Hussain Jiyaull Hussain",
       "designation": "Secretary",
-      "photo": "/committee/DrShaikh.jpg",
+      "photo": "idb:idb_pczsc_committee_members_1_photo_1785325687573_wig4nw",
       "collegeAddress": "Anjuman Khairul Islam Poona College, 1647, Camp, New Modikhana, Pune",
       "contactDetails": "Mobile No. : 9422517809"
     },
@@ -273,7 +194,7 @@
       "id": "cm-3",
       "name": "Prof. (Dr.) Amrule Mohan Namdeo",
       "designation": "Joint Secretary",
-      "photo": "/committee/ProfAmrule.jpg",
+      "photo": "idb:idb_pczsc_committee_members_2_photo_1785325687575_xvu51w",
       "collegeAddress": "Deccan Education Society's B.M. College of Commerce, 845, Shivajinagar, Daccan Gymkhana, Pune",
       "contactDetails": "Mobile No. : 9881600118"
     },
@@ -281,7 +202,7 @@
       "id": "cm-4",
       "name": "Prof. (Dr.) Bengle Asha Vijaykumar",
       "designation": "Joint Secretary",
-      "photo": "/committee/Prof.Bengle.jpg",
+      "photo": "idb:idb_pczsc_committee_members_3_photo_1785325687575_z454da",
       "collegeAddress": "Maharashtra Education Society's Abasaheb Garware Mahavidyalay, Karve Road, Pune",
       "contactDetails": "Mobile No. : 9922223233"
     },
@@ -289,7 +210,7 @@
       "id": "cm-5",
       "name": "Mr. Sharma Anirudha Mahesh",
       "designation": "Joint Secretary",
-      "photo": "/committee/Mr.Sharma .jpg",
+      "photo": "idb:idb_pczsc_committee_members_4_photo_1785325687576_70utnb",
       "collegeAddress": "Symbiosis International Cultural Center's Symbiosis College of Arts & Commerce, Senapati Bapat Road, Pune",
       "contactDetails": "Mobile No. : 7709999997"
     },
@@ -297,7 +218,7 @@
       "id": "cm-6",
       "name": "Dr. Bibave Umesh Arun",
       "designation": "Treasurer",
-      "photo": "/committee/Dr.Bibave .jpg",
+      "photo": "idb:idb_pczsc_committee_members_5_photo_1785325687576_niyi7h",
       "collegeAddress": "Maharashtra Education Society's Garware College Of Commerce, Off Karve Road, Pune",
       "contactDetails": "Mobile No. : 7350509990"
     },
@@ -305,7 +226,7 @@
       "id": "cm-7",
       "name": "Dr. Chikte Anagha Sunil",
       "designation": "Member",
-      "photo": "/committee/Dr Chikte .jpg",
+      "photo": "idb:idb_pczsc_committee_members_6_photo_1785325687577_ol9t3i",
       "collegeAddress": "Maharshi Karve Stree Shikshan Sanstha's Shri Sidhvinayak Mahila Mahavidyalaya, Karvenagar, Pune",
       "contactDetails": "Mobile No. : 9850710713"
     },
@@ -313,7 +234,7 @@
       "id": "cm-8",
       "name": "Prof. (Dr.) Dhamale Shantaram Dattu",
       "designation": "Member",
-      "photo": "/committee/Prof.Dhamale .jpg",
+      "photo": "idb:idb_pczsc_committee_members_7_photo_1785325687578_zdxojp",
       "collegeAddress": "Shri Shivaji Maratha Society's Samajbhushan Baburao Alias Appasaheb Jedhe Arts, Commerce & Science College, 425, Shukrwar Peth, Pune",
       "contactDetails": "Mobile No. : 9421077180"
     },
@@ -321,7 +242,7 @@
       "id": "cm-9",
       "name": "Dr. Shendkar Deepak Tanaji",
       "designation": "Member",
-      "photo": "/committee/Dr.Shendkar.jpg",
+      "photo": "idb:idb_pczsc_committee_members_8_photo_1785325687581_y9uw6f",
       "collegeAddress": "Progressive Education Society's Modern Arts, Commerce & Science College, Ganeshkhind, Pune",
       "contactDetails": "Mobile No. : 9823839014"
     },
@@ -329,7 +250,7 @@
       "id": "cm-10",
       "name": "Dr. More Shirish Vijay",
       "designation": "Member",
-      "photo": "/committee/Dr.More .jpg",
+      "photo": "idb:idb_pczsc_committee_members_9_photo_1785325687587_yye1z7",
       "collegeAddress": "Maharashtriy Mandal's Chandrashekhar Agashe College of Physical Eduaction, Gultekadi, Pune",
       "contactDetails": "Mobile No. : 9545455910"
     },
@@ -337,7 +258,7 @@
       "id": "cm-11",
       "name": "Dr. Kondhare Manisha Manoj",
       "designation": "Member",
-      "photo": "/committee/Dr.Kondhare.jpg",
+      "photo": "idb:idb_pczsc_committee_members_10_photo_1785325687590_tpudvo",
       "collegeAddress": "All India Shri Shivaji Memorial Society's AISSMS College of Engineering, Kennedy Road, Pune",
       "contactDetails": "Mobile No. : 9881294721"
     },
@@ -345,7 +266,7 @@
       "id": "cm-12",
       "name": "Mr. Parse Abhijit Venkat",
       "designation": "Member",
-      "photo": "/committee/mrparse.jpg",
+      "photo": "idb:idb_pczsc_committee_members_11_photo_1785325687592_okb9yi",
       "collegeAddress": "Sanskar Mandir Sanstha's Art's & Commerce College, Opp. Ganpati Mandir, Warje Malwadi, Pune",
       "contactDetails": "Mobile No. : 9028088199"
     },
@@ -353,7 +274,7 @@
       "id": "cm-13",
       "name": "Dr. Abhijeet Kadam",
       "designation": "Member",
-      "photo": "/committee/Dr.AbhijeetKadam.jpg",
+      "photo": "idb:idb_pczsc_committee_members_12_photo_1785325687596_fiwlyz",
       "collegeAddress": "Dept. of Sports & Physical Education, Savitribai Phule Pune University, Pune",
       "contactDetails": "Mobile No. : 9689827038"
     },
@@ -361,11 +282,25 @@
       "id": "cm-14",
       "name": "Mr. Tribhuvan Mithun Prakash",
       "designation": "Invitee Member",
-      "photo": "/committee/mrtribhuvan.jpg",
+      "photo": "idb:idb_pczsc_committee_members_13_photo_1785325687606_y00q3o",
       "collegeAddress": "Modern Education Society's Ness Wadia College of Commerce, 19, V.K Joag Path, Pune",
       "contactDetails": "Mobile No. : 9890776333"
     }
   ],
+  "pczsc_footer_cfg": {
+    "logoTitle": "PCZSC",
+    "logoSubtitle": "Pune City Zonal Sports Committee",
+    "description": "The Pune City Zonal Sports Committee (PCZSC) is the authorized body entrusted with planning, coordinating, and promoting intercollegiate sports activities under Savitribai Phule Pune University (SPPU).",
+    "copyrightText": "© 2026 Pune City Zonal Sports Committee (PCZSC). All rights reserved.",
+    "affiliationText": "Affiliated with Savitribai Phule Pune University (SPPU), Pune, Maharashtra."
+  },
+  "pczsc_contact": {
+    "organisation": "Pune City Zonal Sports Committee",
+    "contactPerson": "Dr. Shaikh Aiyaz Hussain Jiyaull Hussain",
+    "address": "C/o Anjuman Khairul Islam's Poona College, 1647, Camp, New Modikhana, Pune, Maharashtra, India.",
+    "mobile": "9422517809",
+    "email": "aiyaz9422@yahoo.co.in"
+  },
   "pczsc_gallery": [
     {
       "id": "gal-2",
@@ -390,27 +325,27 @@
       "eyebrow": "Savitribai Phule Pune University (SPPU)",
       "title": "Pune City Zonal Sports Committee (PCZSC)",
       "subtitle": "Empowering Student-Athletes, Organizing Intercollegiate Championships & Fostering Sporting Excellence across Pune Colleges",
-      "image": "idb:idb_pczsc_hero_slides_0_image_1785324643730_zi3xud",
+      "image": "idb:idb_pczsc_hero_slides_0_image_1785325733827_ztyrrg",
       "ctaText": "About PCZSC",
       "ctaLink": "/en/about-us"
     },
     {
       "id": "hero-2",
-      "eyebrow": "Savitribai Phule Pune University (SPPU)",
-      "title": "International Yoga Day",
-      "subtitle": "nternational Day of Yoga is celebrated worldwide on 21 June each year to raise awareness of the physical, mental, and spiritual benefits of yoga.",
-      "image": "idb:idb_pczsc_hero_slides_1_image_1785324643835_bi5a5b",
-      "ctaText": "About PCZSC",
-      "ctaLink": "/en/about-us"
+      "eyebrow": "Intercollegiate Championships",
+      "title": "Official Schedules, Draws & Competition Circulars",
+      "subtitle": "Access complete sports calendars, inter-zonal fixtures, selection trial notices, and official tournament results.",
+      "image": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=2000&q=80",
+      "ctaText": "View Documents",
+      "ctaLink": "/en/documents"
     },
     {
       "id": "hero-3",
-      "eyebrow": "Savitribai Phule Pune University (SPPU)",
-      "title": "Interzonal Competitions",
-      "subtitle": "A multi-tier sports and cultural event where different local administrative regions or educational zones compete against each other",
-      "image": "idb:idb_pczsc_hero_slides_2_image_1785324643926_cdnzie",
-      "ctaText": "About PCZSC",
-      "ctaLink": "/en/about-us"
+      "eyebrow": "Innovation in Sports",
+      "title": "Live Streaming & Modern Tournament Technology",
+      "subtitle": "Bringing collegiate sports live to students, faculty, parents, and alumni worldwide with high-definition coverage.",
+      "image": "https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=2000&q=80",
+      "ctaText": "Explore Gallery",
+      "ctaLink": "/en/gallery"
     }
   ],
   "pczsc_docs": [
@@ -845,7 +780,7 @@
     {
       "id": "pe-3",
       "name": "Dr. Jadhav Balaji Pandurang",
-      "photo": "idb:idb_pczsc_pe_directors_2_photo_1785314247551_6nqaiv",
+      "photo": "idb:idb_pczsc_pe_directors_2_photo_1785313797265_2ak5yu",
       "mobile": "9850775478",
       "email": "jadhavbalaji.jadhav@gmail.com",
       "collegeAddress": "The Poona Diocesan Educational Society's Vidya Bhavan College of Commerce, 20, Sholpur Road, Bhairobanala, Pune"
@@ -981,7 +916,7 @@
     {
       "id": "pe-20",
       "name": "Navale Santosh Ramachandra",
-      "photo": "idb:idb_pczsc_pe_directors_19_photo_1785314247788_r5jbjv",
+      "photo": "idb:idb_pczsc_pe_directors_19_photo_1785313797746_njcm9v",
       "mobile": "9881046721",
       "email": "snavale22@gmail.com",
       "collegeAddress": "Sinhgad Technical Education Society's Sinhgad College of Science, Survey No 44-1, Off. Sinhgad Road, Ambegaon, Pune"
@@ -989,7 +924,7 @@
     {
       "id": "pe-21",
       "name": "Tribhuvan Mithun Prakash",
-      "photo": "idb:idb_pczsc_pe_directors_20_photo_1785314247793_a7w3wj",
+      "photo": "idb:idb_pczsc_pe_directors_20_photo_1785313797748_ljxspj",
       "mobile": "9890776333",
       "email": "Mithun.tribhuvan333@gmail.com",
       "collegeAddress": "Modern Education Society's Ness Wadia College Of Commerce, 19, V.K. Joag Path, Pune"
@@ -1029,7 +964,7 @@
     {
       "id": "pe-26",
       "name": "Parse Abhijit Venkat",
-      "photo": "idb:idb_pczsc_pe_directors_25_photo_1785314247795_njcc42",
+      "photo": "idb:idb_pczsc_pe_directors_25_photo_1785313797750_mfc74v",
       "mobile": "9028088199",
       "email": "parseabhi@gmail.com",
       "collegeAddress": "Sanskar Mandir Sanstha's Arts & Commerce College, Opp. Ganpati Mandir, Warje Malwadi, Pune"
@@ -1069,7 +1004,7 @@
     {
       "id": "pe-31",
       "name": "Chavan Umesh Vinayak",
-      "photo": "idb:idb_pczsc_pe_directors_30_photo_1785314247807_mjo7ba",
+      "photo": "idb:idb_pczsc_pe_directors_30_photo_1785313797751_22rvrm",
       "mobile": "9422031200",
       "email": "umesh.chavan@bnca.ac.in",
       "collegeAddress": "Maharshi Karve Stri Shikshan Sanstha's Dr. Bhanuben Nanavati College of Architecture for Woman, BNCA Campus, Karve Nagar, Pune"
@@ -1077,7 +1012,7 @@
     {
       "id": "pe-32",
       "name": "Adhav Sunita Dattatray",
-      "photo": "idb:idb_pczsc_pe_directors_31_photo_1785314247809_snfu8q",
+      "photo": "idb:idb_pczsc_pe_directors_31_photo_1785313797756_6rl0jp",
       "mobile": "9881533330",
       "email": "sunita_adhav@yahoo.com",
       "collegeAddress": "Deccan Education Society's Shri Navalmal Firodia Law College, Fergusson College Campus, Pune"
@@ -1085,7 +1020,7 @@
     {
       "id": "pe-33",
       "name": "Aptekar Mukta Maruti",
-      "photo": "idb:idb_pczsc_pe_directors_32_photo_1785314247810_qxq91x",
+      "photo": "idb:idb_pczsc_pe_directors_32_photo_1785313797759_tqoyet",
       "mobile": "9766225598",
       "email": "aptekarm@gmail.com",
       "collegeAddress": "Sarhad College, 76/4, Near Katraj Deari, Katraj, Pune"
@@ -1093,7 +1028,7 @@
     {
       "id": "pe-34",
       "name": "Auti Akshay Haribhau",
-      "photo": "idb:idb_pczsc_pe_directors_33_photo_1785314247823_iyn7hd",
+      "photo": "idb:idb_pczsc_pe_directors_33_photo_1785313797761_kwwt97",
       "mobile": "9422333432",
       "email": "autiakshay2020@gmail.com",
       "collegeAddress": "The Shetkari Shishan Mandal, Sangali Padmbhushan Vasantdada Patil Institute of Technology, Bavdhan, Pune"
@@ -1101,7 +1036,7 @@
     {
       "id": "pe-35",
       "name": "Benji Roger Mahender",
-      "photo": "idb:idb_pczsc_pe_directors_34_photo_1785314247823_mw88s2",
+      "photo": "idb:idb_pczsc_pe_directors_34_photo_1785313797793_dntqb6",
       "mobile": "8956821555",
       "email": "rogerbenji@proton.me",
       "collegeAddress": "Jog Educational Trust's P. Jog College of Science & Commerce, Mayur Colony, Kothrud, Pune"
@@ -1109,7 +1044,7 @@
     {
       "id": "pe-36",
       "name": "Bhadre Shubham Pandurang",
-      "photo": "idb:idb_pczsc_pe_directors_35_photo_1785314247824_qxah9k",
+      "photo": "idb:idb_pczsc_pe_directors_35_photo_1785313797820_wfk95a",
       "mobile": "9869656317",
       "email": "shubham.bhadre@gmail.com",
       "collegeAddress": "The Shetkari Shikshan Mandal's Bhivarabai Sawant College of Engineering & Research, Narhe, Pune"
@@ -1117,7 +1052,7 @@
     {
       "id": "pe-37",
       "name": "Bhagwat Anand Janardan",
-      "photo": "idb:idb_pczsc_pe_directors_36_photo_1785314247825_5dexy9",
+      "photo": "idb:idb_pczsc_pe_directors_36_photo_1785313797825_cyiiuu",
       "mobile": "7263037567",
       "email": "anandbhagwat567@gmail.com",
       "collegeAddress": "Abhinav Education Society's College of Computer Science & Management, Narhe Ambegav, Pune"
@@ -1125,7 +1060,7 @@
     {
       "id": "pe-38",
       "name": "Bhopale Bharat Bhagwat",
-      "photo": "idb:idb_pczsc_pe_directors_37_photo_1785314247825_7wyc7v",
+      "photo": "idb:idb_pczsc_pe_directors_37_photo_1785313797828_ws1fyv",
       "mobile": "9890090362",
       "email": "bharatbhopale@gmail.com",
       "collegeAddress": "Amar Education Society's S. P. International Senior College, Ambegaon Pathar, Pune"
@@ -1141,7 +1076,7 @@
     {
       "id": "pe-40",
       "name": "Borate Vikram Popat",
-      "photo": "idb:idb_pczsc_pe_directors_39_photo_1785314247838_3dm7dc",
+      "photo": "idb:idb_pczsc_pe_directors_39_photo_1785313797834_8mmfk1",
       "mobile": "9096062896",
       "email": "vikramborate20@gmail.com",
       "collegeAddress": "Shri Shivaji Maratha Society's Law College, 425, Shukrwar Peth, Pune"
@@ -1149,7 +1084,7 @@
     {
       "id": "pe-41",
       "name": "Borse Sandip Kadu",
-      "photo": "idb:idb_pczsc_pe_directors_40_photo_1785314247839_u9x8mx",
+      "photo": "idb:idb_pczsc_pe_directors_40_photo_1785313797837_hfmn1s",
       "mobile": "7588580855",
       "email": "borse.sandip21@gmail.com",
       "collegeAddress": "Deccan Education Society's Shri Navalmal Firodia Law College, Fergusson College Campus, Pune"
@@ -1157,7 +1092,7 @@
     {
       "id": "pe-42",
       "name": "Chabukswar Vasant Vidyadhar",
-      "photo": "idb:idb_pczsc_pe_directors_41_photo_1785314247839_2fid63",
+      "photo": "idb:idb_pczsc_pe_directors_41_photo_1785313797841_4nv53h",
       "mobile": "9960125609",
       "email": "vvchabukswar@gmail.com",
       "collegeAddress": "Modern Education Society's Nowrosjee Wadia College, 19, Late V.K. Joag Path, Pune"
@@ -1165,7 +1100,7 @@
     {
       "id": "pe-43",
       "name": "Chamle Ranjeet Rajendra",
-      "photo": "idb:idb_pczsc_pe_directors_42_photo_1785314247840_ijrh7r",
+      "photo": "idb:idb_pczsc_pe_directors_42_photo_1785313797844_22vbsa",
       "mobile": "8805348999",
       "email": "ranjeet.chamle@gmail.com",
       "collegeAddress": "Shikshan Prasarak Mandali's S.P. College, Tilak Road, Sadashiv Peth, Pune"
@@ -1173,7 +1108,7 @@
     {
       "id": "pe-44",
       "name": "Chaudhari Sagar Prakash",
-      "photo": "idb:idb_pczsc_pe_directors_43_photo_1785314247841_byr16l",
+      "photo": "idb:idb_pczsc_pe_directors_43_photo_1785313797856_bx4323",
       "mobile": "9730363036",
       "email": "chaudhari.sagar3036@gmail.com",
       "collegeAddress": "Mahatma Phule Vidya Pratishtan's Shantabai Shivram Pawar College, Ambegaon (Bk.), Pune"
@@ -1181,7 +1116,7 @@
     {
       "id": "pe-45",
       "name": "Chavan Neha Moreshwar",
-      "photo": "idb:idb_pczsc_pe_directors_44_photo_1785314247841_wcb0bt",
+      "photo": "idb:idb_pczsc_pe_directors_44_photo_1785313797858_57kdzu",
       "mobile": "9175341874",
       "email": "chavan.neha02@gmail.com",
       "collegeAddress": "Mandke Human Happiness Foundation's Smt. Sudhatai Mandke College, 47-8, Paud Road, Erandwane, Pune"
@@ -1189,7 +1124,7 @@
     {
       "id": "pe-46",
       "name": "Chavan Prithviraj Dhondiram",
-      "photo": "idb:idb_pczsc_pe_directors_45_photo_1785314247855_nr91u8",
+      "photo": "idb:idb_pczsc_pe_directors_45_photo_1785313797861_l1orx4",
       "mobile": "9823837007",
       "email": "prithvirajchavan7720@gmail.com",
       "collegeAddress": "Deccan Education Society's Shri Navalmal Firodia Law College, Fergusson College Campus, Pune"
@@ -1197,7 +1132,7 @@
     {
       "id": "pe-47",
       "name": "Desai Gayatri Jivajirao",
-      "photo": "idb:idb_pczsc_pe_directors_46_photo_1785314247855_g3d5ye",
+      "photo": "idb:idb_pczsc_pe_directors_46_photo_1785313797870_5bok3o",
       "mobile": "7420068605",
       "email": "desaigayatri013@gmail.com",
       "collegeAddress": "Bhartiya Kala Prasarini Sabha'S College of Architecture, 2043, Sadashiv Peth, Tilak Road, Pune"
@@ -1213,7 +1148,7 @@
     {
       "id": "pe-49",
       "name": "Deshpande Shrikant Venkatesh",
-      "photo": "idb:idb_pczsc_pe_directors_48_photo_1785314247856_6up6aw",
+      "photo": "idb:idb_pczsc_pe_directors_48_photo_1785313797875_bfpbfd",
       "mobile": "9421553006",
       "email": "principal.skncc@sinhgad.edu",
       "collegeAddress": "Sinhgad Technical Education Society's Smt. Kashibai Navle College of Commerce, 19/15, Smt Khilare Marg, Erandwane, Karve Road, Pune"
@@ -1221,7 +1156,7 @@
     {
       "id": "pe-50",
       "name": "Diwan Chetan Sauba",
-      "photo": "idb:idb_pczsc_pe_directors_49_photo_1785314247856_m0zmi2",
+      "photo": "idb:idb_pczsc_pe_directors_49_photo_1785313797877_ujeisj",
       "mobile": "8605620556",
       "email": "chetandiwan.cip@gmail.com",
       "collegeAddress": "Karve Institute of Social Service, Hillside, Karvenagar, Pune"
@@ -1229,7 +1164,7 @@
     {
       "id": "pe-51",
       "name": "Firame Ghansham Balkrishna",
-      "photo": "idb:idb_pczsc_pe_directors_50_photo_1785314247857_sbfxqj",
+      "photo": "idb:idb_pczsc_pe_directors_50_photo_1785313797879_aflriw",
       "mobile": "7767030499",
       "email": "firamegb@gmail.com",
       "collegeAddress": "Sinhgad Technical Education Society's Smt. Kashibai Navale College of Engineering, Survey No. 44/1, Sinhgad Road, Vadgav Bk., Pune"
@@ -1237,7 +1172,7 @@
     {
       "id": "pe-52",
       "name": "Gaikwad Milind Ramdas",
-      "photo": "idb:idb_pczsc_pe_directors_51_photo_1785314247858_9xdxw1",
+      "photo": "idb:idb_pczsc_pe_directors_51_photo_1785313797887_mi0d5w",
       "mobile": "7276201510",
       "email": "milindgaikwad010@gmail.com",
       "collegeAddress": "Poona Jesuit Schools' Society's St. Vincent College of Commerce, St. Joseph Technical Institute Campus, Near Moledina High School, Behind Mira Society, Shankar Sheth Road, Pune"
@@ -1245,7 +1180,7 @@
     {
       "id": "pe-53",
       "name": "Gaikwad Sunil Wamanrao",
-      "photo": "idb:idb_pczsc_pe_directors_52_photo_1785314247869_xgo0da",
+      "photo": "idb:idb_pczsc_pe_directors_52_photo_1785313797890_iiwt2e",
       "mobile": "9421011564",
       "email": "gaikwad97@gmail.com",
       "collegeAddress": "Shikshan Prasarak Mandali's S. P. College, Tilak Road, Sadashiv Peth, Pune"
@@ -1253,7 +1188,7 @@
     {
       "id": "pe-54",
       "name": "Gandhale Rajkumar Mukundharao",
-      "photo": "idb:idb_pczsc_pe_directors_53_photo_1785314247869_quymmo",
+      "photo": "idb:idb_pczsc_pe_directors_53_photo_1785313797892_9jv5a3",
       "mobile": "9881436363",
       "email": "rajgandhale1976@gmail.com",
       "collegeAddress": "DCM Society Of India, Pune's Dr.Babasaheb Ambedkar Commerce & MVR Shinde Arts College, 896, Nana Peth, Pune"
@@ -1261,7 +1196,7 @@
     {
       "id": "pe-55",
       "name": "Gujar Vikram Bapu",
-      "photo": "idb:idb_pczsc_pe_directors_54_photo_1785314247870_tfgtrj",
+      "photo": "idb:idb_pczsc_pe_directors_54_photo_1785313797895_4elk8k",
       "mobile": "9423016812",
       "email": "vgujar1959@rediffmail.com",
       "collegeAddress": "Jog Educational Trust's P. Jog College of Science & Commerce, Mayur Colony, Kothrud, Pune"
@@ -1269,7 +1204,7 @@
     {
       "id": "pe-56",
       "name": "Gurao Rajendra Govindrao",
-      "photo": "idb:idb_pczsc_pe_directors_55_photo_1785314247870_8o18ik",
+      "photo": "idb:idb_pczsc_pe_directors_55_photo_1785313797902_71b8fr",
       "mobile": "9370809227",
       "email": "rggurao.bmcc@gmail.com",
       "collegeAddress": "The PGK Mandal's H.V. Desai College, Desai Brothers, Vidyabhavan, 596, Budhavar Peth, Pune"
@@ -1277,7 +1212,7 @@
     {
       "id": "pe-57",
       "name": "Hatole Sachin Shankarrao",
-      "photo": "idb:idb_pczsc_pe_directors_56_photo_1785314247871_aunagi",
+      "photo": "idb:idb_pczsc_pe_directors_56_photo_1785313797905_93vewe",
       "mobile": "9890100198",
       "email": "sachinhatole7@gmail.com",
       "collegeAddress": "Progressive Education Society's Modern Institute of Business Management, 1186, Shivajinagar, Pune"
@@ -1285,7 +1220,7 @@
     {
       "id": "pe-58",
       "name": "Jadhav Ankush Pappu",
-      "photo": "idb:idb_pczsc_pe_directors_57_photo_1785314247872_rvhcmr",
+      "photo": "idb:idb_pczsc_pe_directors_57_photo_1785313797909_otq2xi",
       "mobile": "9028293961",
       "email": "akushjadhavsir@gmail.com",
       "collegeAddress": "Asian Academy of Education & Research, Asian College of Science & Commerce, 28/15/16, Narhe Dhayri Road, Pari Company Chowk, Pune"
@@ -1301,7 +1236,7 @@
     {
       "id": "pe-60",
       "name": "Jadhav Vikram Shrirang",
-      "photo": "idb:idb_pczsc_pe_directors_59_photo_1785314247873_g16sci",
+      "photo": "idb:idb_pczsc_pe_directors_59_photo_1785313797912_bu77zm",
       "mobile": "9067601001",
       "email": "vikramjadhav2012@rediffmail.com",
       "collegeAddress": "Sarswati Mandir Sanstha's Saraswati Mandir Night College of Commerce & Arts, 1359, Shukrwar Peth, Bajirao Road, Pune"
@@ -1309,7 +1244,7 @@
     {
       "id": "pe-61",
       "name": "Jadhav Vishal Krushna",
-      "photo": "idb:idb_pczsc_pe_directors_60_photo_1785314247874_mqjxpl",
+      "photo": "idb:idb_pczsc_pe_directors_60_photo_1785313797919_zldjuw",
       "mobile": "9595510520",
       "email": "vjadhav5959@gmail.com",
       "collegeAddress": "Creative Educational Foundation's Swaraj College of Arts, Commerce & Science, House No 600, Gurudatta Housing Society, Pune Satara Road, Balaji Nagar, Pune"
@@ -1317,7 +1252,7 @@
     {
       "id": "pe-62",
       "name": "Jahagirdar Ahemad Abdulkadar",
-      "photo": "idb:idb_pczsc_pe_directors_61_photo_1785314247874_yzh98o",
+      "photo": "idb:idb_pczsc_pe_directors_61_photo_1785313797922_5y0yfe",
       "mobile": "9975490466",
       "email": "ahemjahagirdar@gmail.com",
       "collegeAddress": "Choice Parivar Trust's Shatrunjay Darshan Choice Collage of Arts & Commerce, Behind McDonalds, Karve Road, Kothrud, Pune"
@@ -1325,7 +1260,7 @@
     {
       "id": "pe-63",
       "name": "Jahagirdar Irfan Abdulkadar",
-      "photo": "idb:idb_pczsc_pe_directors_62_photo_1785314247875_lp2zmu",
+      "photo": "idb:idb_pczsc_pe_directors_62_photo_1785313797927_3sipcw",
       "mobile": "9860227329",
       "email": "irfanjahagirdar1993@gmail.com",
       "collegeAddress": "Choice Parivar Trust's Shatrunjay Darshan Choice Collage of Arts & Commerce, Behind McDonalds, Karve Road, Kothrud, Pune"
@@ -1333,7 +1268,7 @@
     {
       "id": "pe-64",
       "name": "Kadam Rajendra Pandurang",
-      "photo": "idb:idb_pczsc_pe_directors_63_photo_1785314247886_j65vp1",
+      "photo": "idb:idb_pczsc_pe_directors_63_photo_1785313797932_l1jixg",
       "mobile": "9657267856",
       "email": "kadam_raju@ymail.com",
       "collegeAddress": "Maharashtriya Mandal's Commerce College, Gultekadi, Pune"
@@ -1341,7 +1276,7 @@
     {
       "id": "pe-65",
       "name": "Kadam Saurabh Rajendra",
-      "photo": "idb:idb_pczsc_pe_directors_64_photo_1785314247887_qwklb6",
+      "photo": "idb:idb_pczsc_pe_directors_64_photo_1785313797934_f0au6g",
       "mobile": "8767060500",
       "email": "saurabhrk777@gmail.com",
       "collegeAddress": "Rayat Shikshan Sanstha's Dr. Babasaheb Ambedkar Mahavidyalay, 85, Shinde Sarkar Vada, Aundh, Pune"
@@ -1349,7 +1284,7 @@
     {
       "id": "pe-66",
       "name": "Khatape Samatosh Ramesh",
-      "photo": "idb:idb_pczsc_pe_directors_65_photo_1785314247887_850k20",
+      "photo": "idb:idb_pczsc_pe_directors_65_photo_1785313797936_rdy13k",
       "mobile": "9405575334",
       "email": "khatpesamatosh@gmail.com",
       "collegeAddress": "Bansilal Ramnath Agarwal Charitable Trust's Vishwkarma Arts, Commerce & Science College, Kondhawa (Bk.), Pune"
@@ -1357,7 +1292,7 @@
     {
       "id": "pe-67",
       "name": "Khindre Priyanka Sadanand",
-      "photo": "idb:idb_pczsc_pe_directors_66_photo_1785314247888_l5u6nx",
+      "photo": "idb:idb_pczsc_pe_directors_66_photo_1785313797937_rtu7cx",
       "mobile": "9890121288",
       "email": "priyankakindre.skncc@sinhgad.edu",
       "collegeAddress": "Sinhgad Technical Education Society's Smt. Kashibai Navle College of Commerce, 19/15, Smt Khilare Marg, Erandwane, Karve Road, Pune"
@@ -1365,7 +1300,7 @@
     {
       "id": "pe-68",
       "name": "Kolekar Dattatray Subhashbabu",
-      "photo": "idb:idb_pczsc_pe_directors_67_photo_1785314247888_ngschi",
+      "photo": "idb:idb_pczsc_pe_directors_67_photo_1785313797938_w8xqsk",
       "mobile": "8007397688",
       "email": "dattarajekolekar@gmail.com",
       "collegeAddress": "Om Shiv Foundation's Arts & Commerce Night College, Janta Mahavidyalaya Campus, Kasturba Housing Society, Pune"
@@ -1373,7 +1308,7 @@
     {
       "id": "pe-69",
       "name": "Kothawade Shubhada Abhijeet",
-      "photo": "idb:idb_pczsc_pe_directors_68_photo_1785314247889_azk7qz",
+      "photo": "idb:idb_pczsc_pe_directors_68_photo_1785313797939_0k5ntl",
       "mobile": "9403929851",
       "email": "shubhadakothawade07@gmail.com",
       "collegeAddress": "Suryadatta Education Foundation's Suryadatta International Institute of Cyber Security, Bavdhan, Pune"
@@ -1381,7 +1316,7 @@
     {
       "id": "pe-70",
       "name": "Kuchekar Madhu Baburao",
-      "photo": "idb:idb_pczsc_pe_directors_69_photo_1785314247889_551c99",
+      "photo": "idb:idb_pczsc_pe_directors_69_photo_1785313797942_uzbxqd",
       "mobile": "9422073463",
       "email": "madhukuchekar4@gmail.com",
       "collegeAddress": "MCE Society's H.G.M. Azam College of Education, Azam Campus, Camp, Pune"
@@ -1389,7 +1324,7 @@
     {
       "id": "pe-71",
       "name": "Lokhande Shashikant Dnyandev",
-      "photo": "idb:idb_pczsc_pe_directors_70_photo_1785314247890_2jhjr3",
+      "photo": "idb:idb_pczsc_pe_directors_70_photo_1785313797945_ca4tjl",
       "mobile": "9822335468",
       "email": "principal.scoe@sinhgad.edu",
       "collegeAddress": "Sinhgad Technical Education Society's Sinhgad College of Engineering, 44/1, Vadgav Bk., Pune"
@@ -1397,7 +1332,7 @@
     {
       "id": "pe-72",
       "name": "Magade Pramod Budhanand",
-      "photo": "idb:idb_pczsc_pe_directors_71_photo_1785314247891_xgjatn",
+      "photo": "idb:idb_pczsc_pe_directors_71_photo_1785313797952_o9ipdb",
       "mobile": "7709448019",
       "email": "pramod.magade21@gmail.com",
       "collegeAddress": "Zeal Education Society's Zeal College of Engineering & Research, Sr. No. 39, Katraj-Dhayari Road, Narhe, Pune"
@@ -1405,7 +1340,7 @@
     {
       "id": "pe-73",
       "name": "Mahajan Kamlesh Sharadchandra",
-      "photo": "idb:idb_pczsc_pe_directors_72_photo_1785314247891_zgbvpi",
+      "photo": "idb:idb_pczsc_pe_directors_72_photo_1785313797955_zapnp7",
       "mobile": "8087142445",
       "email": "kamleshsmahajan11235@gmail.com",
       "collegeAddress": "Sinhgad Technical Education Society's NBN Sinhgad Technical Institutes, S.No 10/1, Off Sinhgad Road, Ambegaon Bk., Pune"
@@ -1413,7 +1348,7 @@
     {
       "id": "pe-74",
       "name": "Mahajan Kuldeep Arvind",
-      "photo": "idb:idb_pczsc_pe_directors_73_photo_1785314247902_voku9y",
+      "photo": "idb:idb_pczsc_pe_directors_73_photo_1785313797961_tbgpvw",
       "mobile": "9921004339",
       "email": "kamahajan@mescoepune.org",
       "collegeAddress": "Modern Education Society's Wadia College of Engineering, Wadia College Campus, 19, Late Principal V.K. Jog Path, Pune"
@@ -1421,7 +1356,7 @@
     {
       "id": "pe-75",
       "name": "Mali Priyanka Ananda",
-      "photo": "idb:idb_pczsc_pe_directors_74_photo_1785314247903_0uh97c",
+      "photo": "idb:idb_pczsc_pe_directors_74_photo_1785313797964_jzkaxe",
       "mobile": "7774039089",
       "email": "priyakore16@gmail.com",
       "collegeAddress": "Shri Khanderai Pratishtan's Dnyansagar Arts & Commerce College, Sr. No. 4243, Balewadi, Pune"
@@ -1429,7 +1364,7 @@
     {
       "id": "pe-76",
       "name": "Mhashilkar Suraj Sudhir",
-      "photo": "idb:idb_pczsc_pe_directors_75_photo_1785314247903_kn5c0q",
+      "photo": "idb:idb_pczsc_pe_directors_75_photo_1785313797968_67iby7",
       "mobile": "9623429300",
       "email": "surajmhashilkar96@gmail.com",
       "collegeAddress": "All India Shri Shivaji Memorial Society's College of Hotel Management & Catering Technology, 55-56, Shivajinagar, Pune"
@@ -1437,7 +1372,7 @@
     {
       "id": "pe-77",
       "name": "Nagras Om Girish",
-      "photo": "idb:idb_pczsc_pe_directors_76_photo_1785314247904_hlaiwd",
+      "photo": "idb:idb_pczsc_pe_directors_76_photo_1785313797969_rxdhrx",
       "mobile": "7666548127",
       "email": "om_nagras@aissmscop.com",
       "collegeAddress": "All India Shri Shivaji Memorial Society's College of Pharmacy, Kenedy Road, Near RTO, Pune"
@@ -1461,7 +1396,7 @@
     {
       "id": "pe-80",
       "name": "Pandit Nandini Rajendra",
-      "photo": "idb:idb_pczsc_pe_directors_79_photo_1785314247905_9tlxnm",
+      "photo": "idb:idb_pczsc_pe_directors_79_photo_1785313797974_kn33l2",
       "mobile": "7028028027",
       "email": "nandini1612@gmail.com",
       "collegeAddress": "Deccan Education Society's Shri Navalmal Firodia Law College, Fergusson College Campus, Pune"
@@ -1469,7 +1404,7 @@
     {
       "id": "pe-81",
       "name": "Pathak Abhay Anant",
-      "photo": "idb:idb_pczsc_pe_directors_80_photo_1785314247905_b1ntrt",
+      "photo": "idb:idb_pczsc_pe_directors_80_photo_1785313797976_o9hcv9",
       "mobile": "7219500712",
       "email": "pathak.abhay20@gmail.com",
       "collegeAddress": "Shikshan Prasarak Mandali's Prin. N.G. Naralkar Institute of Career Development & Research, 536, Shaniwar Peth, Appa Balwant Chowk, Pune"
@@ -1477,7 +1412,7 @@
     {
       "id": "pe-82",
       "name": "Patil Amrut Sambhaji",
-      "photo": "idb:idb_pczsc_pe_directors_81_photo_1785314247906_ziz2h1",
+      "photo": "idb:idb_pczsc_pe_directors_81_photo_1785313797979_us0fr3",
       "mobile": "9923571116",
       "email": "amrutp116@gmail.com",
       "collegeAddress": "Jog Educational Trust's P. Jog College of Science & Commerce, Mayur Colony, Kothrud, Pune"
@@ -1493,7 +1428,7 @@
     {
       "id": "pe-84",
       "name": "Patil Ravindra Arjun",
-      "photo": "idb:idb_pczsc_pe_directors_83_photo_1785314247907_aumfeg",
+      "photo": "idb:idb_pczsc_pe_directors_83_photo_1785313797983_4e0mb2",
       "mobile": "9421011836",
       "email": "shyamap28@rediffmail.com",
       "collegeAddress": "Akhil Bhartiy Maratha Shikshan Parishad's Yashwantrao Chavan Law College, Parvati Ramana Shahu College Campus, Pune"
@@ -1501,7 +1436,7 @@
     {
       "id": "pe-85",
       "name": "Pawale Vikram Chhaban",
-      "photo": "idb:idb_pczsc_pe_directors_84_photo_1785314247907_iyift7",
+      "photo": "idb:idb_pczsc_pe_directors_84_photo_1785313797985_f803q1",
       "mobile": "9921179757",
       "email": "vikrampawale4500@gmail.com",
       "collegeAddress": "Arihant Eductaion Foundation's Arihant College of Arts, Commerce & Science, Behind Crystal Honda Showroom, Bavdhan Bk., Pune"
@@ -1509,7 +1444,7 @@
     {
       "id": "pe-86",
       "name": "Pawar Sangharsh Rohidas",
-      "photo": "idb:idb_pczsc_pe_directors_85_photo_1785314247908_vs6e1t",
+      "photo": "idb:idb_pczsc_pe_directors_85_photo_1785313797992_dlc90l",
       "mobile": "9730306353",
       "email": "shangharshpawar2004@gmail.com",
       "collegeAddress": "Late Udhavrao Tulshiram Jadhavar Foundations's Principal Dr. Sudhakarrao Jadhavar Arts, Commerce & Science College, Manaji Nagar, Narhe-Dhayri, Pune"
@@ -1517,7 +1452,7 @@
     {
       "id": "pe-87",
       "name": "Pendharkar Kishor Dhanaji",
-      "photo": "idb:idb_pczsc_pe_directors_86_photo_1785314247917_4pimh2",
+      "photo": "idb:idb_pczsc_pe_directors_86_photo_1785313797995_jni8nf",
       "mobile": "9272112356",
       "email": "kdpendharkar@yahoo.com",
       "collegeAddress": "Deccan Education Society's Fergusson College, F.C. Road, Pune"
@@ -1525,7 +1460,7 @@
     {
       "id": "pe-88",
       "name": "Phirake Rashmi Arun",
-      "photo": "idb:idb_pczsc_pe_directors_87_photo_1785314247918_pmyku2",
+      "photo": "idb:idb_pczsc_pe_directors_87_photo_1785313797996_nb7mfp",
       "mobile": "9881956582",
       "email": "rashmi.firake18686@gmail.com",
       "collegeAddress": "All India Shri Shivaji Memorial Society's Institute of Management, Kenedy Road, Pune"
@@ -1533,7 +1468,7 @@
     {
       "id": "pe-89",
       "name": "Rajane Kishor Kailas",
-      "photo": "idb:idb_pczsc_pe_directors_88_photo_1785314247918_vqk2pr",
+      "photo": "idb:idb_pczsc_pe_directors_88_photo_1785313797999_h86za9",
       "mobile": "8208618491",
       "email": "kishorrajane@gmail.com",
       "collegeAddress": "Dnyanoday Prashikshan Sevabhavi Sanstha's Foresight College of Commerce, YMCA Complex City, Sr. No. 382, New Rasta Peth, Quarter Gate, Pune"
@@ -1549,7 +1484,7 @@
     {
       "id": "pe-91",
       "name": "Raut Sonali Satyawan",
-      "photo": "idb:idb_pczsc_pe_directors_90_photo_1785314247919_652ycy",
+      "photo": "idb:idb_pczsc_pe_directors_90_photo_1785313798000_5x44xj",
       "mobile": "7774888169",
       "email": "sonali.march26@gmail.com",
       "collegeAddress": "Sinhgad Technical Education Society's Sinhgad College of Pharmacy, Survey No 44/1, Off. Sinhgad Road, Vadgav Bk., Pune"
@@ -1557,7 +1492,7 @@
     {
       "id": "pe-92",
       "name": "Roman Akanksha Dsharath",
-      "photo": "idb:idb_pczsc_pe_directors_91_photo_1785314247920_gzp5sx",
+      "photo": "idb:idb_pczsc_pe_directors_91_photo_1785313798004_0rpn7p",
       "mobile": "8657077287",
       "email": "aakanksharm49@gmail.com",
       "collegeAddress": "Purandhar Technical Education Society's Pune Cambridge Senior College, Sr. No. 28, Jijamata Chowk, Behind Ambegaon Pathar Police Chauki, Ambegaon Pathar, Pune"
@@ -1565,7 +1500,7 @@
     {
       "id": "pe-93",
       "name": "Shaikh Saleem Mahmood",
-      "photo": "idb:idb_pczsc_pe_directors_92_photo_1785314247921_ms1e8w",
+      "photo": "idb:idb_pczsc_pe_directors_92_photo_1785313798008_6ycnv2",
       "mobile": "9922466244",
       "email": "smshaikh27@gmail.com",
       "collegeAddress": "MCE Society's A.K.K. New Law Academy, 2390, B.K.B. Hidaytullah Road, Azam Campus, Pune"
@@ -1573,7 +1508,7 @@
     {
       "id": "pe-94",
       "name": "Shaikh Shahrukh Salim",
-      "photo": "idb:idb_pczsc_pe_directors_93_photo_1785314247922_toz0oy",
+      "photo": "idb:idb_pczsc_pe_directors_93_photo_1785313798011_pbjxlz",
       "mobile": "9604200789",
       "email": "shahrukh180493@gmail.com",
       "collegeAddress": "Sinhgad Technical Education Society's Sinhgad Institute Of Technology & Science, 49/1, Narhe-Ambegaon (Bk.), Off Westerly Bypass, Pune Mumbai Express Way, Pune"
@@ -1581,7 +1516,7 @@
     {
       "id": "pe-95",
       "name": "Shaikh Yaseen Ismail",
-      "photo": "idb:idb_pczsc_pe_directors_94_photo_1785314247923_eb2nf2",
+      "photo": "idb:idb_pczsc_pe_directors_94_photo_1785313798012_7x4aap",
       "mobile": "9372449407",
       "email": "sheray2k@gmail.com",
       "collegeAddress": "MCE Society's Abeda Inamdar Senior College of Arts, Science & Commerce, 2390, BKB Hidaytullah Road, Azam Campus, Pune"
@@ -1589,7 +1524,7 @@
     {
       "id": "pe-96",
       "name": "Shinde Komal Raju",
-      "photo": "idb:idb_pczsc_pe_directors_95_photo_1785314247923_ljs8yg",
+      "photo": "idb:idb_pczsc_pe_directors_95_photo_1785313798016_e5eovm",
       "mobile": "9921943643",
       "email": "kpbad09@gmail.com",
       "collegeAddress": "Sarhad College, 76/4, Near Katraj Deari, Katraj, Pune"
@@ -1597,7 +1532,7 @@
     {
       "id": "pe-97",
       "name": "Shinde Manisha Sanjeev",
-      "photo": "idb:idb_pczsc_pe_directors_96_photo_1785314247924_8q03fo",
+      "photo": "idb:idb_pczsc_pe_directors_96_photo_1785313798018_njuzc9",
       "mobile": "9923428182",
       "email": "ms9923428182@gmail.com",
       "collegeAddress": "Marathwada Mitra Mandal's Shankarrao Chavhan Law College, 302, Deccan Gymkhana, Pune"
@@ -1605,7 +1540,7 @@
     {
       "id": "pe-98",
       "name": "Shinde Ramdas Narayan",
-      "photo": "idb:idb_pczsc_pe_directors_97_photo_1785314247924_ka96f6",
+      "photo": "idb:idb_pczsc_pe_directors_97_photo_1785313798023_wy9a1i",
       "mobile": "8149404083",
       "email": "ramdasshinde092@gmail.com",
       "collegeAddress": "Bharat Shikshan Prasarak Mandal'd Jaikranti College of Computer Science & Managment Studies, BRT Bus Stand, Katraj, Pune"
@@ -1613,7 +1548,7 @@
     {
       "id": "pe-99",
       "name": "Shinde Sachin Sudhakar",
-      "photo": "idb:idb_pczsc_pe_directors_98_photo_1785314247925_26pj7t",
+      "photo": "idb:idb_pczsc_pe_directors_98_photo_1785313798027_cate3p",
       "mobile": "9404232781",
       "email": "sachin.5353@gmail.com",
       "collegeAddress": "SCTR's Institute of Computer Technology, Survey No. 27, Pune-Satara Road, Dhanakwadi, Pune"
@@ -1621,7 +1556,7 @@
     {
       "id": "pe-100",
       "name": "Shirke Sheetal Shamrao",
-      "photo": "idb:idb_pczsc_pe_directors_99_photo_1785314247933_trq61l",
+      "photo": "idb:idb_pczsc_pe_directors_99_photo_1785313798029_7lnhdc",
       "mobile": "8855818623",
       "email": "shirkesheetal444@gmail.com",
       "collegeAddress": "Progressive Education Society's Modern College of Arts, Science & Commerce, Warje, Pune"
@@ -1629,7 +1564,7 @@
     {
       "id": "pe-101",
       "name": "Siddhatekkar Shailesh Ramakant",
-      "photo": "idb:idb_pczsc_pe_directors_100_photo_1785314247934_ajlp3t",
+      "photo": "idb:idb_pczsc_pe_directors_100_photo_1785313798032_n6h55m",
       "mobile": "9225500786",
       "email": "phdshailesh@gmail.com",
       "collegeAddress": "Rashtriya Shikshan Mandal's Chetan Dattaji Gaikwad Institute of Management Studies, 25, Karve Road, Pune"
@@ -1637,7 +1572,7 @@
     {
       "id": "pe-102",
       "name": "Sonawane Chetan Ashok",
-      "photo": "idb:idb_pczsc_pe_directors_101_photo_1785314247935_jbz4gb",
+      "photo": "idb:idb_pczsc_pe_directors_101_photo_1785313798034_7u4eca",
       "mobile": "9860697099",
       "email": "sonchetan@rediffmail.com",
       "collegeAddress": "Deccan Education Society's Fergusson College, F.C Road, Pune"
@@ -1645,7 +1580,7 @@
     {
       "id": "pe-103",
       "name": "Sonawane Gautam Hiraman",
-      "photo": "idb:idb_pczsc_pe_directors_102_photo_1785314247936_wzz855",
+      "photo": "idb:idb_pczsc_pe_directors_102_photo_1785313798038_kbokhj",
       "mobile": "9923170277",
       "email": "jmspgautam@gmail.com",
       "collegeAddress": "Deccan Education Society's Fergusson College, F.C Road, Pune"
@@ -1653,7 +1588,7 @@
     {
       "id": "pe-104",
       "name": "Swami Shivkant Chandrakant",
-      "photo": "idb:idb_pczsc_pe_directors_103_photo_1785314247937_6js05w",
+      "photo": "idb:idb_pczsc_pe_directors_103_photo_1785313798041_whse00",
       "mobile": "8626072408",
       "email": "shivkantswami49@gmail.com",
       "collegeAddress": "Arham Foundation's Arham Law College, Pune"
@@ -1661,7 +1596,7 @@
     {
       "id": "pe-105",
       "name": "Thombare Pradip Sudam",
-      "photo": "idb:idb_pczsc_pe_directors_104_photo_1785314247938_stxx8g",
+      "photo": "idb:idb_pczsc_pe_directors_104_photo_1785313798045_k78re2",
       "mobile": "9833079377",
       "email": "prad4930@gmail.com",
       "collegeAddress": "Sinhgad Technical Education Society's Sinhgad Institute of Management, Survey No. 44/1, Vadgav Bk., Off Sinhgad Road, Pune"
@@ -1669,7 +1604,7 @@
     {
       "id": "pe-106",
       "name": "Thopate Kaushalya Vaibhav",
-      "photo": "idb:idb_pczsc_pe_directors_105_photo_1785314247938_x3puf5",
+      "photo": "idb:idb_pczsc_pe_directors_105_photo_1785313798049_g74l8n",
       "mobile": "9960158822",
       "email": "kvthopate@gmail.com",
       "collegeAddress": "Bansilal Ramnath Agarwal Charitable Trust's Vishwakarma Institute of Technology, 666, Upper Indira Nagar, Bibwewadi, Pune"
@@ -1685,7 +1620,7 @@
     {
       "id": "pe-108",
       "name": "Ubale Sanjay Asaram",
-      "photo": "idb:idb_pczsc_pe_directors_107_photo_1785314247940_sou5d2",
+      "photo": "idb:idb_pczsc_pe_directors_107_photo_1785313798053_fcionw",
       "mobile": "7875522411",
       "email": "ubalesanjay23@gmail.com",
       "collegeAddress": "The Shetkari Shishan Mandal's Sangali Padmbhushan Vasantdada Patil Institute of Technology, Bavdhan, Pune"
@@ -1693,7 +1628,7 @@
     {
       "id": "pe-109",
       "name": "Wadekar Sachin Radhakisan",
-      "photo": "idb:idb_pczsc_pe_directors_108_photo_1785314247940_gfnh8w",
+      "photo": "idb:idb_pczsc_pe_directors_108_photo_1785313798056_u48xf0",
       "mobile": "9561090580",
       "email": "sachinwadekar7@gmail.com",
       "collegeAddress": "Zeal Education Society's Zeal Institute Of Management & Computer Application, S.N. 39, Narhe, Pune"
@@ -1701,7 +1636,7 @@
     {
       "id": "pe-110",
       "name": "Yadav Darshana Prasad",
-      "photo": "idb:idb_pczsc_pe_directors_109_photo_1785314247941_petm52",
+      "photo": "idb:idb_pczsc_pe_directors_109_photo_1785313798059_m4tsth",
       "mobile": "9764000630",
       "email": "dpy.imcc@mespune.in",
       "collegeAddress": "M.E. Society's Institute of Management & Career Courses, 131, Mayur Colony, Kothrud, Pune"
@@ -1709,15 +1644,117 @@
     {
       "id": "pe-111",
       "name": "Zende Vivek Shankar",
-      "photo": "idb:idb_pczsc_pe_directors_110_photo_1785314247947_x86vt3",
+      "photo": "idb:idb_pczsc_pe_directors_110_photo_1785313798061_8ix17u",
       "mobile": "8087872401",
       "email": "zendevivek@gmail.com",
       "collegeAddress": "Pune Vidyarthi Gruh's College of Science & Commerce, 44, Vidyanagari, Shivdarshan, Parvati, Pune"
     }
   ],
+  "pczsc_news_marquee": [
+    {
+      "id": "news-1",
+      "tag": "Notice",
+      "date": "JULY 2026",
+      "title": "Intercollegiate Sports Calendar AY 2024-25 Published by PCZSC",
+      "link": "/en/documents"
+    },
+    {
+      "id": "news-2",
+      "tag": "Highlight",
+      "date": "JUNE 2026",
+      "title": "Live Streaming Introduced for All Major Intercollegiate Finals",
+      "link": "/en/about-us"
+    },
+    {
+      "id": "news-3",
+      "tag": "Circular",
+      "date": "MAY 2026",
+      "title": "Coaching Camps & Selection Trials for Inter-Zonal Tournaments",
+      "link": "/en/documents"
+    },
+    {
+      "id": "news-4",
+      "tag": "Election",
+      "date": "APRIL 2026",
+      "title": "PCZSC Committee Democratically Constituted by Principals & PE Directors",
+      "link": "/en/about-us"
+    }
+  ],
+  "pczsc_metrics": [
+    {
+      "id": "m-1",
+      "number": "20+",
+      "label": "Years of Excellence"
+    },
+    {
+      "id": "m-2",
+      "number": "3000+",
+      "label": "Student Athletes"
+    },
+    {
+      "id": "m-3",
+      "number": "60+",
+      "label": "Affiliated Colleges"
+    },
+    {
+      "id": "m-4",
+      "number": "100+",
+      "label": "Annual Tournaments"
+    }
+  ],
+  "pczsc_vision_mission": {
+    "visionTitle": "Vision Statement",
+    "visionText": "To be a leading collegiate sports organisation that inspires excellence, promotes holistic student development, and builds a strong sporting culture by providing equal opportunities for every student-athlete to excel at the university, state, national, and international levels.",
+    "missions": [
+      "To organise fair, transparent, and professionally managed Intercollegiate Sports Competitions for all affiliated colleges and institutes under the Pune City Zone.",
+      "To identify, nurture, and develop talented student-athletes through coaching camps, training programmes, and competitive exposure.",
+      "To prepare and support university teams for Inter-Zonal, State, National, and other prestigious competitions by providing quality training and selection opportunities.",
+      "To promote the values of sportsmanship, discipline, teamwork, leadership, integrity, and respect through participation in sports.",
+      "To encourage maximum student participation by creating an inclusive and motivating sporting environment for all.",
+      "To leverage modern technology and innovation, including digital platforms and live streaming, to make collegiate sports more accessible and engaging for students, institutions, alumni, and sports enthusiasts.",
+      "To strengthen collaboration among Principals, Directors, Directors of Physical Education, coaches, officials, and affiliated colleges for the continuous growth of university sports.",
+      "To preserve the rich legacy of collegiate sports while continually improving the quality, standards, and management of sporting events through innovation and best practices.",
+      "To contribute to the overall physical, mental, and social well-being of students by promoting sports as an essential part of higher education.",
+      "To establish Pune City as a centre of sporting excellence by creating opportunities for athletes to achieve success at every competitive level."
+    ],
+    "coreValues": [
+      {
+        "title": "Excellence",
+        "desc": "Striving for the highest standards in sports organisation and athletic performance."
+      },
+      {
+        "title": "Integrity",
+        "desc": "Ensuring fairness, transparency, and ethical conduct in every competition."
+      },
+      {
+        "title": "Sportsmanship",
+        "desc": "Respecting opponents, officials, rules, and the spirit of the game."
+      },
+      {
+        "title": "Teamwork",
+        "desc": "Building strong partnerships among colleges, athletes, coaches, and stakeholders."
+      },
+      {
+        "title": "Inclusivity",
+        "desc": "Providing equal opportunities for participation irrespective of background or ability."
+      },
+      {
+        "title": "Innovation",
+        "desc": "Embracing technology and modern practices to enhance the sporting experience."
+      },
+      {
+        "title": "Leadership",
+        "desc": "Developing confident, disciplined, and responsible student leaders through sports."
+      },
+      {
+        "title": "Commitment",
+        "desc": "Working with dedication to advance collegiate sports and inspire future generations."
+      }
+    ]
+  },
   "pczsc_admin_auth": {
     "username": "admin",
-    "passwordHash": "53069676a89a4735c74d61d29e4323ae94921e4c4dd701a6116695fd968852e1",
-    "updatedAt": "2026-07-29T08:55:27.798Z"
+    "updatedAt": "2026-07-29T08:55:27.798Z",
+    "passwordHash": "53069676a89a4735c74d61d29e4323ae94921e4c4dd701a6116695fd968852e1"
   }
 }
