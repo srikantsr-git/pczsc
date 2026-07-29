@@ -347,13 +347,13 @@ export const AboutUsPage: React.FC = () => {
 
   const aboutTabs = [
     { id: 'all', label: 'All Sections', icon: <Trophy className="w-3.5 h-3.5" /> },
-    { id: 'committee', label: 'PCZSC Committee', icon: <Users className="w-3.5 h-3.5" /> },
-    { id: 'directors', label: 'Director of Physical Education & Sports', icon: <Users className="w-3.5 h-3.5" /> },
+    { id: 'history', label: 'Overview & History', icon: <Trophy className="w-3.5 h-3.5" /> },
     { id: 'objectives', label: 'Objectives & Directives', icon: <CheckCircle2 className="w-3.5 h-3.5" /> },
-    { id: 'leadership', label: 'President & Secretariat', icon: <Award className="w-3.5 h-3.5" /> },
+    { id: 'leadership', label: "President's Message", icon: <Award className="w-3.5 h-3.5" /> },
     { id: 'vision', label: 'Vision & Mission', icon: <Target className="w-3.5 h-3.5" /> },
     { id: 'values', label: 'Core Values', icon: <Award className="w-3.5 h-3.5" /> },
-    { id: 'history', label: 'Overview & History', icon: <Trophy className="w-3.5 h-3.5" /> },
+    { id: 'committee', label: 'PCZSC Committee', icon: <Users className="w-3.5 h-3.5" /> },
+    { id: 'directors', label: 'Director of Physical Education & Sports', icon: <Users className="w-3.5 h-3.5" /> },
     ...(aboutSections.length > 0
       ? [{ id: 'dynamic', label: 'Additional Sections', icon: <Tv className="w-3.5 h-3.5" /> }]
       : [])
@@ -408,7 +408,264 @@ export const AboutUsPage: React.FC = () => {
 
           <div className="space-y-16">
           
-          {/* Section: PCZSC Committee Members */}
+          {/* Section 1: Overview & History */}
+          {(activeTab === 'all' || activeTab === 'history') && (
+            <div className="relative group animate-fade-in">
+              {isEditMode && (
+                <div className="absolute -top-6 right-0 z-20">
+                  <button
+                    onClick={() => {
+                      setHistoryBadge(aboutUsConfig.historyBadge);
+                      setHistoryTitle(aboutUsConfig.historyTitle);
+                      setHistoryBody(aboutUsConfig.historyBody);
+                      setHistoryImage(aboutUsConfig.historyImage);
+                      setShowHistoryEdit(true);
+                    }}
+                    className="bg-santic-red text-white text-xs font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-lg border border-white/20 uppercase tracking-wider"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                    <span>Edit History Section</span>
+                  </button>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div className="lg:col-span-7 space-y-6">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-santic-red/10 border border-santic-red/20 text-santic-red text-xs font-extrabold uppercase tracking-wider">
+                    <Trophy className="w-3.5 h-3.5" />
+                    <span>{aboutUsConfig.historyBadge}</span>
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight">
+                    {aboutUsConfig.historyTitle}
+                  </h2>
+                  <div className="text-slate-600 text-base md:text-lg leading-relaxed font-normal space-y-4">
+                    {aboutUsConfig.historyBody.split('\n\n').map((paragraph, idx) => (
+                      <p key={idx}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="lg:col-span-5">
+                  <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 group">
+                    <img
+                      src={aboutUsConfig.historyImage}
+                      alt="PCZSC Sports Championship"
+                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent p-6 flex flex-col justify-end text-white">
+                      <span className="text-xs font-bold uppercase tracking-wider text-santic-red">PCZSC Legacy</span>
+                      <h4 className="text-lg font-bold">Uniting Higher Education Institutions in Pune</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Section 2: Detailed Objectives & Talent Development (Editable) */}
+          {(activeTab === 'all' || activeTab === 'objectives') && (
+            <div className="relative p-8 md:p-14 rounded-3xl bg-slate-50 border border-slate-200/90 shadow-sm space-y-6 animate-fade-in">
+              {isEditMode && (
+                <div className="absolute top-6 right-6 z-20">
+                  <button
+                    onClick={() => {
+                      setObjectivesTitle(aboutUsConfig.objectivesTitle);
+                      setObjectivesBody(aboutUsConfig.objectivesBody);
+                      setShowObjectivesEdit(true);
+                    }}
+                    className="bg-santic-red text-white text-xs font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-lg uppercase tracking-wider"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                    <span>Edit Objectives Section</span>
+                  </button>
+                </div>
+              )}
+
+              <h3 className="text-xl md:text-2xl font-extrabold text-slate-900">
+                {aboutUsConfig.objectivesTitle}
+              </h3>
+              <div className="text-slate-600 text-base md:text-lg leading-relaxed font-normal space-y-4">
+                {aboutUsConfig.objectivesBody.split('\n\n').map((p, idx) => (
+                  <p key={idx}>{p}</p>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Section 3: President's Message (Editable) */}
+          {(activeTab === 'all' || activeTab === 'leadership') && (
+            <div className="relative p-8 md:p-12 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white shadow-2xl border border-slate-800 space-y-8 overflow-hidden animate-fade-in">
+              {isEditMode && (
+                <div className="absolute top-6 right-6 z-20">
+                  <button
+                    onClick={() => {
+                      setPresidentTitle(aboutUsConfig.presidentTitle);
+                      setPresidentSubtitle(aboutUsConfig.presidentSubtitle);
+                      setPresidentBody(aboutUsConfig.presidentBody);
+                      setPresidentHighlightTitle(aboutUsConfig.presidentHighlightTitle);
+                      setPresidentHighlightBody(aboutUsConfig.presidentHighlightBody);
+                      setPresidentName(aboutUsConfig.presidentName || presidentMember?.name || 'Prin. Dr. Iqbal N. Shaikh');
+                      setPresidentPhoto(aboutUsConfig.presidentPhoto || presidentMember?.photo || '');
+                      setPresidentRole(aboutUsConfig.presidentRole);
+                      setPresidentOrganization(aboutUsConfig.presidentOrganization);
+                      setPresidentUniversity(aboutUsConfig.presidentUniversity);
+                      setShowPresidentEdit(true);
+                    }}
+                    className="bg-santic-red text-white text-xs font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-lg uppercase tracking-wider"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                    <span>Edit Leadership Section</span>
+                  </button>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div className="lg:col-span-8 space-y-5">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-santic-red/20 text-santic-red text-xs font-extrabold uppercase tracking-wider border border-santic-red/30">
+                    <Award className="w-3.5 h-3.5" />
+                    <span>{aboutUsConfig.presidentSubtitle}</span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+                    {aboutUsConfig.presidentTitle}
+                  </h3>
+                  <p className="text-slate-300 text-sm md:text-base leading-relaxed font-normal">
+                    {aboutUsConfig.presidentBody}
+                  </p>
+                  {aboutUsConfig.presidentHighlightTitle && (
+                    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                      <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+                        {aboutUsConfig.presidentHighlightTitle}
+                      </h4>
+                      <p className="text-xs text-slate-300">
+                        {aboutUsConfig.presidentHighlightBody}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="lg:col-span-4 flex flex-col items-center text-center p-6 rounded-2xl bg-white/5 border border-white/10 space-y-4">
+                  <div className="w-32 h-32 rounded-2xl overflow-hidden border-2 border-santic-red shadow-xl">
+                    <img
+                      src={aboutUsConfig.presidentPhoto || presidentMember?.photo || ''}
+                      alt={aboutUsConfig.presidentName}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80';
+                      }}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <h3 className="text-lg font-black text-white">
+                      {aboutUsConfig.presidentName || presidentMember?.name || 'Prin. Dr. Iqbal N. Shaikh'}
+                    </h3>
+                    <div>
+                      <span className="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-santic-red text-white uppercase tracking-wider shadow-md">
+                        {aboutUsConfig.presidentRole}
+                      </span>
+                    </div>
+                    <p className="text-xs font-bold text-santic-red tracking-wide pt-1">
+                      {aboutUsConfig.presidentOrganization}
+                    </p>
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      {aboutUsConfig.presidentUniversity || presidentMember?.collegeAddress}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Section 4: Vision & Mission (Editable by Admin) */}
+          {(activeTab === 'all' || activeTab === 'vision') && (
+            <div className="space-y-12 relative animate-fade-in">
+              {isEditMode && (
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => setShowVMModal(true)}
+                    className="bg-santic-red text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-md uppercase tracking-wider"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                    <span>Edit Vision & 10 Mission Points</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Vision Statement */}
+              <div className="p-8 md:p-12 rounded-3xl bg-red-50/70 border border-santic-red/30 shadow-sm space-y-4">
+                <div className="flex items-center gap-2 text-santic-red font-extrabold text-xs uppercase tracking-widest">
+                  <Target className="w-4 h-4" />
+                  <span>Our Strategic Vision</span>
+                </div>
+                <h3 className="text-xl md:text-2xl font-extrabold text-slate-900">
+                  {visionMission.visionTitle}
+                </h3>
+                <p className="text-slate-700 text-base md:text-lg leading-relaxed font-medium">
+                  "{visionMission.visionText}"
+                </p>
+              </div>
+
+              {/* Mission 10 Points */}
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <span className="text-xs uppercase tracking-widest text-santic-red font-bold">
+                    Core Objectives
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+                    Mission Statement
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {visionMission.missions.map((m, idx) => (
+                    <div
+                      key={idx}
+                      className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex items-start gap-3.5 hover:border-santic-red/40 hover:shadow-md transition-all duration-300"
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-santic-red shrink-0 mt-0.5" />
+                      <p className="text-xs md:text-sm text-slate-700 leading-relaxed font-normal">
+                        {m}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Section 5: Core Values (8 Cards) */}
+          {(activeTab === 'all' || activeTab === 'values') && (
+            <div className="space-y-8 animate-fade-in">
+              <div className="space-y-2">
+                <span className="text-xs uppercase tracking-widest text-santic-red font-bold">
+                  Organizational Principles
+                </span>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+                  Core Values
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {visionMission.coreValues.map((val) => (
+                  <div
+                    key={val.title}
+                    className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:bg-white hover:border-santic-red hover:shadow-xl transition-all duration-300 space-y-3 group"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-santic-red/10 flex items-center justify-center text-santic-red font-bold text-sm group-hover:bg-santic-red group-hover:text-white transition-colors">
+                      {val.title.charAt(0)}
+                    </div>
+                    <h4 className="text-base font-extrabold text-slate-900 group-hover:text-santic-red transition-colors">
+                      {val.title}
+                    </h4>
+                    <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                      {val.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Section 6: PCZSC Committee Members */}
           {(activeTab === 'all' || activeTab === 'committee') && (
             <div className="space-y-6 animate-fade-in">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
@@ -544,7 +801,7 @@ export const AboutUsPage: React.FC = () => {
             </div>
           )}
 
-          {/* Section: Director of Physical Education & Sports */}
+          {/* Section 7: Director of Physical Education & Sports */}
           {(activeTab === 'all' || activeTab === 'directors') && (
             <div className="space-y-6 animate-fade-in">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
@@ -906,60 +1163,6 @@ export const AboutUsPage: React.FC = () => {
                     </p>
                   </div>
                 ))}
-              </div>
-            </div>
-          )}
-
-          {/* Section: History & Governance Overview (Editable) */}
-          {(activeTab === 'all' || activeTab === 'history') && (
-            <div className="relative group animate-fade-in">
-              {isEditMode && (
-                <div className="absolute -top-6 right-0 z-20">
-                  <button
-                    onClick={() => {
-                      setHistoryBadge(aboutUsConfig.historyBadge);
-                      setHistoryTitle(aboutUsConfig.historyTitle);
-                      setHistoryBody(aboutUsConfig.historyBody);
-                      setHistoryImage(aboutUsConfig.historyImage);
-                      setShowHistoryEdit(true);
-                    }}
-                    className="bg-santic-red text-white text-xs font-extrabold px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-lg border border-white/20 uppercase tracking-wider"
-                  >
-                    <Edit className="w-3.5 h-3.5" />
-                    <span>Edit History Section</span>
-                  </button>
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div className="lg:col-span-7 space-y-6">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-santic-red/10 border border-santic-red/20 text-santic-red text-xs font-extrabold uppercase tracking-wider">
-                    <Trophy className="w-3.5 h-3.5" />
-                    <span>{aboutUsConfig.historyBadge}</span>
-                  </div>
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight">
-                    {aboutUsConfig.historyTitle}
-                  </h2>
-                  <div className="text-slate-600 text-base md:text-lg leading-relaxed font-normal space-y-4">
-                    {aboutUsConfig.historyBody.split('\n\n').map((paragraph, idx) => (
-                      <p key={idx}>{paragraph}</p>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="lg:col-span-5">
-                  <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 group">
-                    <img
-                      src={aboutUsConfig.historyImage}
-                      alt="PCZSC Sports Championship"
-                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent p-6 flex flex-col justify-end text-white">
-                      <span className="text-xs font-bold uppercase tracking-wider text-santic-red">PCZSC Legacy</span>
-                      <h4 className="text-lg font-bold">Uniting Higher Education Institutions in Pune</h4>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           )}
