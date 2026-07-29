@@ -10,6 +10,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Critical Theme Pre-paint Initializer -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('pczsc_active_theme');
+          if (saved) {
+            var theme = JSON.parse(saved);
+            if (theme && theme.primaryColors) {
+              var root = document.documentElement;
+              root.style.setProperty('--color-santic-red', theme.primaryColors.primary || '#D9232D');
+              root.style.setProperty('--color-santic-hoverRed', theme.primaryColors.hover || '#B81922');
+              if (theme.typography) {
+                root.style.setProperty('--font-family-body', theme.typography.bodyFont || 'Inter, sans-serif');
+                root.style.setProperty('--font-family-heading', theme.typography.headingFont || 'Inter, sans-serif');
+              }
+              if (theme.backgroundColors) {
+                root.style.setProperty('--color-bg-body', theme.backgroundColors.body || '#FFFFFF');
+                root.style.setProperty('--color-bg-card', theme.backgroundColors.card || '#FFFFFF');
+              }
+            }
+          }
+        } catch(e) {}
+      })();
+    </script>
   </head>
   <body class="bg-black text-white antialiased selection:bg-santic-red selection:text-white font-sans overflow-x-hidden">
     <div id="root"></div>

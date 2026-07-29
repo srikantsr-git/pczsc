@@ -10,6 +10,7 @@ export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showConfigModal, setShowConfigModal] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   const location = useLocation();
   const { headerConfig, isAdmin, isEditMode, logout } = useCMS();
 
@@ -38,15 +39,16 @@ export const Header: React.FC = () => {
           {/* PCZSC Logo & Title Branding (Editable by Admin) */}
           <div className="flex items-center gap-2 group">
             <Link to="/en/home" className="flex items-center gap-3 shrink-0">
-              {headerConfig.logoIconUrl ? (
+              {headerConfig.logoIconUrl && !logoError ? (
                 <img
                   src={headerConfig.logoIconUrl}
                   alt={headerConfig.logoTitle}
-                  className="w-10 h-10 object-contain rounded-2xl bg-slate-900/80 p-1 border border-white/20 shadow-lg group-hover:scale-105 transition-transform"
+                  onError={() => setLogoError(true)}
+                  className="w-9 h-9 sm:w-10 sm:h-10 object-contain rounded-2xl bg-slate-900/80 p-1 border border-white/20 shadow-lg group-hover:scale-105 transition-transform shrink-0"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-2xl bg-santic-red flex items-center justify-center text-white shadow-lg shadow-red-600/30 group-hover:scale-105 transition-transform">
-                  <Trophy className="w-5 h-5" />
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-santic-red flex items-center justify-center text-white shadow-lg shadow-red-600/30 group-hover:scale-105 transition-transform shrink-0">
+                  <Trophy className="w-5 h-5 text-white" />
                 </div>
               )}
               <div>
