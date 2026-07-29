@@ -83,15 +83,40 @@ export const GalleryPage: React.FC = () => {
       <section className="santic-section bg-slate-50/70 border-b border-slate-200/80">
         <div className="santic-container space-y-10">
           
-          {/* Category Filter & Admin Action Bar (Only visible when Admin Edit Mode is Active) */}
+          {/* Category Filter & Admin Action Bar */}
           <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+            {/* Mobile Category Select Dropdown (< md) */}
+            <div className="md:hidden w-full p-3 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-1">
+              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 px-1">
+                Filter Media Category
+              </label>
+              <select
+                value={selectedCategory}
+                onChange={(e) => {
+                  setSelectedCategory(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-extrabold text-slate-900 focus:outline-none focus:border-santic-red shadow-sm cursor-pointer"
+              >
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Desktop Category Filter Bar (>= md) */}
+            <div className="hidden md:flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
               {categories.map((cat) => {
                 const isActive = selectedCategory === cat;
                 return (
                   <button
                     key={cat}
-                    onClick={() => setSelectedCategory(cat)}
+                    onClick={() => {
+                      setSelectedCategory(cat);
+                      setCurrentPage(1);
+                    }}
                     className={`px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
                       isActive
                         ? 'bg-santic-red text-white border-santic-red shadow-md shadow-red-500/20'

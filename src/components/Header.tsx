@@ -52,11 +52,11 @@ export const Header: React.FC = () => {
               <div>
                 <span
                   style={{ fontSize: 'var(--font-size-logo)' }}
-                  className={`font-extrabold tracking-tight block leading-none ${isScrolled ? 'text-slate-900' : 'text-white'}`}
+                  className={`font-extrabold tracking-tight block leading-none truncate max-w-[200px] sm:max-w-none ${isScrolled ? 'text-slate-900' : 'text-white'}`}
                 >
                   {headerConfig.logoTitle}
                 </span>
-                <span className={`text-[10px] font-bold uppercase tracking-wider block mt-1 ${isScrolled ? 'text-slate-500' : 'text-white/70'}`}>
+                <span className={`text-[10px] font-bold uppercase tracking-wider block mt-1 truncate max-w-[200px] sm:max-w-none ${isScrolled ? 'text-slate-500' : 'text-white/70'}`}>
                   {headerConfig.logoSubtitle}
                 </span>
               </div>
@@ -109,17 +109,15 @@ export const Header: React.FC = () => {
             </Link>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <div className="flex items-center gap-3 xl:hidden">
-            <Link
-              to={headerConfig.ctaPath}
-              className="text-xs bg-santic-red text-white font-medium px-3.5 py-1.5 rounded-full shadow-sm"
-            >
-              {headerConfig.ctaText}
-            </Link>
+          {/* Mobile Menu Toggle Button (Clean Hamburger Button, No Overlap) */}
+          <div className="flex items-center gap-2 xl:hidden shrink-0">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`p-2 focus:outline-none ${isScrolled ? 'text-slate-900' : 'text-white'}`}
+              className={`p-2 rounded-xl border transition-colors ${
+                isScrolled
+                  ? 'text-slate-900 border-slate-200 hover:bg-slate-100'
+                  : 'text-white border-white/20 hover:bg-white/10'
+              }`}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

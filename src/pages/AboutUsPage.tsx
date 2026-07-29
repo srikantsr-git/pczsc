@@ -367,8 +367,26 @@ export const AboutUsPage: React.FC = () => {
       <section className="santic-section bg-white">
         <div className="santic-container space-y-12">
           
-          {/* About Page Navigation Tabs Bar (2 Clean Rows, No Scrollbar) */}
-          <div className="flex flex-wrap items-center justify-start gap-2.5 p-3.5 rounded-3xl bg-slate-50 border border-slate-200 shadow-sm sticky top-20 z-30 bg-white/95 backdrop-blur-md">
+          {/* Mobile Navigation Dropdown Select (< md) */}
+          <div className="md:hidden w-full p-3 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm sticky top-20 z-30 bg-white/95 backdrop-blur-md space-y-1">
+            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 px-1">
+              Select Page Section / View
+            </label>
+            <select
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value as any)}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-extrabold text-slate-900 focus:outline-none focus:border-santic-red shadow-sm cursor-pointer"
+            >
+              {aboutTabs.map((tab) => (
+                <option key={tab.id} value={tab.id}>
+                  {tab.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Desktop Page Navigation Tabs Bar (>= md) */}
+          <div className="hidden md:flex flex-wrap items-center justify-start gap-2.5 p-3.5 rounded-3xl bg-slate-50 border border-slate-200 shadow-sm sticky top-20 z-30 bg-white/95 backdrop-blur-md">
             {aboutTabs.map((tab) => {
               const isActive = activeTab === tab.id;
               return (

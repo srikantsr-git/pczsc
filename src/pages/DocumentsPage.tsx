@@ -154,14 +154,38 @@ export const DocumentsPage: React.FC = () => {
             )}
           </div>
 
-          {/* Category Tabs (No horizontal scrollbar, wraps neatly in multiple lines) */}
-          <div className="flex flex-wrap items-center gap-2 p-2 sm:p-3 bg-white rounded-2xl border border-slate-200 shadow-sm">
+          {/* Mobile Category Select Dropdown (< md) */}
+          <div className="md:hidden w-full p-3 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-1">
+            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 px-1">
+              Filter Documents by Category
+            </label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => {
+                setSelectedCategory(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-extrabold text-slate-900 focus:outline-none focus:border-santic-red shadow-sm cursor-pointer"
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Desktop Category Tabs Bar (>= md) */}
+          <div className="hidden md:flex flex-wrap items-center gap-2 p-2 sm:p-3 bg-white rounded-2xl border border-slate-200 shadow-sm">
             {categories.map((cat) => {
               const isActive = selectedCategory === cat;
               return (
                 <button
                   key={cat}
-                  onClick={() => setSelectedCategory(cat)}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setCurrentPage(1);
+                  }}
                   className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border ${
                     isActive
                       ? 'bg-santic-red text-white border-santic-red shadow-md shadow-red-500/20 scale-[1.02]'

@@ -399,7 +399,26 @@ export const AdminDashboardPage: React.FC = () => {
                 <ShieldCheck className="w-4 h-4 text-santic-red" />
               </div>
 
-              <nav className="space-y-2 flex-1">
+              {/* Mobile Navigation Select Dropdown (< lg) */}
+              <div className="lg:hidden w-full space-y-1">
+                <label className="block text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                  Select Navigation Module
+                </label>
+                <select
+                  value={activeNav}
+                  onChange={(e) => setActiveNav(e.target.value as any)}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs font-extrabold text-white focus:outline-none focus:border-santic-red shadow-inner cursor-pointer"
+                >
+                  {sidebarNavItems.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.label} {item.badge !== undefined ? `(${item.badge})` : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Desktop Navigation Menu (>= lg) */}
+              <nav className="hidden lg:block space-y-2 flex-1">
                 {sidebarNavItems.map((item) => {
                   const isActive = activeNav === item.id;
                   return (
