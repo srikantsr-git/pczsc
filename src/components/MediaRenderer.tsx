@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { isVideoUrl } from '../utils/fileUpload';
+import { getMediaFromIDB } from '../utils/mediaDB';
 
 interface MediaRendererProps {
   src?: string;
@@ -22,14 +23,41 @@ export const MediaRenderer: React.FC<MediaRendererProps> = ({
   muted = true,
   onClick
 }) => {
-  if (!src) return null;
+  const [resolvedSrc, setResolvedSrc] = useState<string>(src || '');
 
-  const isVideo = isVideoUrl(src);
+  useEffect(() => {
+    let isMounted = true;
+    async function resolveMedia() {
+      if (!src) {
+        setResolvedSrc('');
+        return;
+      }
+      if (src.startsWith('idb:')) {
+        const mediaKey = src.replace('idb:', '');
+        const dataUrl = await getMediaFromIDB(mediaKey);
+        if (isMounted) {
+          setResolvedSrc(dataUrl || 'https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=2000&q=80');
+        }
+      } else {
+        if (isMounted) {
+          setResolvedSrc(src);
+        }
+      }
+    }
+    resolveMedia();
+    return () => {
+      isMounted = false;
+    };
+  }, [src]);
+
+  if (!resolvedSrc) return null;
+
+  const isVideo = isVideoUrl(resolvedSrc);
 
   if (isVideo) {
     return (
       <video
-        src={src}
+        src={resolvedSrc}
         className={className}
         controls={controls}
         autoPlay={autoPlay}
@@ -43,7 +71,7 @@ export const MediaRenderer: React.FC<MediaRendererProps> = ({
 
   return (
     <img
-      src={src}
+      src={resolvedSrc}
       alt={alt}
       className={className}
       onClick={onClick}

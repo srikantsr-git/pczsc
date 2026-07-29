@@ -4,18 +4,32 @@ import { Menu, X, Shield, Trophy, Edit } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
 import { AdminLoginModal } from './AdminLoginModal';
 import { AdminConfigModals } from './AdminConfigModals';
+import { getMediaFromIDB } from '../utils/mediaDB';
 
 export const Header: React.FC = () => {
+  const { headerConfig, isAdmin, isEditMode, logout } = useCMS();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const [resolvedLogoUrl, setResolvedLogoUrl] = useState<string>(headerConfig?.logoIconUrl || '/pczsc-logo.png');
   const location = useLocation();
-  const { headerConfig, isAdmin, isEditMode, logout } = useCMS();
 
   useEffect(() => {
     setLogoError(false);
+    let isMounted = true;
+    async function resolveLogo() {
+      const url = headerConfig.logoIconUrl || '/pczsc-logo.png';
+      if (url.startsWith('idb:')) {
+        const dataUrl = await getMediaFromIDB(url.replace('idb:', ''));
+        if (isMounted) setResolvedLogoUrl(dataUrl || '/pczsc-logo.png');
+      } else {
+        if (isMounted) setResolvedLogoUrl(url);
+      }
+    }
+    resolveLogo();
+    return () => { isMounted = false; };
   }, [headerConfig.logoIconUrl]);
 
   useEffect(() => {
@@ -43,11 +57,17 @@ export const Header: React.FC = () => {
           {/* PCZSC Logo & Title Branding (Editable by Admin) */}
           <div className="flex items-center gap-2 group">
             <Link to="/en/home" className="flex items-center gap-3 shrink-0">
-              {headerConfig.logoIconUrl && !logoError ? (
+              {!logoError ? (
                 <img
-                  src={headerConfig.logoIconUrl}
+                  src={resolvedLogoUrl}
                   alt={headerConfig.logoTitle}
-                  onError={() => setLogoError(true)}
+                  onError={() => {
+                    if (resolvedLogoUrl !== '/pczsc-logo.png') {
+                      setResolvedLogoUrl('/pczsc-logo.png');
+                    } else {
+                      setLogoError(true);
+                    }
+                  }}
                   className="w-9 h-9 sm:w-10 sm:h-10 object-contain rounded-2xl bg-slate-900/80 p-1 border border-white/20 shadow-lg group-hover:scale-105 transition-transform shrink-0"
                 />
               ) : (
