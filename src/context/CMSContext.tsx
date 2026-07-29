@@ -947,6 +947,26 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setContactInfo(dbContact);
         }
 
+        const dbSEO = await fetchSiteSettingFromDB<SEOStore | null>('pczsc_seo_store', null);
+        if (dbSEO) {
+          setSeoStore(dbSEO);
+        }
+
+        const dbMarquee = await fetchSiteSettingFromDB<NewsMarqueeItem[] | null>('pczsc_news_marquee', null);
+        if (dbMarquee && Array.isArray(dbMarquee)) {
+          setNewsMarquee(dbMarquee);
+        }
+
+        const dbMetrics = await fetchSiteSettingFromDB<MetricItem[] | null>('pczsc_metrics', null);
+        if (dbMetrics && Array.isArray(dbMetrics)) {
+          setMetrics(dbMetrics);
+        }
+
+        const dbVision = await fetchSiteSettingFromDB<VisionMissionConfig | null>('pczsc_vision_mission', null);
+        if (dbVision) {
+          setVisionMission(dbVision);
+        }
+
         const dbHeader = await fetchSiteSettingFromDB<HeaderConfig | null>('pczsc_header_cfg', null);
         if (dbHeader) {
           const hydratedHdr = await hydrateImagesFromIDB(dbHeader);
@@ -1036,6 +1056,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch (e) {
       console.warn("Storage warning:", e);
     }
+    saveSiteSettingToDB('pczsc_news_marquee', items);
   };
 
   const addNewsMarqueeItem = (item: Omit<NewsMarqueeItem, 'id'>) => {
@@ -1056,6 +1077,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch (e) {
       console.warn("Storage warning:", e);
     }
+    saveSiteSettingToDB('pczsc_marquee_speed', speed);
   };
 
   const updateMetrics = (m: MetricItem[]) => {
@@ -1065,11 +1087,13 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch (e) {
       console.warn("Storage warning:", e);
     }
+    saveSiteSettingToDB('pczsc_metrics', m);
   };
 
   const updateVisionMission = (vm: VisionMissionConfig) => {
     setVisionMission(vm);
     safeSaveStorage('pczsc_vision_mission', vm);
+    saveSiteSettingToDB('pczsc_vision_mission', vm);
   };
 
   const updateAboutUsConfig = (cfg: AboutUsConfig) => {
@@ -1364,6 +1388,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const updated = { ...seoStore, [pageKey]: config };
     setSeoStore(updated);
     safeSaveStorage('pczsc_seo_store', updated);
+    saveSiteSettingToDB('pczsc_seo_store', updated);
   };
 
   const resetPageSEO = (pageKey: string) => {
