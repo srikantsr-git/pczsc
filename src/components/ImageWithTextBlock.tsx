@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useCMS, SectionContent } from '../context/CMSContext';
 import { FileUploadInput } from './FileUploadInput';
 import { MediaRenderer } from './MediaRenderer';
+import { RichTextEditor } from './admin/RichTextEditor';
 import { AlignLeft, AlignRight, Eye, EyeOff, Trash2, Edit } from 'lucide-react';
 
 interface ImageWithTextBlockProps {
@@ -143,11 +144,11 @@ export const ImageWithTextBlock: React.FC<ImageWithTextBlockProps> = ({ section,
 
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">Paragraph Content</label>
-            <textarea
-              rows={6}
+            <RichTextEditor
               value={body}
-              onChange={(e) => setBody(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-normal text-slate-900"
+              onChange={setBody}
+              placeholder="Enter section body content..."
+              minHeight={160}
             />
           </div>
 
@@ -191,11 +192,10 @@ export const ImageWithTextBlock: React.FC<ImageWithTextBlockProps> = ({ section,
             </div>
           )}
 
-          <div className="text-slate-600 text-base md:text-lg leading-relaxed font-normal space-y-4">
-            {body.split('\n\n').map((paragraph, idx) => (
-              <p key={idx}>{paragraph}</p>
-            ))}
-          </div>
+          <div
+            className="rich-html text-slate-600 text-base md:text-lg leading-relaxed font-normal"
+            dangerouslySetInnerHTML={{ __html: body }}
+          />
         </div>
       )}
     </div>

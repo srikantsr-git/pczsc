@@ -46,6 +46,7 @@ import { SEOSettingsForm } from '../components/admin/SEOSettingsForm';
 import { generateXmlSitemap, generateRobotsTxt } from '../utils/sitemapGenerator';
 import { useToast } from '../context/ToastContext';
 import { sanitizeInput, containsSqlInjection } from '../utils/security';
+import { RichTextEditor } from '../components/admin/RichTextEditor';
 
 import { getDocumentPdfUrl } from '../utils/documentUtils';
 import { ChangePasswordModal } from '../components/admin/ChangePasswordModal';
@@ -1237,13 +1238,11 @@ export const AdminDashboardPage: React.FC = () => {
                             <label className="block text-xs font-extrabold uppercase text-slate-300">
                               {selectedInquiry.status === 'Answered' ? 'Update Official Response' : 'Draft Official Reply'}
                             </label>
-                            <textarea
-                              rows={3}
+                            <RichTextEditor
                               value={replyText}
-                              onChange={(e) => setReplyText(e.target.value)}
+                              onChange={setReplyText}
                               placeholder="Type official reply / confirmation message here..."
-                              className="w-full p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-xs text-white font-normal"
-                              required
+                              minHeight={90}
                             />
                             <div className="flex justify-end">
                               <button

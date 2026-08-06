@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useCMS } from '../context/CMSContext';
 import { useToast } from '../context/ToastContext';
 import { FileUploadInput } from './FileUploadInput';
+import { RichTextEditor } from './admin/RichTextEditor';
 import { X, Plus, Trash2, Layout, Sliders, FileText, Globe, Layers, Gauge } from 'lucide-react';
 
 interface AdminConfigModalsProps {
@@ -593,11 +594,11 @@ export const AdminConfigModals: React.FC<AdminConfigModalsProps> = ({ activeTab,
               {/* Vision Statement */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Vision Statement</label>
-                <textarea
-                  rows={3}
+                <RichTextEditor
                   value={localVM.visionText}
-                  onChange={(e) => setLocalVM({ ...localVM, visionText: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border text-xs font-medium"
+                  onChange={(html) => setLocalVM({ ...localVM, visionText: html })}
+                  placeholder="Enter vision statement..."
+                  minHeight={100}
                 />
               </div>
 
@@ -727,11 +728,11 @@ export const AdminConfigModals: React.FC<AdminConfigModalsProps> = ({ activeTab,
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Footer Description</label>
-                <textarea
-                  rows={3}
+                <RichTextEditor
                   value={localFooter.description}
-                  onChange={(e) => setLocalFooter({ ...localFooter, description: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border text-xs font-normal"
+                  onChange={(html) => setLocalFooter({ ...localFooter, description: html })}
+                  placeholder="Enter footer description..."
+                  minHeight={80}
                 />
               </div>
 

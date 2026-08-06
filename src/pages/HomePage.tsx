@@ -22,6 +22,7 @@ import { ImageWithTextBlock } from '../components/ImageWithTextBlock';
 import { AdminConfigModals } from '../components/AdminConfigModals';
 import { MediaRenderer } from '../components/MediaRenderer';
 import { FileUploadInput } from '../components/FileUploadInput';
+import { RichTextEditor } from '../components/admin/RichTextEditor';
 import { SEOHead } from '../components/SEOHead';
 import { getDocumentPdfUrl } from '../utils/documentUtils';
 
@@ -783,12 +784,11 @@ export const HomePage: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Section Description</label>
-                <textarea
-                  rows={4}
+                <RichTextEditor
                   value={aboutDescription}
-                  onChange={(e) => setAboutDescription(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-normal"
-                  required
+                  onChange={setAboutDescription}
+                  placeholder="Enter home about description..."
+                  minHeight={110}
                 />
               </div>
 
@@ -902,13 +902,11 @@ export const HomePage: React.FC = () => {
                       placeholder="Pillar Title"
                       required
                     />
-                    <textarea
-                      rows={2}
+                    <RichTextEditor
                       value={p.description}
-                      onChange={(e) => updatePillarItem(idx, 'description', e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-normal"
+                      onChange={(val) => updatePillarItem(idx, 'description', val)}
                       placeholder="Pillar Description"
-                      required
+                      minHeight={70}
                     />
                   </div>
                 ))}

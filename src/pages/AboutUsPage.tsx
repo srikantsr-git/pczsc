@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SubPageHero } from '../components/SubPageHero';
 import { useCMS, CommitteeMember, PhysicalEducationDirector } from '../context/CMSContext';
 import { FileUploadInput } from '../components/FileUploadInput';
+import { RichTextEditor } from '../components/admin/RichTextEditor';
 import { defaultBlankAvatar } from '../data/defaultPEDirectors';
 import {
   Trophy,
@@ -1010,13 +1011,12 @@ export const AboutUsPage: React.FC = () => {
               />
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Paragraph Content (Separate paragraphs with double enter)</label>
-                <textarea
-                  rows={8}
+                <label className="block text-xs font-bold text-slate-700 mb-1">Paragraph Content</label>
+                <RichTextEditor
                   value={historyBody}
-                  onChange={(e) => setHistoryBody(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border text-sm"
-                  required
+                  onChange={setHistoryBody}
+                  placeholder="Enter history content..."
+                  minHeight={180}
                 />
               </div>
 
@@ -1057,13 +1057,12 @@ export const AboutUsPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Paragraph Content (Separate paragraphs with double enter)</label>
-                <textarea
-                  rows={8}
+                <label className="block text-xs font-bold text-slate-700 mb-1">Paragraph Content</label>
+                <RichTextEditor
                   value={objectivesBody}
-                  onChange={(e) => setObjectivesBody(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border text-sm"
-                  required
+                  onChange={setObjectivesBody}
+                  placeholder="Enter objectives content..."
+                  minHeight={180}
                 />
               </div>
 
@@ -1116,13 +1115,12 @@ export const AboutUsPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Message Body (Separate paragraphs with double enter)</label>
-                <textarea
-                  rows={6}
+                <label className="block text-xs font-bold text-slate-700 mb-1">Message Body</label>
+                <RichTextEditor
                   value={presidentBody}
-                  onChange={(e) => setPresidentBody(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border text-sm"
-                  required
+                  onChange={setPresidentBody}
+                  placeholder="Enter president's message..."
+                  minHeight={140}
                 />
               </div>
 
@@ -1192,11 +1190,11 @@ export const AboutUsPage: React.FC = () => {
                 </div>
                 <div>
                   <label className="block text-[11px] font-bold text-slate-700 mb-1">Highlight Content</label>
-                  <textarea
-                    rows={2}
+                  <RichTextEditor
                     value={presidentHighlightBody}
-                    onChange={(e) => setPresidentHighlightBody(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-normal"
+                    onChange={setPresidentHighlightBody}
+                    placeholder="Enter highlight content..."
+                    minHeight={70}
                   />
                 </div>
               </div>
@@ -1269,12 +1267,11 @@ export const AboutUsPage: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Paragraph Text</label>
-                <textarea
-                  rows={5}
+                <RichTextEditor
                   value={newBody}
-                  onChange={(e) => setNewBody(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm"
-                  required
+                  onChange={setNewBody}
+                  placeholder="Enter section body text..."
+                  minHeight={130}
                 />
               </div>
 
