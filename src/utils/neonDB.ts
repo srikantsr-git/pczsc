@@ -300,6 +300,10 @@ export async function saveSiteSettingToDB(key: string, value: any): Promise<bool
         value = EXCLUDED.value,
         updated_at = NOW();
     `;
+    // Bust the TTL cache so next page load fetches fresh data from DB
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('pczsc_hydrate_ts');
+    }
     return true;
   } catch (err) {
     console.error(`Neon DB saveSiteSetting error for key [${key}]:`, err);

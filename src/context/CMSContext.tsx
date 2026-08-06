@@ -767,6 +767,21 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     async function hydrateStores() {
       try {
+        // ── TTL Cache Guard ──────────────────────────────────────────────────
+        // If the page was hydrated recently (within 3 min), skip all Neon DB
+        // queries and use the localStorage cache — saves 15+ network round-trips.
+        // Cache is busted whenever an admin saves a change (each save calls
+        // localStorage.removeItem('pczsc_hydrate_ts') before writing to DB).
+        const HYDRATE_TTL_MS = 3 * 60 * 1000; // 3 minutes
+        const lastHydrate = Number(localStorage.getItem('pczsc_hydrate_ts') || '0');
+        const isAdmin = localStorage.getItem('pczsc_is_admin') === 'true';
+        if (!isAdmin && Date.now() - lastHydrate < HYDRATE_TTL_MS) {
+          // Fast path: localStorage already has fresh data, nothing to do
+          setGalleryLoading(false);
+          return;
+        }
+        // ─────────────────────────────────────────────────────────────────────
+
         // Hydrate Documents from Neon PostgreSQL database
         const dbDocs = await fetchDocumentsFromDB();
         if (dbDocs && dbDocs.length > 0) {
@@ -959,6 +974,9 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setHeaderConfig(finalHdr);
         // Cache to localStorage so next page load can read it synchronously (zero-flash init)
         safeSaveStorage('pczsc_header_cfg', finalHdr);
+
+        // Stamp successful hydration time for TTL cache
+        localStorage.setItem('pczsc_hydrate_ts', String(Date.now()));
 
       } catch (e) {
         console.warn("Storage hydration warning:", e);
