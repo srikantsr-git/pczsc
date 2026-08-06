@@ -720,8 +720,17 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   // All other state uses defaults — hydrateStores() loads from Neon DB on mount
-  // Do NOT read from localStorage for image-bearing sections (images vanish on PC restart)
-  const [headerConfig, setHeaderConfig] = useState<HeaderConfig>(defaultHeaderConfig);
+  // headerConfig reads from localStorage synchronously to avoid logo flash on first paint
+  const [headerConfig, setHeaderConfig] = useState<HeaderConfig>(() => {
+    try {
+      const saved = localStorage.getItem('pczsc_header_cfg');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.logoIconUrl) return { ...defaultHeaderConfig, ...parsed };
+      }
+    } catch (_e) {}
+    return defaultHeaderConfig;
+  });
   const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(defaultHeroSlides);
   const [homeAboutConfig, setHomeAboutConfig] = useState<HomeAboutConfig>(defaultHomeAboutConfig);
   const [pillarsConfig, setPillarsConfig] = useState<PillarsSectionConfig>(defaultPillarsConfig);
@@ -946,7 +955,11 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           targetHeader.logoIconUrl = '/pczsc-logo.png';
         }
         const hydratedHdr = await hydrateImagesFromIDB(targetHeader);
-        setHeaderConfig(hydratedHdr || targetHeader);
+        const finalHdr = hydratedHdr || targetHeader;
+        setHeaderConfig(finalHdr);
+        // Cache to localStorage so next page load can read it synchronously (zero-flash init)
+        safeSaveStorage('pczsc_header_cfg', finalHdr);
+
       } catch (e) {
         console.warn("Storage hydration warning:", e);
         setGalleryLoading(false);
@@ -1053,8 +1066,9 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateHeaderConfig = (config: HeaderConfig) => {
     setHeaderConfig(config);
-    // Save to Neon DB only — never to localStorage (logo image must persist across PC restarts)
+    // Save to Neon DB (persistent across devices) AND localStorage (for zero-flash sync init on next load)
     saveSiteSettingToDB('pczsc_header_cfg', config);
+    safeSaveStorage('pczsc_header_cfg', config);
   };
 
   const updateHeroSlides = (slides: HeroSlide[]) => {

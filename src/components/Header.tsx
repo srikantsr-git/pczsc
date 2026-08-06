@@ -13,7 +13,24 @@ export const Header: React.FC = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [logoError, setLogoError] = useState(false);
-  const [resolvedLogoUrl, setResolvedLogoUrl] = useState<string>(headerConfig?.logoIconUrl || '/pczsc-logo.png');
+
+  // Initialise synchronously from localStorage to avoid default-logo flash on first paint
+  const [resolvedLogoUrl, setResolvedLogoUrl] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem('pczsc_header_cfg');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed?.logoIconUrl && !parsed.logoIconUrl.startsWith('idb:')) {
+          return parsed.logoIconUrl;
+        }
+      }
+    } catch (_e) {}
+    return headerConfig?.logoIconUrl || '/pczsc-logo.png';
+  });
+
+  // logoReady: false until the async IDB/URL resolution is complete — hides the img briefly
+  const [logoReady, setLogoReady] = useState(false);
+
   const location = useLocation();
 
   useEffect(() => {
@@ -23,9 +40,15 @@ export const Header: React.FC = () => {
       const url = headerConfig.logoIconUrl || '/pczsc-logo.png';
       if (url.startsWith('idb:')) {
         const dataUrl = await getMediaFromIDB(url.replace('idb:', ''));
-        if (isMounted) setResolvedLogoUrl(dataUrl || '/pczsc-logo.png');
+        if (isMounted) {
+          setResolvedLogoUrl(dataUrl || '/pczsc-logo.png');
+          setLogoReady(true);
+        }
       } else {
-        if (isMounted) setResolvedLogoUrl(url);
+        if (isMounted) {
+          setResolvedLogoUrl(url);
+          setLogoReady(true);
+        }
       }
     }
     resolveLogo();
@@ -68,7 +91,7 @@ export const Header: React.FC = () => {
                       setLogoError(true);
                     }
                   }}
-                  className="w-9 h-9 sm:w-10 sm:h-10 object-contain drop-shadow-lg group-hover:scale-105 transition-transform shrink-0"
+                  className={`w-9 h-9 sm:w-10 sm:h-10 object-contain drop-shadow-lg group-hover:scale-105 transition-all duration-300 shrink-0 ${logoReady ? 'opacity-100' : 'opacity-0'}`}
                 />
               ) : (
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-santic-red flex items-center justify-center text-white shadow-lg shadow-red-600/30 group-hover:scale-105 transition-transform shrink-0">
