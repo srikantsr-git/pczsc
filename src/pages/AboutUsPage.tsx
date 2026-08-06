@@ -635,13 +635,24 @@ export const AboutUsPage: React.FC = () => {
           {/* Section 5: Core Values (8 Cards) */}
           {(activeTab === 'all' || activeTab === 'values') && (
             <div className="space-y-8 animate-fade-in">
-              <div className="space-y-2">
-                <span className="text-xs uppercase tracking-widest text-santic-red font-bold">
-                  Organizational Principles
-                </span>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">
-                  Core Values
-                </h3>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                <div className="space-y-2">
+                  <span className="text-xs uppercase tracking-widest text-santic-red font-bold">
+                    Organizational Principles
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+                    Core Values
+                  </h3>
+                </div>
+                {isAdmin && (
+                  <button
+                    onClick={() => setShowVMModal(true)}
+                    className="bg-santic-red text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-md uppercase tracking-wider shrink-0 self-start sm:self-auto"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                    <span>Edit Core Values</span>
+                  </button>
+                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1137,13 +1148,24 @@ export const AboutUsPage: React.FC = () => {
           {/* Section 5: Core Values (8 Cards) */}
           {(activeTab === 'all' || activeTab === 'values') && (
             <div className="space-y-8 animate-fade-in">
-              <div className="space-y-2">
-                <span className="text-xs uppercase tracking-widest text-santic-red font-bold">
-                  Organizational Principles
-                </span>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">
-                  Core Values
-                </h3>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                <div className="space-y-2">
+                  <span className="text-xs uppercase tracking-widest text-santic-red font-bold">
+                    Organizational Principles
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+                    Core Values
+                  </h3>
+                </div>
+                {isAdmin && (
+                  <button
+                    onClick={() => setShowVMModal(true)}
+                    className="bg-santic-red text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-md uppercase tracking-wider shrink-0 self-start sm:self-auto"
+                  >
+                    <Edit className="w-3.5 h-3.5" />
+                    <span>Edit Core Values</span>
+                  </button>
+                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
