@@ -10,8 +10,8 @@ interface AdminLoginModalProps {
 export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose }) => {
   const { login } = useCMS();
   const { showToast } = useToast();
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin123');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -24,8 +24,8 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose }) => 
       const success = await login(username, password);
       if (success) {
         showToast(
-          '🎉 Welcome Admin!',
-          'You are now logged in with full Inline CMS & Theme Editor permissions.',
+          '🎉 Welcome!',
+          'You are now logged in with full CMS & Admin permissions.',
           'success'
         );
         onClose();
@@ -60,7 +60,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose }) => 
           </div>
           <h2 className="text-2xl font-extrabold text-slate-900">Admin Portal Login</h2>
           <p className="text-xs text-slate-500">
-            Enter admin credentials to manage PCZSC documents, gallery, contact details, and inline content.
+            Enter authorized credentials to access the PCZSC Admin Control Center.
           </p>
         </div>
 
@@ -79,8 +79,10 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose }) => 
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your admin username"
               className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-santic-red text-sm font-medium text-slate-900"
               required
+              autoComplete="username"
             />
           </div>
 
@@ -92,27 +94,31 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose }) => 
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your admin password"
               className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-santic-red text-sm font-medium text-slate-900"
               required
+              autoComplete="current-password"
             />
           </div>
 
           <div className="pt-2">
             <button
               type="submit"
-              className="w-full bg-santic-red hover:bg-santic-hoverRed text-white py-3.5 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all shadow-lg shadow-red-500/20"
+              disabled={isSubmitting}
+              className="w-full bg-santic-red hover:bg-santic-hoverRed text-white py-3.5 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all shadow-lg shadow-red-500/20 disabled:opacity-60"
             >
-              Sign In to Admin Portal
+              {isSubmitting ? 'Authenticating...' : 'Sign In to Admin Portal'}
             </button>
           </div>
         </form>
 
         <div className="pt-4 border-t border-slate-100 text-center">
           <p className="text-[11px] text-slate-400">
-            Demo Credentials: Username: <strong className="text-slate-700">admin</strong> | Password: <strong className="text-slate-700">admin123</strong>
+            Access is restricted to authorized PCZSC Secretariat personnel only.
           </p>
         </div>
       </div>
     </div>
   );
 };
+

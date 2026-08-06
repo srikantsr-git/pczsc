@@ -36,6 +36,7 @@ import {
   Filter,
   Users,
   Globe,
+  Crown,
   X
 } from 'lucide-react';
 import { AdminLoginModal } from '../components/AdminLoginModal';
@@ -54,6 +55,7 @@ import {
 } from '../utils/neonDB';
 import { getDocumentPdfUrl } from '../utils/documentUtils';
 import { ChangePasswordModal } from '../components/admin/ChangePasswordModal';
+import { ManageAdminsSection } from '../components/admin/ManageAdminsSection';
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -63,6 +65,7 @@ export const AdminDashboardPage: React.FC = () => {
 
   const {
     isAdmin,
+    isSuperAdmin,
     isEditMode,
     toggleEditMode,
     logout,
@@ -149,7 +152,7 @@ export const AdminDashboardPage: React.FC = () => {
     );
   };
   const [activeNav, setActiveNav] = useState<
-    'overview' | 'theme' | 'inquiries' | 'documents' | 'gallery' | 'cms' | 'committee' | 'seo'
+    'overview' | 'theme' | 'inquiries' | 'documents' | 'gallery' | 'cms' | 'committee' | 'seo' | 'manage-admins'
   >(initialTab);
 
   const [selectedSEOPage, setSelectedSEOPage] = useState<string>('home');
@@ -365,20 +368,26 @@ export const AdminDashboardPage: React.FC = () => {
   ];
 
   const sidebarNavItems = [
-    { id: 'overview', label: 'Dashboard Overview', icon: <LayoutDashboard className="w-4 h-4" /> },
-    { id: 'committee', label: 'PCZSC Committee', icon: <Users className="w-4 h-4 text-emerald-400" /> },
-    { id: 'theme', label: 'Theme Settings', icon: <Palette className="w-4 h-4" /> },
+    { id: 'overview', label: 'Dashboard Overview', icon: <LayoutDashboard className="w-4 h-4" />, forAll: true },
+    { id: 'committee', label: 'PCZSC Committee', icon: <Users className="w-4 h-4 text-emerald-400" />, forAll: true },
     {
       id: 'inquiries',
       label: 'Contact Queries',
       icon: <Mail className="w-4 h-4 text-amber-400" />,
-      badge: pendingCount > 0 ? pendingCount : undefined
+      badge: pendingCount > 0 ? pendingCount : undefined,
+      forAll: true
     },
-    { id: 'documents', label: 'Documents & Circulars', icon: <FileText className="w-4 h-4" /> },
-    { id: 'gallery', label: 'Photo & Video Gallery', icon: <ImageIcon className="w-4 h-4" /> },
-    { id: 'seo', label: 'SEO & Meta Tags', icon: <Globe className="w-4 h-4 text-sky-400" /> },
-    { id: 'cms', label: 'Site CMS Settings', icon: <Settings className="w-4 h-4" /> }
+    { id: 'documents', label: 'Documents & Circulars', icon: <FileText className="w-4 h-4" />, forAll: true },
+    { id: 'gallery', label: 'Photo & Video Gallery', icon: <ImageIcon className="w-4 h-4" />, forAll: true },
+    { id: 'seo', label: 'SEO & Meta Tags', icon: <Globe className="w-4 h-4 text-sky-400" />, forAll: true },
+    { id: 'cms', label: 'Site CMS Settings', icon: <Settings className="w-4 h-4" />, forAll: true },
+    // Super admin only items
+    { id: 'theme', label: 'Theme Settings', icon: <Palette className="w-4 h-4 text-purple-400" />, forAll: false, superAdminOnly: true },
+    { id: 'manage-admins', label: 'Manage Admins', icon: <Crown className="w-4 h-4 text-amber-400" />, forAll: false, superAdminOnly: true },
   ];
+
+  // Filter nav items based on role
+  const visibleNavItems = sidebarNavItems.filter(item => item.forAll || (item.superAdminOnly && isSuperAdmin));
 
   return (
     <main className="min-h-screen bg-slate-50/70 text-slate-900 font-sans flex flex-col">
@@ -400,7 +409,14 @@ export const AdminDashboardPage: React.FC = () => {
             <aside className="w-full lg:w-80 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0 p-5 space-y-4">
               <div className="px-3 py-2 text-[11px] font-extrabold text-slate-400 uppercase tracking-widest border-b border-slate-800 pb-3 flex items-center justify-between">
                 <span>Navigation Menu</span>
-                <ShieldCheck className="w-4 h-4 text-santic-red" />
+                {isSuperAdmin ? (
+                  <div className="flex items-center gap-1.5 text-amber-400">
+                    <Crown className="w-3.5 h-3.5" />
+                    <span className="text-[9px] font-black uppercase tracking-widest">Super Admin</span>
+                  </div>
+                ) : (
+                  <ShieldCheck className="w-4 h-4 text-santic-red" />
+                )}
               </div>
 
               {/* Mobile Navigation Select Dropdown (< lg) */}
@@ -413,7 +429,7 @@ export const AdminDashboardPage: React.FC = () => {
                   onChange={(e) => setActiveNav(e.target.value as any)}
                   className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs font-extrabold text-white focus:outline-none focus:border-santic-red shadow-inner cursor-pointer"
                 >
-                  {sidebarNavItems.map((item) => (
+                  {visibleNavItems.map((item) => (
                     <option key={item.id} value={item.id}>
                       {item.label} {item.badge !== undefined ? `(${item.badge})` : ''}
                     </option>
@@ -422,16 +438,19 @@ export const AdminDashboardPage: React.FC = () => {
               </div>
 
               {/* Desktop Navigation Menu (>= lg) */}
-              <nav className="hidden lg:block space-y-2 flex-1">
-                {sidebarNavItems.map((item) => {
+              <nav className="hidden lg:block space-y-1.5 flex-1">
+                {visibleNavItems.map((item) => {
                   const isActive = activeNav === item.id;
+                  const isSuperAdminItem = (item as any).superAdminOnly;
                   return (
                     <button
                       key={item.id}
                       onClick={() => setActiveNav(item.id as any)}
                       className={`w-full flex items-center justify-between p-3.5 rounded-2xl text-xs font-extrabold transition-all duration-200 ${
                         isActive
-                          ? 'bg-santic-red text-white shadow-lg shadow-red-500/25 border border-white/20'
+                          ? isSuperAdminItem
+                            ? 'bg-amber-500/20 text-amber-300 shadow-lg border border-amber-500/30'
+                            : 'bg-santic-red text-white shadow-lg shadow-red-500/25 border border-white/20'
                           : 'text-slate-400 hover:bg-slate-900 hover:text-white border border-transparent'
                       }`}
                     >
@@ -439,34 +458,72 @@ export const AdminDashboardPage: React.FC = () => {
                         {item.icon}
                         <span>{item.label}</span>
                       </div>
-                      {item.badge !== undefined && (
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950">
-                          {item.badge}
-                        </span>
-                      )}
+                      <div className="flex items-center gap-1.5">
+                        {item.badge !== undefined && (
+                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950">
+                            {item.badge}
+                          </span>
+                        )}
+                        {isSuperAdminItem && !isActive && (
+                          <Crown className="w-3 h-3 text-amber-500/60" />
+                        )}
+                      </div>
                     </button>
                   );
                 })}
               </nav>
 
-              {/* Active Theme Status Widget */}
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
-                <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">
-                  Active Theme Preset
-                </span>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-white truncate">{draftTheme.name}</span>
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${isPublished ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>
-                    {isPublished ? 'Published' : 'Draft'}
+              {/* Active Theme Status Widget — Super Admin Only */}
+              {isSuperAdmin && (
+                <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 space-y-2">
+                  <span className="text-[10px] font-extrabold text-amber-400 uppercase tracking-wider block flex items-center gap-1">
+                    <Palette className="w-3 h-3" /> Active Theme
                   </span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold text-white truncate">{draftTheme.name}</span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${isPublished ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                      {isPublished ? 'Published' : 'Draft'}
+                    </span>
+                  </div>
+                  <button
+                    onClick={handlePublishTheme}
+                    className="w-full mt-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 py-2 rounded-xl text-[11px] font-extrabold uppercase transition-all"
+                  >
+                    Publish Theme Now
+                  </button>
                 </div>
-                <button
-                  onClick={handlePublishTheme}
-                  className="w-full mt-2 bg-santic-red hover:bg-santic-hoverRed text-white py-2 rounded-xl text-[11px] font-extrabold uppercase transition-all shadow-md"
-                >
-                  Publish Theme Now
-                </button>
+              )}
+
+              {/* Session Info Widget */}
+              <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
+                <div className="flex items-center gap-2">
+                  {isSuperAdmin ? (
+                    <div className="w-7 h-7 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400">
+                      <Crown className="w-3.5 h-3.5" />
+                    </div>
+                  ) : (
+                    <div className="w-7 h-7 rounded-lg bg-santic-red/10 flex items-center justify-center text-santic-red">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] font-extrabold text-white truncate">
+                      {isSuperAdmin ? 'srikantsr' : 'Admin'}
+                    </p>
+                    <p className={`text-[10px] font-bold ${isSuperAdmin ? 'text-amber-400' : 'text-santic-red'}`}>
+                      {isSuperAdmin ? 'Super Administrator' : 'Administrator'}
+                    </p>
+                  </div>
+                  <button
+                    onClick={logout}
+                    className="text-slate-500 hover:text-red-400 transition-colors p-1 rounded-lg hover:bg-red-500/10"
+                    title="Logout"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
+
             </aside>
 
             {/* RIGHT COLUMN: DETAILS PANE */}
@@ -542,17 +599,31 @@ export const AdminDashboardPage: React.FC = () => {
                         <p className="text-xs text-slate-400">Review incoming queries and send official replies.</p>
                       </button>
 
-                      <button
-                        onClick={() => setActiveNav('theme')}
-                        className="p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-santic-red text-left space-y-2 group transition-all"
-                      >
-                        <div className="flex items-center justify-between text-santic-red font-bold text-xs uppercase">
-                          <span>Theme Studio</span>
-                          <Palette className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                        </div>
-                        <h4 className="text-sm font-extrabold text-white">Theme Settings</h4>
-                        <p className="text-xs text-slate-400">Customize colors, Google Fonts, and border radius tokens.</p>
-                      </button>
+                      {isSuperAdmin ? (
+                        <button
+                          onClick={() => setActiveNav('theme')}
+                          className="p-5 rounded-2xl bg-gradient-to-br from-purple-500/10 to-amber-500/5 border border-amber-500/20 hover:border-amber-400 text-left space-y-2 group transition-all"
+                        >
+                          <div className="flex items-center justify-between text-amber-400 font-bold text-xs uppercase">
+                            <span>Theme Studio</span>
+                            <Palette className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                          </div>
+                          <h4 className="text-sm font-extrabold text-white">Theme Settings</h4>
+                          <p className="text-xs text-slate-400">Customize colors, Google Fonts, and border radius tokens.</p>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setActiveNav('seo')}
+                          className="p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-santic-red text-left space-y-2 group transition-all"
+                        >
+                          <div className="flex items-center justify-between text-sky-400 font-bold text-xs uppercase">
+                            <span>SEO Manager</span>
+                            <Globe className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                          </div>
+                          <h4 className="text-sm font-extrabold text-white">SEO & Meta Tags</h4>
+                          <p className="text-xs text-slate-400">Manage page titles, meta descriptions and sitemap generation.</p>
+                        </button>
+                      )}
 
                       <button
                         onClick={() => setActiveNav('documents')}
@@ -1933,6 +2004,13 @@ export const AdminDashboardPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
+              )}
+
+              {/* ========================================================================= */}
+              {/* 9. MANAGE ADMINS (SUPER ADMIN ONLY) */}
+              {/* ========================================================================= */}
+              {activeNav === 'manage-admins' && isSuperAdmin && (
+                <ManageAdminsSection />
               )}
 
             </section>

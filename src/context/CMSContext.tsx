@@ -35,7 +35,10 @@ import {
   hashPassword,
   DEFAULT_ADMIN_AUTH,
   DEFAULT_ADMIN_HASH,
-  AdminAuthCredentials
+  AdminAuthCredentials,
+  AdminUser,
+  SUPER_ADMIN_USERNAME,
+  SUPER_ADMIN_HASH
 } from '../utils/cryptoAuth';
 
 export interface DocumentItem {
@@ -229,12 +232,16 @@ export interface SubPagesHeroStore {
 
 interface CMSContextType {
   isAdmin: boolean;
+  isSuperAdmin: boolean;
   isEditMode: boolean;
   adminAuth: AdminAuthCredentials;
+  adminUsers: AdminUser[];
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
   toggleEditMode: () => void;
   updateAdminCredentials: (newUsername: string, newPassword: string) => Promise<boolean>;
+  addAdminUser: (username: string, password: string) => Promise<boolean>;
+  deleteAdminUser: (id: string) => void;
   // Header Config
   headerConfig: HeaderConfig;
   updateHeaderConfig: (config: HeaderConfig) => void;
@@ -685,6 +692,7 @@ const CMSContext = createContext<CMSContextType | undefined>(undefined);
 
 export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
   // Admin auth: still loaded from localStorage on init (no image data, very small)
@@ -697,6 +705,18 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       } catch (_e) {}
     }
     return DEFAULT_ADMIN_AUTH;
+  });
+
+  // Admin users list (managed by super admin)
+  const [adminUsers, setAdminUsers] = useState<AdminUser[]>(() => {
+    const saved = localStorage.getItem('pczsc_admin_users');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      } catch (_e) {}
+    }
+    return [];
   });
 
   // All other state uses defaults — hydrateStores() loads from Neon DB on mount
@@ -910,6 +930,14 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           safeSaveStorage('pczsc_admin_auth', authObj);
         }
 
+        // --- Admin Users (managed by super admin) ---
+        const dbAdminUsers = await fetchSiteSettingFromDB<AdminUser[] | null>('pczsc_admin_users', null);
+        if (dbAdminUsers && Array.isArray(dbAdminUsers) && dbAdminUsers.length > 0) {
+          setAdminUsers(dbAdminUsers);
+          safeSaveStorage('pczsc_admin_users', dbAdminUsers);
+        }
+
+
         // --- Header Config ---
         const dbHeader = await fetchSiteSettingFromDB<HeaderConfig | null>('pczsc_header_cfg', null);
         const lsHeader = safeLoadStorage<HeaderConfig | null>('pczsc_header_cfg', null);
@@ -929,14 +957,40 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const login = async (username: string, password: string): Promise<boolean> => {
     const inputHash = await hashPassword(password);
-    const targetUsername = (adminAuth.username || 'admin').trim().toLowerCase();
-    const targetHash = adminAuth.passwordHash || DEFAULT_ADMIN_HASH;
+    const trimmedUsername = username.trim().toLowerCase();
 
-    if (username.trim().toLowerCase() === targetUsername && inputHash === targetHash) {
+    // Check super admin first (hardcoded encoded credentials)
+    if (
+      trimmedUsername === SUPER_ADMIN_USERNAME.toLowerCase() &&
+      inputHash === SUPER_ADMIN_HASH
+    ) {
       setIsAdmin(true);
+      setIsSuperAdmin(true);
       setIsEditMode(true);
       return true;
     }
+
+    // Check regular admin (from stored credentials)
+    const targetUsername = (adminAuth.username || 'admin').trim().toLowerCase();
+    const targetHash = adminAuth.passwordHash || DEFAULT_ADMIN_HASH;
+    if (trimmedUsername === targetUsername && inputHash === targetHash) {
+      setIsAdmin(true);
+      setIsSuperAdmin(false);
+      setIsEditMode(true);
+      return true;
+    }
+
+    // Check additional admin users added by super admin
+    const matchedUser = adminUsers.find(
+      (u) => u.username.trim().toLowerCase() === trimmedUsername && u.passwordHash === inputHash
+    );
+    if (matchedUser) {
+      setIsAdmin(true);
+      setIsSuperAdmin(false);
+      setIsEditMode(true);
+      return true;
+    }
+
     return false;
   };
 
@@ -948,6 +1002,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const updated: AdminAuthCredentials = {
       username: newUsername.trim() || adminAuth.username || 'admin',
       passwordHash: newHash,
+      role: 'admin',
       updatedAt: new Date().toISOString()
     };
     setAdminAuth(updated);
@@ -956,8 +1011,39 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return true;
   };
 
+  const addAdminUser = async (username: string, password: string): Promise<boolean> => {
+    const trimmed = username.trim();
+    if (!trimmed || !password) return false;
+    // Prevent duplicate usernames
+    const duplicate = adminUsers.find(
+      (u) => u.username.toLowerCase() === trimmed.toLowerCase()
+    );
+    if (duplicate) return false;
+    const hash = await hashPassword(password);
+    const newUser: AdminUser = {
+      id: `admin-${Date.now()}`,
+      username: trimmed,
+      passwordHash: hash,
+      role: 'admin',
+      createdAt: new Date().toISOString()
+    };
+    const updated = [...adminUsers, newUser];
+    setAdminUsers(updated);
+    safeSaveStorage('pczsc_admin_users', updated);
+    saveSiteSettingToDB('pczsc_admin_users', updated);
+    return true;
+  };
+
+  const deleteAdminUser = (id: string) => {
+    const updated = adminUsers.filter((u) => u.id !== id);
+    setAdminUsers(updated);
+    safeSaveStorage('pczsc_admin_users', updated);
+    saveSiteSettingToDB('pczsc_admin_users', updated);
+  };
+
   const logout = () => {
     setIsAdmin(false);
+    setIsSuperAdmin(false);
     setIsEditMode(false);
   };
 
@@ -1335,12 +1421,16 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <CMSContext.Provider
       value={{
         isAdmin,
+        isSuperAdmin,
         isEditMode,
         adminAuth,
+        adminUsers,
         login,
         logout,
         toggleEditMode,
         updateAdminCredentials,
+        addAdminUser,
+        deleteAdminUser,
         headerConfig,
         updateHeaderConfig,
         heroSlides,

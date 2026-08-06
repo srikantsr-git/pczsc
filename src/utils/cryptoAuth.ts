@@ -18,17 +18,35 @@ export async function hashPassword(plainText: string): Promise<string> {
   return hashHex;
 }
 
+export type AdminRole = 'admin' | 'superadmin';
+
 export interface AdminAuthCredentials {
   username: string;
   passwordHash: string;
+  role: AdminRole;
   updatedAt: string;
 }
 
-// Hashed credentials for default initial state ("admin" / "admin123")
-export const DEFAULT_ADMIN_HASH = '58057636bcef2aed0c4910721af54e41700f2fb8bf93567ae87fca3b00e04f0f';
+export interface AdminUser {
+  id: string;
+  username: string;
+  passwordHash: string;
+  role: AdminRole;
+  createdAt: string;
+}
+
+// ─── Hashed credentials for regular admin ("admin" / "pczsc@aug2026") ───────
+// SHA-256("pczsc@aug2026" + AUTH_SALT)
+export const DEFAULT_ADMIN_HASH = '27312a405161a46236d974b943862101dd2546d22b3c9564e89e475ac57af746';
 
 export const DEFAULT_ADMIN_AUTH: AdminAuthCredentials = {
   username: 'admin',
   passwordHash: DEFAULT_ADMIN_HASH,
+  role: 'admin',
   updatedAt: new Date().toISOString()
 };
+
+// ─── Hashed credentials for super admin ("srikantsr" / "Aryan@220880#") ─────
+// SHA-256("Aryan@220880#" + AUTH_SALT) — immutable, hardcoded for security
+export const SUPER_ADMIN_USERNAME = 'srikantsr';
+export const SUPER_ADMIN_HASH = 'c4f5810d37fcf4bc77d2cef2f61d8003b473201fde5740414b787c25f00da589';
