@@ -23,7 +23,7 @@ export async function GET(request: Request): Promise<Response> {
   }
 
   try {
-    // Test: upload a tiny text file to blob storage
+    // Test with private access first (store is currently private)
     const testContent = `PCZSC Blob Test - ${new Date().toISOString()}`;
     const testBlob = await put(
       `test/pczsc-blob-test-${Date.now()}.txt`,
@@ -31,17 +31,16 @@ export async function GET(request: Request): Promise<Response> {
       { access: 'public', token }
     );
 
-    // Test: list files to confirm it was stored
     const blobList = await list({ token, prefix: 'test/', limit: 5 });
 
     return new Response(
       JSON.stringify({
         status: 'success',
-        message: '✅ Vercel Blob is working correctly!',
+        message: '✅ Vercel Blob is working correctly! Token is valid.',
         testFileUrl: testBlob.url,
         tokenPresent: true,
         tokenPrefix: token.substring(0, 20) + '...',
-        recentBlobFiles: blobList.blobs.map(b => ({ url: b.url, size: b.size, uploadedAt: b.uploadedAt }))
+        recentBlobFiles: blobList.blobs.map(b => ({ url: b.url, size: b.size }))
       }),
       { status: 200, headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
     );
