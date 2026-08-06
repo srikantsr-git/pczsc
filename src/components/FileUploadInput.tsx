@@ -99,7 +99,7 @@ export const FileUploadInput: React.FC<FileUploadInputProps> = ({
           <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
             Real-time Media Preview:
           </span>
-          <div className="relative max-h-48 overflow-hidden rounded-xl border border-slate-200 bg-slate-950 flex items-center justify-center">
+          <div className="relative max-h-48 overflow-hidden rounded-xl border border-slate-200 bg-[repeating-conic-gradient(#e2e8f0_0%_25%,#f8fafc_0%_50%)] bg-[length:16px_16px] flex items-center justify-center">
             <MediaRenderer
               src={currentUrl}
               className="max-h-48 w-full object-contain"

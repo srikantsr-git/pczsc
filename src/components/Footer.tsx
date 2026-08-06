@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
                 <img
                   src={headerConfig.logoIconUrl}
                   alt={footerConfig.logoTitle}
-                  className="w-10 h-10 object-contain rounded-2xl bg-slate-900 p-1 border border-slate-800 shadow-lg"
+                  className="w-10 h-10 object-contain"
                 />
               ) : (
                 <div className="w-10 h-10 rounded-2xl bg-santic-red flex items-center justify-center text-white shadow-lg shadow-red-600/30">
