@@ -99,10 +99,13 @@ export const FileUploadInput: React.FC<FileUploadInputProps> = ({
           <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
             Real-time Media Preview:
           </span>
-          <div className="relative max-h-48 overflow-hidden rounded-xl border border-slate-200 bg-[repeating-conic-gradient(#e2e8f0_0%_25%,#f8fafc_0%_50%)] bg-[length:16px_16px] flex items-center justify-center">
+          <div
+            className="relative max-h-48 overflow-hidden rounded-xl border border-slate-200 flex items-center justify-center"
+            style={{ background: 'repeating-conic-gradient(#e2e8f0 0% 25%, #f8fafc 0% 50%) 0 0 / 20px 20px' }}
+          >
             <MediaRenderer
               src={currentUrl}
-              className="max-h-48 w-full object-contain"
+              className="max-h-48 object-contain"
               controls={true}
             />
           </div>
