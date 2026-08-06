@@ -37,6 +37,10 @@ export const compressImageFile = (
     return Promise.resolve(file);
   }
 
+  // Preserve PNG format to keep transparency; convert everything else to JPEG
+  const isPng = file.type === 'image/png';
+  const outputType = isPng ? 'image/png' : 'image/jpeg';
+
   return new Promise((resolve) => {
     const img = new Image();
     const reader = new FileReader();
@@ -69,6 +73,13 @@ export const compressImageFile = (
         return;
       }
 
+      // For PNG: do NOT fill background — keep it transparent
+      // For JPEG: fill with white so no black artifacts
+      if (!isPng) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+      }
+
       ctx.drawImage(img, 0, 0, width, height);
 
       canvas.toBlob(
@@ -78,13 +89,13 @@ export const compressImageFile = (
             return;
           }
           const compressedFile = new File([blob], file.name, {
-            type: 'image/jpeg',
+            type: outputType,
             lastModified: Date.now()
           });
           resolve(compressedFile);
         },
-        'image/jpeg',
-        quality
+        outputType,
+        isPng ? undefined : quality   // PNG ignores quality param
       );
     };
 
