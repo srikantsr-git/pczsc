@@ -576,9 +576,21 @@ export const AdminConfigModals: React.FC<AdminConfigModalsProps> = ({ activeTab,
           {currentTab === 'vision' && (
             <form onSubmit={handleSaveVM} className="space-y-6">
               <h3 className="text-base font-extrabold text-slate-900 border-b pb-2">
-                Vision Statement & Mission Points
+                Vision, Mission & Core Values
               </h3>
 
+              {/* Vision Title */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Vision Title</label>
+                <input
+                  type="text"
+                  value={localVM.visionTitle}
+                  onChange={(e) => setLocalVM({ ...localVM, visionTitle: e.target.value })}
+                  className="w-full px-4 py-2.5 rounded-xl border text-sm font-bold"
+                />
+              </div>
+
+              {/* Vision Statement */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Vision Statement</label>
                 <textarea
@@ -589,6 +601,7 @@ export const AdminConfigModals: React.FC<AdminConfigModalsProps> = ({ activeTab,
                 />
               </div>
 
+              {/* Mission Points */}
               <div className="space-y-3">
                 <label className="block text-xs font-bold text-slate-700">
                   10 Mission Bullet Points
@@ -610,12 +623,74 @@ export const AdminConfigModals: React.FC<AdminConfigModalsProps> = ({ activeTab,
                 ))}
               </div>
 
+              {/* Core Values Editor */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-bold text-slate-700">
+                    Core Values ({localVM.coreValues?.length || 0} values)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setLocalVM({
+                        ...localVM,
+                        coreValues: [...(localVM.coreValues || []), { title: 'New Value', desc: 'Description here...' }]
+                      })
+                    }
+                    className="flex items-center gap-1 text-xs font-bold text-santic-red hover:underline"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Add Value
+                  </button>
+                </div>
+                <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+                  {(localVM.coreValues || []).map((val, idx) => (
+                    <div key={idx} className="flex items-start gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                      <div className="flex-1 space-y-2 min-w-0">
+                        <input
+                          type="text"
+                          value={val.title}
+                          placeholder="Value title (e.g. Excellence)"
+                          onChange={(e) => {
+                            const updated = [...(localVM.coreValues || [])];
+                            updated[idx] = { ...updated[idx], title: e.target.value };
+                            setLocalVM({ ...localVM, coreValues: updated });
+                          }}
+                          className="w-full px-3 py-2 rounded-lg border text-xs font-bold"
+                        />
+                        <input
+                          type="text"
+                          value={val.desc}
+                          placeholder="Short description"
+                          onChange={(e) => {
+                            const updated = [...(localVM.coreValues || [])];
+                            updated[idx] = { ...updated[idx], desc: e.target.value };
+                            setLocalVM({ ...localVM, coreValues: updated });
+                          }}
+                          className="w-full px-3 py-2 rounded-lg border text-xs font-normal"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = (localVM.coreValues || []).filter((_, i) => i !== idx);
+                          setLocalVM({ ...localVM, coreValues: updated });
+                        }}
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0 mt-1"
+                        title="Remove this value"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div className="pt-4 border-t flex justify-end">
                 <button
                   type="submit"
                   className="bg-santic-red text-white px-6 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider shadow-md"
                 >
-                  Save Vision & Mission Configuration
+                  Save Vision, Mission & Core Values
                 </button>
               </div>
             </form>
