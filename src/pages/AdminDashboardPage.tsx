@@ -416,9 +416,9 @@ export const AdminDashboardPage: React.FC = () => {
 
   return (
     <main className="min-h-screen bg-slate-50/70 text-slate-900 font-sans flex flex-col">
-      {/* Subpage Hero Section (Consistent with all other pages) */}
+      {/* Subpage Hero Section — uses its own 'admin' key, independent from Contact page */}
       <SubPageHero
-        pageKey="contact"
+        pageKey="admin"
         category="Admin Management"
         title="Secretariat Admin Control Center"
         subtitle="Manage website theme styling, review and reply to official contact inquiries, and publish tournament documents."

@@ -228,6 +228,7 @@ export interface SubPagesHeroStore {
   documents: SubPageHeroConfig;
   gallery: SubPageHeroConfig;
   contact: SubPageHeroConfig;
+  admin: SubPageHeroConfig;
 }
 
 interface CMSContextType {
@@ -259,7 +260,7 @@ interface CMSContextType {
   // SubPage Hero Store (All Other Pages)
   subPagesHeroStore: SubPagesHeroStore;
   updateSubPageHero: (
-    pageKey: 'about' | 'documents' | 'gallery' | 'contact',
+    pageKey: 'about' | 'documents' | 'gallery' | 'contact' | 'admin',
     config: SubPageHeroConfig
   ) => void;
   // News Marquee
@@ -433,6 +434,12 @@ const defaultSubPagesHeroStore: SubPagesHeroStore = {
     title: "Contact PCZSC Secretariat",
     subtitle: "Reach out to Pune City Zonal Sports Committee office at Poona College Camp, Pune for inquiries, event schedules, and sports administration.",
     bgImageUrl: "https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=2000&q=80"
+  },
+  admin: {
+    category: "Admin Management",
+    title: "Secretariat Admin Control Center",
+    subtitle: "Manage website theme styling, review and reply to official contact inquiries, and publish tournament documents.",
+    bgImageUrl: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=2000&q=80"
   }
 };
 
@@ -1138,7 +1145,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const updateSubPageHero = (
-    pageKey: 'about' | 'documents' | 'gallery' | 'contact',
+    pageKey: 'about' | 'documents' | 'gallery' | 'contact' | 'admin',
     config: SubPageHeroConfig
   ) => {
     const updated = { ...subPagesHeroStore, [pageKey]: config };

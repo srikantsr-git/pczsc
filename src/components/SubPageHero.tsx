@@ -7,7 +7,7 @@ import { MediaRenderer } from './MediaRenderer';
 import { FileUploadInput } from './FileUploadInput';
 
 interface SubPageHeroProps {
-  pageKey: 'about' | 'documents' | 'gallery' | 'contact';
+  pageKey: 'about' | 'documents' | 'gallery' | 'contact' | 'admin';
   category?: string;
   title?: string;
   subtitle?: string;
