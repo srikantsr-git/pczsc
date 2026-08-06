@@ -46,13 +46,7 @@ import { SEOSettingsForm } from '../components/admin/SEOSettingsForm';
 import { generateXmlSitemap, generateRobotsTxt } from '../utils/sitemapGenerator';
 import { useToast } from '../context/ToastContext';
 import { sanitizeInput, containsSqlInjection } from '../utils/security';
-import {
-  saveSiteSettingToDB,
-  saveHeroSlideToDB,
-  savePEDirectorToDB,
-  saveGalleryItemToDB,
-  saveDocumentToDB
-} from '../utils/neonDB';
+
 import { getDocumentPdfUrl } from '../utils/documentUtils';
 import { ChangePasswordModal } from '../components/admin/ChangePasswordModal';
 import { ManageAdminsSection } from '../components/admin/ManageAdminsSection';
@@ -110,38 +104,6 @@ export const AdminDashboardPage: React.FC = () => {
   } = useTheme();
 
   const { showToast } = useToast();
-  const [isSyncing, setIsSyncing] = useState(false);
-
-  const handleSyncAllToDB = async () => {
-    try {
-      setIsSyncing(true);
-      await saveSiteSettingToDB('pczsc_header_cfg', headerConfig);
-      await saveSiteSettingToDB('pczsc_home_about', homeAboutConfig);
-      await saveSiteSettingToDB('pczsc_pillars_cfg', pillarsConfig);
-      await saveSiteSettingToDB('pczsc_subpages_hero', subPagesHeroStore);
-      await saveSiteSettingToDB('pczsc_about_cfg', aboutUsConfig);
-      await saveSiteSettingToDB('pczsc_committee_members', committeeMembers);
-      await saveSiteSettingToDB('pczsc_footer_cfg', footerConfig);
-      await saveSiteSettingToDB('pczsc_contact', contactInfo);
-      await saveSiteSettingToDB('pczsc_seo_store', seoStore);
-      await saveSiteSettingToDB('pczsc_active_theme', draftTheme);
-
-      heroSlides.forEach((s, idx) => saveHeroSlideToDB(s, idx));
-      galleryItems.forEach((g) => saveGalleryItemToDB(g));
-      documents.forEach((d) => saveDocumentToDB(d));
-      peDirectors.forEach((pd) => savePEDirectorToDB(pd));
-
-      showToast(
-        '🎉 All Local & Admin Edits Synced to Live Site (Neon DB)!',
-        'All local admin edits, background photos, active theme, and content are now live on https://pczsc.vercel.app.',
-        'success'
-      );
-    } catch (err) {
-      showToast('Sync Error', 'Could not sync all data to Neon DB.', 'error');
-    } finally {
-      setIsSyncing(false);
-    }
-  };
 
   const handlePublishTheme = () => {
     publishTheme();
@@ -537,7 +499,7 @@ export const AdminDashboardPage: React.FC = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 gap-4">
                     <div className="space-y-1">
                       <h2 className="text-2xl font-extrabold text-white">Dashboard Overview</h2>
-                      <p className="text-xs text-slate-400">System metrics and live database synchronization controls.</p>
+                      <p className="text-xs text-slate-400">System metrics and admin controls. All edits are automatically saved to the live site.</p>
                     </div>
                     <div className="flex items-center gap-2 flex-wrap shrink-0">
                       <button
@@ -546,14 +508,6 @@ export const AdminDashboardPage: React.FC = () => {
                       >
                         <Key className="w-4 h-4 text-amber-400" />
                         <span>Change Admin Password</span>
-                      </button>
-                      <button
-                        onClick={handleSyncAllToDB}
-                        disabled={isSyncing}
-                        className="bg-santic-red hover:bg-santic-hoverRed text-white px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 shadow-xl border border-white/20 uppercase tracking-wider transition-all hover:scale-105 shrink-0"
-                      >
-                        <Globe className="w-4 h-4 animate-spin-slow" />
-                        <span>{isSyncing ? 'Syncing to Live DB...' : 'Push All Local Edits to Live Site (Neon DB)'}</span>
                       </button>
                     </div>
                   </div>
