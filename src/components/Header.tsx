@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Shield, Trophy, Edit } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
 import { AdminLoginModal } from './AdminLoginModal';
@@ -8,6 +8,7 @@ import { getMediaFromIDB } from '../utils/mediaDB';
 
 export const Header: React.FC = () => {
   const { headerConfig, isAdmin, isEditMode, logout } = useCMS();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -226,7 +227,12 @@ export const Header: React.FC = () => {
         )}
       </header>
 
-      {showLoginModal && <AdminLoginModal onClose={() => setShowLoginModal(false)} />}
+      {showLoginModal && (
+        <AdminLoginModal
+          onClose={() => setShowLoginModal(false)}
+          onSuccess={() => navigate('/en/admin')}
+        />
+      )}
       {showConfigModal && <AdminConfigModals activeTab="header" onClose={() => setShowConfigModal(false)} />}
     </>
   );

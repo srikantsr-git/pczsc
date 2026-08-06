@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCMS } from '../context/CMSContext';
 import { useToast } from '../context/ToastContext';
 import { saveSiteSettingToDB } from '../utils/neonDB';
@@ -27,6 +27,7 @@ import { ChangePasswordModal } from './admin/ChangePasswordModal';
 export const AdminBar: React.FC = () => {
   const { isAdmin, isEditMode, toggleEditMode, logout, contactInquiries } = useCMS();
   const { showToast } = useToast();
+  const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showChangePassModal, setShowChangePassModal] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
@@ -115,7 +116,10 @@ export const AdminBar: React.FC = () => {
         </button>
 
         {showLoginModal && (
-          <AdminLoginModal onClose={() => setShowLoginModal(false)} />
+          <AdminLoginModal
+            onClose={() => setShowLoginModal(false)}
+            onSuccess={() => navigate('/en/admin')}
+          />
         )}
       </>
     );

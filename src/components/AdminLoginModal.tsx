@@ -5,9 +5,10 @@ import { Lock, X, Shield, Key } from 'lucide-react';
 
 interface AdminLoginModalProps {
   onClose: () => void;
+  onSuccess?: () => void;
 }
 
-export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose }) => {
+export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose, onSuccess }) => {
   const { login } = useCMS();
   const { showToast } = useToast();
   const [username, setUsername] = useState('');
@@ -29,6 +30,8 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose }) => 
           'success'
         );
         onClose();
+        // Navigate to admin dashboard after login
+        if (onSuccess) onSuccess();
       } else {
         setError('Invalid username or password. Please verify your credentials.');
         showToast(
