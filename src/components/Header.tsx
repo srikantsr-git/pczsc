@@ -68,7 +68,7 @@ export const Header: React.FC = () => {
                       setLogoError(true);
                     }
                   }}
-                  className="w-9 h-9 sm:w-10 sm:h-10 object-contain rounded-2xl bg-slate-900/80 p-1 border border-white/20 shadow-lg group-hover:scale-105 transition-transform shrink-0"
+                  className="w-9 h-9 sm:w-10 sm:h-10 object-contain rounded-2xl border border-white/10 shadow-lg group-hover:scale-105 transition-transform shrink-0"
                 />
               ) : (
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-santic-red flex items-center justify-center text-white shadow-lg shadow-red-600/30 group-hover:scale-105 transition-transform shrink-0">
