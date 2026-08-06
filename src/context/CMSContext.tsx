@@ -993,8 +993,35 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return true;
     }
 
-    // Check additional admin users added by super admin
-    const matchedUser = adminUsers.find(
+    // Check additional admin users — use in-memory state first, then
+    // also fetch fresh from DB + localStorage to avoid race condition
+    // where hydrateStores() hasn't completed before login is attempted.
+    let usersToCheck: AdminUser[] = [...adminUsers];
+
+    // Always also fetch fresh from DB to guarantee newly-created admins work
+    try {
+      const dbUsers = await fetchSiteSettingFromDB<AdminUser[] | null>('pczsc_admin_users', null);
+      if (dbUsers && Array.isArray(dbUsers) && dbUsers.length > 0) {
+        // Merge: DB is the source of truth
+        usersToCheck = dbUsers;
+        // Update state and cache so subsequent checks are instant
+        setAdminUsers(dbUsers);
+        safeSaveStorage('pczsc_admin_users', dbUsers);
+      }
+    } catch (_e) {
+      // DB unreachable — fall back to localStorage
+      try {
+        const lsRaw = localStorage.getItem('pczsc_admin_users');
+        if (lsRaw) {
+          const lsParsed = JSON.parse(lsRaw);
+          if (Array.isArray(lsParsed) && lsParsed.length > 0) {
+            usersToCheck = lsParsed;
+          }
+        }
+      } catch (_e2) { /* ignore */ }
+    }
+
+    const matchedUser = usersToCheck.find(
       (u) => u.username.trim().toLowerCase() === trimmedUsername && u.passwordHash === inputHash
     );
     if (matchedUser) {
