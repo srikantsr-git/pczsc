@@ -48,13 +48,13 @@ export async function GET(request: Request): Promise<Response> {
 
     // Find all /api/media?id= references across tables
     const galleryRefs = await sql`
-      SELECT COUNT(*) as count FROM gallery WHERE url LIKE '/api/media%'
+      SELECT COUNT(*) as count FROM gallery WHERE image_url LIKE '/api/media%'
     `;
     const heroRefs = await sql`
-      SELECT COUNT(*) as count FROM hero_slides WHERE image_url LIKE '/api/media%'
+      SELECT COUNT(*) as count FROM hero_slides WHERE media_url LIKE '/api/media%'
     `;
     const peRefs = await sql`
-      SELECT COUNT(*) as count FROM pe_directors WHERE photo_url LIKE '/api/media%'
+      SELECT COUNT(*) as count FROM physical_education_directors WHERE photo LIKE '/api/media%'
     `;
 
     // Check site_settings for embedded /api/media URLs
@@ -152,32 +152,36 @@ export async function POST(request: Request): Promise<Response> {
       }
     }
 
-    // 3. Update gallery table
+    // 3. Update gallery table (column: image_url)
     let galleryUpdated = 0;
     for (const [oldUrl, newUrl] of Object.entries(urlMap)) {
-      const res = await sql`
-        UPDATE gallery SET url = ${newUrl} WHERE url = ${oldUrl}
+      await sql`
+        UPDATE gallery SET image_url = ${newUrl} WHERE image_url = ${oldUrl}
       `;
-      galleryUpdated += (res as any).count || 0;
     }
+    // count gallery rows updated
+    const galCount = await sql`SELECT COUNT(*) as c FROM gallery WHERE image_url LIKE 'https://%.blob.vercel-storage.com%'`;
+    galleryUpdated = Number((galCount[0] as any)?.c || 0);
 
-    // 4. Update hero_slides table
+    // 4. Update hero_slides table (column: media_url)
     let heroUpdated = 0;
     for (const [oldUrl, newUrl] of Object.entries(urlMap)) {
-      const res = await sql`
-        UPDATE hero_slides SET image_url = ${newUrl} WHERE image_url = ${oldUrl}
+      await sql`
+        UPDATE hero_slides SET media_url = ${newUrl} WHERE media_url = ${oldUrl}
       `;
-      heroUpdated += (res as any).count || 0;
     }
+    const heroCount = await sql`SELECT COUNT(*) as c FROM hero_slides WHERE media_url LIKE 'https://%.blob.vercel-storage.com%'`;
+    heroUpdated = Number((heroCount[0] as any)?.c || 0);
 
-    // 5. Update pe_directors table
+    // 5. Update physical_education_directors table (column: photo)
     let peUpdated = 0;
     for (const [oldUrl, newUrl] of Object.entries(urlMap)) {
-      const res = await sql`
-        UPDATE pe_directors SET photo_url = ${newUrl} WHERE photo_url = ${oldUrl}
+      await sql`
+        UPDATE physical_education_directors SET photo = ${newUrl} WHERE photo = ${oldUrl}
       `;
-      peUpdated += (res as any).count || 0;
     }
+    const peCount = await sql`SELECT COUNT(*) as c FROM physical_education_directors WHERE photo LIKE 'https://%.blob.vercel-storage.com%'`;
+    peUpdated = Number((peCount[0] as any)?.c || 0);
 
     // 6. Update site_settings: replace all occurrences in JSON values
     const settingsRows = await sql`
