@@ -47,6 +47,8 @@ import { generateXmlSitemap, generateRobotsTxt } from '../utils/sitemapGenerator
 import { useToast } from '../context/ToastContext';
 import { sanitizeInput, containsSqlInjection } from '../utils/security';
 import { RichTextEditor } from '../components/admin/RichTextEditor';
+import { ManagePEDirectorsSection } from '../components/admin/ManagePEDirectorsSection';
+import { GraduationCap } from 'lucide-react';
 
 import { getDocumentPdfUrl } from '../utils/documentUtils';
 import { ChangePasswordModal } from '../components/admin/ChangePasswordModal';
@@ -115,7 +117,7 @@ export const AdminDashboardPage: React.FC = () => {
     );
   };
   const [activeNav, setActiveNav] = useState<
-    'overview' | 'theme' | 'inquiries' | 'documents' | 'gallery' | 'cms' | 'committee' | 'seo' | 'manage-admins'
+    'overview' | 'theme' | 'inquiries' | 'documents' | 'gallery' | 'cms' | 'committee' | 'seo' | 'manage-admins' | 'pe-directors'
   >(initialTab);
 
   const [selectedSEOPage, setSelectedSEOPage] = useState<string>('home');
@@ -404,6 +406,7 @@ export const AdminDashboardPage: React.FC = () => {
     },
     { id: 'documents', label: 'Documents & Circulars', icon: <FileText className="w-4 h-4" />, forAll: true },
     { id: 'gallery', label: 'Photo & Video Gallery', icon: <ImageIcon className="w-4 h-4" />, forAll: true },
+    { id: 'pe-directors', label: 'PE Directors', icon: <GraduationCap className="w-4 h-4 text-teal-400" />, forAll: true },
     { id: 'seo', label: 'SEO & Meta Tags', icon: <Globe className="w-4 h-4 text-sky-400" />, forAll: true },
     { id: 'cms', label: 'Site CMS Settings', icon: <Settings className="w-4 h-4" />, forAll: true },
     // Super admin only items
@@ -2026,6 +2029,11 @@ export const AdminDashboardPage: React.FC = () => {
               {/* ========================================================================= */}
               {activeNav === 'manage-admins' && isSuperAdmin && (
                 <ManageAdminsSection />
+              )}
+
+              {/* ── PE Directors Tab ──────────────────────────────── */}
+              {activeNav === 'pe-directors' && (
+                <ManagePEDirectorsSection />
               )}
 
             </section>
