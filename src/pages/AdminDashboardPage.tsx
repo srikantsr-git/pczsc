@@ -234,35 +234,97 @@ export const AdminDashboardPage: React.FC = () => {
 
   if (!isAdmin) {
     return (
-      <main className="min-h-screen bg-white text-slate-900 font-sans flex flex-col">
-        <SubPageHero
-          pageKey="contact"
-          category="Admin Portal"
-          title="Secretariat Admin Control Center"
-          subtitle="Please sign in with administrator credentials (admin / admin123) to manage website theme settings and contact inquiries."
-        />
+      <main className="min-h-screen bg-slate-950 text-white font-sans flex flex-col lg:flex-row">
+        {/* Left Panel — Branding */}
+        <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 border-r border-slate-800 flex-col items-center justify-center p-16 relative overflow-hidden">
+          {/* Background decorative circles */}
+          <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-santic-red/10 blur-3xl" />
+          <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-santic-red/5 blur-3xl" />
 
-        <section className="santic-section bg-slate-50/70">
-          <div className="santic-container max-w-md mx-auto">
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-10 text-center space-y-6 shadow-2xl text-white">
-              <div className="w-16 h-16 rounded-2xl bg-santic-red/10 border border-santic-red/30 flex items-center justify-center mx-auto text-santic-red">
-                <Lock className="w-8 h-8" />
+          <div className="relative z-10 space-y-8 max-w-md">
+            {/* Logo mark */}
+            <div className="w-20 h-20 rounded-3xl bg-santic-red flex items-center justify-center shadow-2xl shadow-red-600/30">
+              <ShieldCheck className="w-10 h-10 text-white" />
+            </div>
+
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-santic-red/10 border border-santic-red/20 text-santic-red text-xs font-extrabold uppercase tracking-wider">
+                <span>Restricted Portal</span>
               </div>
-              <div className="space-y-2">
-                <h2 className="text-2xl font-extrabold text-white">PCZSC Admin Login</h2>
-                <p className="text-xs text-slate-400">
-                  Authorized access for Pune City Zonal Sports Committee administrators.
-                </p>
-              </div>
-              <button
-                onClick={() => setShowLoginModal(true)}
-                className="w-full bg-santic-red hover:bg-santic-hoverRed text-white py-3.5 rounded-xl text-xs font-extrabold uppercase tracking-wider shadow-lg shadow-red-500/20 transition-all"
-              >
-                Open Admin Login Modal
-              </button>
+              <h1 className="text-4xl font-black text-white leading-tight">
+                PCZSC<br />
+                <span className="text-santic-red">Admin</span> Control Center
+              </h1>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Authorized access only. This portal is for Pune City Zonal Sports Committee secretariat administrators.
+              </p>
+            </div>
+
+            {/* Feature list */}
+            <div className="space-y-3">
+              {[
+                { icon: <Palette className="w-4 h-4" />, label: 'Theme & Design Management' },
+                { icon: <Mail className="w-4 h-4" />, label: 'Contact Inquiry Support Desk' },
+                { icon: <ImageIcon className="w-4 h-4" />, label: 'Gallery & Media Management' },
+                { icon: <FileText className="w-4 h-4" />, label: 'Documents & Downloads' },
+                { icon: <Users className="w-4 h-4" />, label: 'Committee Member Management' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-3 text-sm text-slate-300">
+                  <div className="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-santic-red shrink-0">
+                    {item.icon}
+                  </div>
+                  <span>{item.label}</span>
+                </div>
+              ))}
             </div>
           </div>
-        </section>
+        </div>
+
+        {/* Right Panel — Login Card */}
+        <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-10 bg-slate-950 min-h-screen lg:min-h-0">
+          {/* Mobile logo */}
+          <div className="lg:hidden mb-8 flex flex-col items-center gap-3">
+            <div className="w-16 h-16 rounded-2xl bg-santic-red flex items-center justify-center shadow-xl">
+              <ShieldCheck className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-2xl font-black text-white">PCZSC Admin Portal</h1>
+          </div>
+
+          <div className="w-full max-w-sm space-y-8">
+            <div className="space-y-1.5">
+              <h2 className="text-2xl font-extrabold text-white">Welcome back</h2>
+              <p className="text-sm text-slate-400">Sign in to manage the PCZSC website</p>
+            </div>
+
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 space-y-6 shadow-2xl">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-santic-red/10 border border-santic-red/20 flex items-center justify-center text-santic-red">
+                  <Lock className="w-6 h-6" />
+                </div>
+                <div>
+                  <p className="text-sm font-extrabold text-white">Secure Admin Access</p>
+                  <p className="text-xs text-slate-500">Credentials required</p>
+                </div>
+              </div>
+
+              <div className="text-xs text-slate-500 bg-slate-800/60 rounded-2xl p-4 border border-slate-700/60 leading-relaxed">
+                Enter your admin username and password to access the secretariat control panel. All activity is logged.
+              </div>
+
+              <button
+                onClick={() => setShowLoginModal(true)}
+                className="w-full bg-santic-red hover:bg-santic-hoverRed text-white py-4 rounded-2xl text-sm font-extrabold uppercase tracking-widest shadow-xl shadow-red-600/20 transition-all hover:scale-[1.02] active:scale-100 flex items-center justify-center gap-2"
+              >
+                <Lock className="w-4 h-4" />
+                Open Admin Login
+              </button>
+            </div>
+
+            <p className="text-center text-xs text-slate-600">
+              PCZSC © {new Date().getFullYear()} · All rights reserved
+            </p>
+          </div>
+        </div>
 
         {showLoginModal && (
           <AdminLoginModal onClose={() => setShowLoginModal(false)} />
