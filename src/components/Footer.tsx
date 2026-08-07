@@ -65,10 +65,12 @@ export const Footer: React.FC = () => {
                 <Phone className="w-3.5 h-3.5 text-santic-red shrink-0" />
                 <span>+91 {contactInfo.mobile}</span>
               </p>
-              <p className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-santic-red shrink-0" />
-                <span>{contactInfo.email}</span>
-              </p>
+              {Boolean(contactInfo.email) && (
+                <p className="flex items-center gap-2">
+                  <Mail className="w-3.5 h-3.5 text-santic-red shrink-0" />
+                  <span>{contactInfo.email}</span>
+                </p>
+              )}
             </div>
           </div>
 

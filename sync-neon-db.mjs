@@ -291,6 +291,21 @@ async function runSync() {
     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW();
   `;
 
+  // 5b. Contact Info
+  const contactInfo = {
+    organisation: 'Pune City Zonal Sports Committee',
+    contactPerson: 'Dr. Gujar Tushar Anil (Secretary)',
+    address: "C/o Marathwada Mitra Mandal's College of Engineering, Survey No. 18, Plot No. 5-3, CTS-205, Karvenagar, Pune, Maharashtra, India",
+    mobile: '9822292020',
+    email: '',
+    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.743126438072!2d73.81559867588319!3d18.490729369851608!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bfec353381a1%3A0x6fb8f9f6920f7850!2sMarathwada%20Mitra%20Mandal's%20College%20of%20Engineering!5e0!3m2!1sen!2sin!4v1722080000000!5m2!1sen!2sin"
+  };
+  await sql`
+    INSERT INTO site_settings (key, value, updated_at)
+    VALUES ('pczsc_contact', ${JSON.stringify(contactInfo)}::jsonb, NOW())
+    ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW();
+  `;
+
   // 6. Hero Slides Table
   const heroSlides = [
     {

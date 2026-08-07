@@ -225,22 +225,24 @@ export const ContactUsPage: React.FC = () => {
                   </div>
 
                   {/* Email */}
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-santic-red shrink-0 border border-white/15">
-                      <Mail className="w-5 h-5" />
+                  {Boolean(contactInfo.email) && (
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-santic-red shrink-0 border border-white/15">
+                        <Mail className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <span className="text-[11px] uppercase tracking-wider font-bold text-white/50 block">
+                          Official Email ID
+                        </span>
+                        <a
+                          href={`mailto:${contactInfo.email}`}
+                          className="font-bold text-white hover:text-santic-red transition-colors text-xs md:text-sm underline"
+                        >
+                          {contactInfo.email}
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-[11px] uppercase tracking-wider font-bold text-white/50 block">
-                        Official Email ID
-                      </span>
-                      <a
-                        href={`mailto:${contactInfo.email}`}
-                        className="font-bold text-white hover:text-santic-red transition-colors text-xs md:text-sm underline"
-                      >
-                        {contactInfo.email}
-                      </a>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
                 <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-white/50">

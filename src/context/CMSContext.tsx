@@ -527,11 +527,11 @@ const defaultFooterConfig: FooterConfig = {
 
 const defaultContactInfo: ContactInfo = {
   organisation: "Pune City Zonal Sports Committee",
-  contactPerson: "Dr. Shaikh Aiyaz Hussain Jiyaull Hussain",
-  address: "C/o Anjuman Khairul Islam's Poona College, 1647, Camp, New Modikhana, Pune, Maharashtra, India.",
-  mobile: "9422517809",
-  email: "aiyaz9422@yahoo.co.in",
-  mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.376829777598!2d73.8724652758836!3d18.50580556934371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c069b2b528b7%3A0x7d01878d655f464d!2sPoona%20College%20of%20Arts%2C%20Science%20and%20Commerce!5e0!3m2!1sen!2sin!4v1722080000000!5m2!1sen!2sin"
+  contactPerson: "Dr. Gujar Tushar Anil (Secretary)",
+  address: "C/o Marathwada Mitra Mandal's College of Engineering, Survey No. 18, Plot No. 5-3, CTS-205, Karvenagar, Pune, Maharashtra, India",
+  mobile: "9822292020",
+  email: "",
+  mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.743126438072!2d73.81559867588319!3d18.490729369851608!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bfec353381a1%3A0x6fb8f9f6920f7850!2sMarathwada%20Mitra%20Mandal's%20College%20of%20Engineering!5e0!3m2!1sen!2sin!4v1722080000000!5m2!1sen!2sin"
 };
 
 const initialInquiries: ContactInquiry[] = [
@@ -942,8 +942,12 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         // --- Contact Info ---
         const dbContact = await fetchSiteSettingFromDB<ContactInfo | null>('pczsc_contact', null);
         const lsContact = safeLoadStorage<ContactInfo | null>('pczsc_contact', null);
-        const targetContact = dbContact || lsContact || getUserStateFallback('pczsc_contact', defaultContactInfo);
+        let targetContact = dbContact || lsContact || getUserStateFallback('pczsc_contact', defaultContactInfo);
+        if (targetContact.contactPerson?.includes('Aiyaz') || targetContact.address?.includes('Poona College')) {
+          targetContact = defaultContactInfo;
+        }
         setContactInfo(targetContact);
+        safeSaveStorage('pczsc_contact', targetContact);
 
         // --- SEO Store ---
         const dbSEO = await fetchSiteSettingFromDB<SEOStore | null>('pczsc_seo_store', null);
