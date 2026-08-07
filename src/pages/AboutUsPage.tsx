@@ -526,7 +526,7 @@ export const AboutUsPage: React.FC = () => {
                 </div>
               )}
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div className="lg:col-span-8 space-y-5">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-santic-red/20 text-santic-red text-xs font-extrabold uppercase tracking-wider border border-santic-red/30">
                     <Award className="w-3.5 h-3.5" />
