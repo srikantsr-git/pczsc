@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-08-07T19:51:26.453Z",
+  "localFiles": {
+    "sql": "D:\\pczsc-new\\backups\\pczsc-db-backup-2026-08-07T19-51-14-077Z.sql",
+    "json": "D:\\pczsc-new\\backups\\pczsc-db-backup-2026-08-07T19-51-14-077Z.json"
+  },
+  "downloadUrls": {
+    "sql": "https://rtmjgqjakopoy7lq.public.blob.vercel-storage.com/backups/pczsc-db-backup-2026-08-07T19-51-14-077Z.sql",
+    "json": "https://rtmjgqjakopoy7lq.public.blob.vercel-storage.com/backups/pczsc-db-backup-2026-08-07T19-51-14-077Z.json"
+  },
+  "summary": [
+    {
+      "tableName": "documents",
+      "rowsCount": 1142,
+      "columnsCount": 9
+    },
+    {
+      "tableName": "gallery",
+      "rowsCount": 4,
+      "columnsCount": 7
+    },
+    {
+      "tableName": "hero_slides",
+      "rowsCount": 3,
+      "columnsCount": 9
+    },
+    {
+      "tableName": "media_uploads",
+      "rowsCount": 0,
+      "columnsCount": 4
+    },
+    {
+      "tableName": "physical_education_directors",
+      "rowsCount": 2,
+      "columnsCount": 7
+    },
+    {
+      "tableName": "site_settings",
+      "rowsCount": 21,
+      "columnsCount": 3
+    }
+  ]
+}
