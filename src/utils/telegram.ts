@@ -25,7 +25,7 @@ export const DEFAULT_TELEGRAM_CONFIG: TelegramConfig = {
  */
 export function formatNewsTelegramMessage(item: NewsTelegramItem, siteOrigin?: string): string {
   const origin = siteOrigin || (typeof window !== 'undefined' ? window.location.origin : 'https://pczsc.org');
-  
+
   let fullLink = item.link || '/';
   if (!fullLink.startsWith('http://') && !fullLink.startsWith('https://')) {
     fullLink = `${origin}${fullLink.startsWith('/') ? '' : '/'}${fullLink}`;
@@ -36,7 +36,7 @@ export function formatNewsTelegramMessage(item: NewsTelegramItem, siteOrigin?: s
 
   return (
     `📢 <b>NEW ANNOUNCEMENT</b>\n\n` +
-    `🏆 <b>Pune District Zilla Sports Council</b>\n\n` +
+    `🏆 <b>Pune City Zonal Sports Committee</b>\n\n` +
     `📌 <b>${escapeHtml(item.title)}</b>\n` +
     category +
     dateStr +
