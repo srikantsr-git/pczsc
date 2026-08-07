@@ -438,9 +438,13 @@ export const AboutUsPage: React.FC = () => {
                     {aboutUsConfig.historyTitle}
                   </h2>
                   <div className="text-slate-600 text-base md:text-lg leading-relaxed font-normal space-y-4">
-                    {aboutUsConfig.historyBody.split('\n\n').map((paragraph, idx) => (
-                      <p key={idx}>{paragraph}</p>
-                    ))}
+                    {aboutUsConfig.historyBody.includes('<') ? (
+                      <div className="rich-html" dangerouslySetInnerHTML={{ __html: aboutUsConfig.historyBody }} />
+                    ) : (
+                      aboutUsConfig.historyBody.split('\n\n').map((paragraph, idx) => (
+                        <p key={idx}>{paragraph}</p>
+                      ))
+                    )}
                   </div>
                 </div>
 
@@ -484,9 +488,13 @@ export const AboutUsPage: React.FC = () => {
                 {aboutUsConfig.objectivesTitle}
               </h3>
               <div className="text-slate-600 text-base md:text-lg leading-relaxed font-normal space-y-4">
-                {aboutUsConfig.objectivesBody.split('\n\n').map((p, idx) => (
-                  <p key={idx}>{p}</p>
-                ))}
+                {aboutUsConfig.objectivesBody.includes('<') ? (
+                  <div className="rich-html" dangerouslySetInnerHTML={{ __html: aboutUsConfig.objectivesBody }} />
+                ) : (
+                  aboutUsConfig.objectivesBody.split('\n\n').map((p, idx) => (
+                    <p key={idx}>{p}</p>
+                  ))
+                )}
               </div>
             </div>
           )}
@@ -527,17 +535,35 @@ export const AboutUsPage: React.FC = () => {
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
                     {aboutUsConfig.presidentTitle}
                   </h3>
-                  <p className="text-slate-300 text-sm md:text-base leading-relaxed font-normal">
-                    {aboutUsConfig.presidentBody}
-                  </p>
+                  {aboutUsConfig.presidentBody && (
+                    aboutUsConfig.presidentBody.includes('<') ? (
+                      <div
+                        className="rich-html text-slate-300 text-sm md:text-base leading-relaxed font-normal space-y-3"
+                        dangerouslySetInnerHTML={{ __html: aboutUsConfig.presidentBody }}
+                      />
+                    ) : (
+                      <div className="text-slate-300 text-sm md:text-base leading-relaxed font-normal space-y-3">
+                        {aboutUsConfig.presidentBody.split('\n\n').map((paragraph, idx) => (
+                          <p key={idx}>{paragraph}</p>
+                        ))}
+                      </div>
+                    )
+                  )}
                   {aboutUsConfig.presidentHighlightTitle && (
                     <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1">
                       <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider">
                         {aboutUsConfig.presidentHighlightTitle}
                       </h4>
-                      <p className="text-xs text-slate-300">
-                        {aboutUsConfig.presidentHighlightBody}
-                      </p>
+                      {aboutUsConfig.presidentHighlightBody.includes('<') ? (
+                        <div
+                          className="rich-html text-xs text-slate-300"
+                          dangerouslySetInnerHTML={{ __html: aboutUsConfig.presidentHighlightBody }}
+                        />
+                      ) : (
+                        <p className="text-xs text-slate-300">
+                          {aboutUsConfig.presidentHighlightBody}
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>

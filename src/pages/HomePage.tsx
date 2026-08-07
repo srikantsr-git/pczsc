@@ -483,9 +483,18 @@ export const HomePage: React.FC = () => {
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight">
                 {homeAboutConfig.title}
               </h2>
-              <p className="text-slate-600 text-base md:text-lg leading-relaxed font-normal">
-                {homeAboutConfig.description}
-              </p>
+              {homeAboutConfig.description && (
+                homeAboutConfig.description.includes('<') ? (
+                  <div
+                    className="rich-html text-slate-600 text-base md:text-lg leading-relaxed font-normal space-y-3"
+                    dangerouslySetInnerHTML={{ __html: homeAboutConfig.description }}
+                  />
+                ) : (
+                  <p className="text-slate-600 text-base md:text-lg leading-relaxed font-normal">
+                    {homeAboutConfig.description}
+                  </p>
+                )
+              )}
               <div className="pt-4">
                 <Link
                   to={homeAboutConfig.ctaLink}
@@ -597,9 +606,18 @@ export const HomePage: React.FC = () => {
                         {pillar.title}
                       </h3>
                     </div>
-                    <p className="text-sm md:text-base text-slate-600 leading-relaxed pl-13 font-normal">
-                      {pillar.description}
-                    </p>
+                    {pillar.description && (
+                      pillar.description.includes('<') ? (
+                        <div
+                          className="rich-html text-sm md:text-base text-slate-600 leading-relaxed pl-13 font-normal"
+                          dangerouslySetInnerHTML={{ __html: pillar.description }}
+                        />
+                      ) : (
+                        <p className="text-sm md:text-base text-slate-600 leading-relaxed pl-13 font-normal">
+                          {pillar.description}
+                        </p>
+                      )
+                    )}
                   </button>
                 );
               })}
@@ -623,9 +641,18 @@ export const HomePage: React.FC = () => {
                 <h4 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white mb-3">
                   {pillarsConfig.pillars[activePillar]?.title}
                 </h4>
-                <p className="text-xs md:text-sm text-white/90 max-w-xl leading-relaxed font-normal">
-                  {pillarsConfig.pillars[activePillar]?.description}
-                </p>
+                {pillarsConfig.pillars[activePillar]?.description && (
+                  pillarsConfig.pillars[activePillar].description.includes('<') ? (
+                    <div
+                      className="rich-html text-xs md:text-sm text-white/90 max-w-xl leading-relaxed font-normal"
+                      dangerouslySetInnerHTML={{ __html: pillarsConfig.pillars[activePillar].description }}
+                    />
+                  ) : (
+                    <p className="text-xs md:text-sm text-white/90 max-w-xl leading-relaxed font-normal">
+                      {pillarsConfig.pillars[activePillar]?.description}
+                    </p>
+                  )
+                )}
               </div>
             </div>
           </div>
