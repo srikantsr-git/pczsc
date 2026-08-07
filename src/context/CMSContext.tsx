@@ -40,6 +40,13 @@ import {
   SUPER_ADMIN_USERNAME,
   SUPER_ADMIN_HASH
 } from '../utils/cryptoAuth';
+import {
+  TelegramConfig,
+  DEFAULT_TELEGRAM_CONFIG,
+  formatNewsTelegramMessage,
+  sendTelegramMessage
+} from '../utils/telegram';
+
 
 export interface DocumentItem {
   id: string;
@@ -326,6 +333,10 @@ interface CMSContextType {
   seoStore: SEOStore;
   updatePageSEO: (pageKey: string, config: PageSEOConfig) => void;
   resetPageSEO: (pageKey: string) => void;
+  // Telegram Integration
+  telegramConfig: TelegramConfig;
+  updateTelegramConfig: (config: TelegramConfig) => void;
+  sendNewsToTelegram: (item: NewsMarqueeItem) => Promise<{ success: boolean; error?: string }>;
 }
 
 const defaultHeaderConfig: HeaderConfig = {
@@ -750,6 +761,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [footerConfig, setFooterConfig] = useState<FooterConfig>(defaultFooterConfig);
   const [contactInfo, setContactInfo] = useState<ContactInfo>(defaultContactInfo);
   const [contactInquiries, setContactInquiries] = useState<ContactInquiry[]>(initialInquiries);
+  const [telegramConfig, setTelegramConfig] = useState<TelegramConfig>(DEFAULT_TELEGRAM_CONFIG);
 
   const [documents, setDocuments] = useState<DocumentItem[]>(allSportsCalendarDocuments);
 
@@ -925,6 +937,12 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const lsSEO = safeLoadStorage<SEOStore | null>('pczsc_seo_store', null);
         const targetSEO = dbSEO || lsSEO || getUserStateFallback('pczsc_seo_store', DEFAULT_PAGE_SEO);
         setSeoStore(targetSEO);
+
+        // --- Telegram Config ---
+        const dbTelegram = await fetchSiteSettingFromDB<TelegramConfig | null>('pczsc_telegram_config', null);
+        const lsTelegram = safeLoadStorage<TelegramConfig | null>('pczsc_telegram_config', null);
+        const targetTelegram = dbTelegram || lsTelegram || DEFAULT_TELEGRAM_CONFIG;
+        setTelegramConfig(targetTelegram);
 
         // --- News Marquee & Speed ---
         const dbMarquee = await fetchSiteSettingFromDB<NewsMarqueeItem[] | null>('pczsc_news_marquee', null);
@@ -1176,6 +1194,12 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const newItem: NewsMarqueeItem = { ...item, id: `news-${Date.now()}` };
     const updated = [...newsMarquee, newItem];
     updateNewsMarquee(updated);
+
+    if (telegramConfig.enabled && telegramConfig.autoPost && telegramConfig.channelId && telegramConfig.botToken) {
+      sendTelegramMessage(telegramConfig.botToken, telegramConfig.channelId, formatNewsTelegramMessage(newItem)).catch((err) => {
+        console.warn('Auto-post to Telegram failed:', err);
+      });
+    }
   };
 
   const deleteNewsMarqueeItem = (id: string) => {
@@ -1327,6 +1351,12 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         };
         const updatedMarquee = [marqueeItem, ...newsMarquee];
         updateNewsMarquee(updatedMarquee);
+
+        if (telegramConfig.enabled && telegramConfig.autoPost && telegramConfig.channelId && telegramConfig.botToken) {
+          sendTelegramMessage(telegramConfig.botToken, telegramConfig.channelId, formatNewsTelegramMessage(marqueeItem)).catch((err) => {
+            console.warn('Auto-post to Telegram failed:', err);
+          });
+        }
       }
     } else {
       const updatedMarquee = newsMarquee.filter((item) => item.id !== marqueeId);
@@ -1469,6 +1499,20 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     saveSiteSettingToDB('pczsc_seo_store', updated);
   };
 
+  const updateTelegramConfig = (config: TelegramConfig) => {
+    setTelegramConfig(config);
+    safeSaveStorage('pczsc_telegram_config', config);
+    saveSiteSettingToDB('pczsc_telegram_config', config);
+  };
+
+  const sendNewsToTelegram = async (item: NewsMarqueeItem) => {
+    if (!telegramConfig.botToken || !telegramConfig.channelId) {
+      return { success: false, error: 'Telegram Bot Token or Channel ID is missing in Admin settings.' };
+    }
+    const message = formatNewsTelegramMessage(item);
+    return sendTelegramMessage(telegramConfig.botToken, telegramConfig.channelId, message);
+  };
+
   const resetPageSEO = (pageKey: string) => {
     const defaultCfg = DEFAULT_PAGE_SEO[pageKey];
     if (defaultCfg) {
@@ -1558,7 +1602,10 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         deletePEDirector,
         seoStore,
         updatePageSEO,
-        resetPageSEO
+        resetPageSEO,
+        telegramConfig,
+        updateTelegramConfig,
+        sendNewsToTelegram
       }}
     >
       {children}

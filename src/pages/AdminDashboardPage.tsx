@@ -5,6 +5,8 @@ import { PRESET_THEMES } from '../utils/themePresets';
 import { PresetThemeId, FontFamily } from '../types/theme';
 import { generateCssVariables } from '../utils/themeEngine';
 import { SubPageHero } from '../components/SubPageHero';
+import { TelegramIntegrationSection } from '../components/admin/TelegramIntegrationSection';
+
 import {
   LayoutDashboard,
   Palette,
@@ -118,7 +120,7 @@ export const AdminDashboardPage: React.FC = () => {
     );
   };
   const [activeNav, setActiveNav] = useState<
-    'overview' | 'theme' | 'inquiries' | 'documents' | 'gallery' | 'cms' | 'committee' | 'seo' | 'manage-admins' | 'pe-directors'
+    'overview' | 'theme' | 'inquiries' | 'documents' | 'gallery' | 'cms' | 'committee' | 'seo' | 'manage-admins' | 'pe-directors' | 'telegram'
   >(initialTab);
 
   const [selectedSEOPage, setSelectedSEOPage] = useState<string>('home');
@@ -409,6 +411,7 @@ export const AdminDashboardPage: React.FC = () => {
     { id: 'gallery', label: 'Photo & Video Gallery', icon: <ImageIcon className="w-4 h-4" />, forAll: true },
     { id: 'pe-directors', label: 'PE Directors', icon: <GraduationCap className="w-4 h-4 text-teal-400" />, forAll: true },
     { id: 'seo', label: 'SEO & Meta Tags', icon: <Globe className="w-4 h-4 text-sky-400" />, forAll: true },
+    { id: 'telegram', label: 'Telegram Integration', icon: <Send className="w-4 h-4 text-sky-400" />, forAll: true },
     { id: 'cms', label: 'Site CMS Settings', icon: <Settings className="w-4 h-4" />, forAll: true },
     // Super admin only items
     { id: 'theme', label: 'Theme Settings', icon: <Palette className="w-4 h-4 text-purple-400" />, forAll: false, superAdminOnly: true },
@@ -1820,6 +1823,11 @@ export const AdminDashboardPage: React.FC = () => {
               {/* ── PE Directors Tab ──────────────────────────────── */}
               {activeNav === 'pe-directors' && (
                 <ManagePEDirectorsSection />
+              )}
+
+              {/* ── Telegram Integration Tab ─────────────────────── */}
+              {activeNav === 'telegram' && (
+                <TelegramIntegrationSection />
               )}
 
             </section>

@@ -3,7 +3,7 @@ import { useCMS } from '../context/CMSContext';
 import { useToast } from '../context/ToastContext';
 import { FileUploadInput } from './FileUploadInput';
 import { RichTextEditor } from './admin/RichTextEditor';
-import { X, Plus, Trash2, Layout, Sliders, FileText, Globe, Layers, Gauge } from 'lucide-react';
+import { X, Plus, Trash2, Layout, Sliders, FileText, Globe, Layers, Gauge, Send } from 'lucide-react';
 
 interface AdminConfigModalsProps {
   activeTab: 'header' | 'hero' | 'news' | 'metrics' | 'vision' | 'footer' | null;
@@ -26,7 +26,8 @@ export const AdminConfigModals: React.FC<AdminConfigModalsProps> = ({ activeTab,
     visionMission,
     updateVisionMission,
     footerConfig,
-    updateFooterConfig
+    updateFooterConfig,
+    telegramConfig
   } = useCMS();
 
   // Tab State inside modal
@@ -505,6 +506,21 @@ export const AdminConfigModals: React.FC<AdminConfigModalsProps> = ({ activeTab,
                 </p>
                 <p className="text-xs text-slate-500 italic bg-amber-500/10 p-3 rounded-xl border border-amber-500/20 text-slate-700">
                   💡 <strong>How to feature documents on the Home Page Marquee:</strong> Go to the <strong>Downloads</strong> page (or Document Management in Admin Panel) and click the <strong>"Show on Home Page Marquee"</strong> toggle button next to any uploaded circular.
+                </p>
+              </div>
+
+              {/* Telegram Channel Auto-Post Notice */}
+              <div className="p-5 rounded-2xl bg-sky-50 border border-sky-200 text-sky-900 space-y-2">
+                <h4 className="text-xs font-extrabold text-sky-950 flex items-center gap-2">
+                  <Send className="w-4 h-4 text-sky-600" />
+                  <span>Telegram Channel Auto-Posting</span>
+                </h4>
+                <p className="text-xs text-sky-800 leading-relaxed font-normal">
+                  {telegramConfig.enabled && telegramConfig.channelId ? (
+                    <>✅ Automatically broadcasting published news to Telegram channel <strong>{telegramConfig.channelId}</strong>.</>
+                  ) : (
+                    <>⚠️ Telegram Channel is not yet connected. Configure your channel ID in <strong>Admin Dashboard → Telegram Integration</strong>.</>
+                  )}
                 </p>
               </div>
 
