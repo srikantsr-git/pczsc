@@ -24,7 +24,7 @@ import { MediaRenderer } from '../components/MediaRenderer';
 import { FileUploadInput } from '../components/FileUploadInput';
 import { RichTextEditor } from '../components/admin/RichTextEditor';
 import { SEOHead } from '../components/SEOHead';
-import { getDocumentPdfUrl } from '../utils/documentUtils';
+import { getDocumentPdfUrl, handleViewPdf } from '../utils/documentUtils';
 
 export const HomePage: React.FC = () => {
   const {
@@ -361,12 +361,11 @@ export const HomePage: React.FC = () => {
                         style={{ animationDuration: `${Math.max(3, marqueeSpeed)}s` }}
                       >
                         {loopList.map((item, index) => (
-                          <a
+                          <button
                             key={`${item.id}-${index}`}
-                            href={item.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block p-2.5 sm:p-3 rounded-xl bg-white/5 hover:bg-santic-red/20 border border-white/10 hover:border-santic-red/50 transition-all duration-200 group"
+                            type="button"
+                            onClick={() => handleViewPdf(item.link, item.title)}
+                            className="w-full text-left block p-2.5 sm:p-3 rounded-xl bg-white/5 hover:bg-santic-red/20 border border-white/10 hover:border-santic-red/50 transition-all duration-200 group cursor-pointer"
                           >
                             <div className="flex items-center justify-between gap-2 mb-1">
                               <span className="text-[9.5px] font-semibold text-santic-red uppercase tracking-wider bg-santic-red/10 px-2 py-0.5 rounded border border-santic-red/20">
@@ -377,7 +376,7 @@ export const HomePage: React.FC = () => {
                             <h4 className="text-[11px] sm:text-xs font-normal text-white group-hover:text-amber-300 leading-snug break-words">
                               {item.title}
                             </h4>
-                          </a>
+                          </button>
                         ))}
                       </div>
                     );

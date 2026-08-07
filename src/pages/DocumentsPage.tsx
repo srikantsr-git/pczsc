@@ -17,7 +17,8 @@ import { SEOHead } from '../components/SEOHead';
 
 import { PaginationControls } from '../components/PaginationControls';
 import { useToast } from '../context/ToastContext';
-import { getDocumentPdfUrl } from '../utils/documentUtils';
+import { getDocumentPdfUrl, handleDownloadPdf, handleViewPdf } from '../utils/documentUtils';
+import { PdfViewerModal } from '../components/PdfViewerModal';
 
 export const DocumentsPage: React.FC = () => {
   const {
@@ -50,6 +51,9 @@ export const DocumentsPage: React.FC = () => {
 
   // Edit Document Modal State
   const [editingDoc, setEditingDoc] = useState<DocumentItem | null>(null);
+
+  // PDF Viewer Modal State
+  const [viewerDoc, setViewerDoc] = useState<{ title: string; url: string } | null>(null);
 
   const categories = [
     'All',
@@ -369,15 +373,14 @@ export const DocumentsPage: React.FC = () => {
                             <div className="space-y-1">
                               <div className="flex items-start gap-2.5">
                                 <FileText className="w-4.5 h-4.5 text-santic-red shrink-0 mt-0.5" />
-                                <a
-                                  href={getDocumentPdfUrl(doc)}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="font-extrabold text-slate-900 hover:text-santic-red transition-colors leading-snug text-sm sm:text-base cursor-pointer"
-                                  title="Click to view PDF file in new window"
+                                <button
+                                  type="button"
+                                  onClick={() => setViewerDoc({ title: doc.title, url: getDocumentPdfUrl(doc) })}
+                                  className="font-extrabold text-slate-900 hover:text-santic-red transition-colors leading-snug text-sm sm:text-base cursor-pointer text-left"
+                                  title="Click to view PDF file preview"
                                 >
                                   {doc.title}
-                                </a>
+                                </button>
                               </div>
 
                               {doc.showOnNewsMarquee && (
@@ -399,27 +402,26 @@ export const DocumentsPage: React.FC = () => {
                           <td className="py-4 px-6 text-center">
                             <div className="flex items-center justify-center gap-2 flex-wrap">
                               {/* View Document */}
-                              <a
-                                href={getDocumentPdfUrl(doc)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-800 px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all border border-slate-200 shadow-sm"
+                              <button
+                                type="button"
+                                onClick={() => setViewerDoc({ title: doc.title, url: getDocumentPdfUrl(doc) })}
+                                className="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-800 px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all border border-slate-200 shadow-sm cursor-pointer"
+                                title="View PDF preview"
                               >
                                 <Eye className="w-4 h-4" />
                                 <span>View</span>
-                              </a>
+                              </button>
 
                               {/* Download Document */}
-                              <a
-                                href={getDocumentPdfUrl(doc)}
-                                download
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 bg-santic-red hover:bg-santic-hoverRed text-white px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all shadow-md shadow-red-500/20"
+                              <button
+                                type="button"
+                                onClick={() => handleDownloadPdf(getDocumentPdfUrl(doc), doc.title)}
+                                className="inline-flex items-center gap-1.5 bg-santic-red hover:bg-santic-hoverRed text-white px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all shadow-md shadow-red-500/20 cursor-pointer"
+                                title="Download PDF file"
                               >
                                 <Download className="w-4 h-4" />
                                 <span>Download</span>
-                              </a>
+                              </button>
 
                               {/* Show / Hide on Home Page News Marquee Toggle (Admin Only) */}
                               {showAdminControls && (
@@ -711,6 +713,14 @@ export const DocumentsPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Interactive PDF Viewer Modal */}
+      <PdfViewerModal
+        isOpen={!!viewerDoc}
+        onClose={() => setViewerDoc(null)}
+        title={viewerDoc?.title || ''}
+        pdfUrl={viewerDoc?.url || ''}
+      />
     </main>
   );
 };
