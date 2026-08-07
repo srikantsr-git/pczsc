@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'fs';
 const filePath = 'src/data/allSportsCalendarDocuments.ts';
 let content = readFileSync(filePath, 'utf-8');
 
-const sampleUrl = 'https://rtmjgqjakopoy7lq.public.blob.vercel-storage.com/documents/pczsc-official-document-sample.pdf';
+const sampleUrl = 'https://rtmjgqjakopoy7lq.public.blob.vercel-storage.com/documents/pczsc-official-valid-document.pdf';
 
 const updated = content.replaceAll(
   /https:\/\/pczsc\.in\/pczsc-data_files\/[^\s"]+/g,
