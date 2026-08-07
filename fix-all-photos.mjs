@@ -94,20 +94,21 @@ const cmsPath = path.join(__dirname, 'src', 'context', 'CMSContext.tsx');
 let cmsContent = fs.readFileSync(cmsPath, 'utf-8');
 
 const committeeMembers = [
-  { id: 'cm-1', name: 'Prin. Dr. Iqbal N. Shaikh', file: 'Prin. Dr. Iqbal N. Shaikh.jpg' },
-  { id: 'cm-2', name: 'Dr. Shaikh Aiyaz Hussain Jiyaull Hussain', file: 'DrShaikh.jpg' },
-  { id: 'cm-3', name: 'Prof. (Dr.) Amrule Mohan Namdeo', file: 'ProfAmrule.jpg' },
-  { id: 'cm-4', name: 'Prof. (Dr.) Bengle Subhash Ramchandra', file: 'Prof.Bengle.jpg' },
-  { id: 'cm-5', name: 'Mr. Sharma Alok Shriram', file: 'Mr.Sharma .jpg' },
-  { id: 'cm-6', name: 'Dr. Bibave Madhuri Sureshrao', file: 'Dr.Bibave .jpg' },
-  { id: 'cm-7', name: 'Dr. Chikte Anagha Sunil', file: 'Dr Chikte .jpg' },
-  { id: 'cm-8', name: 'Prof. (Dr.) Dhamale Shantaram Dattu', file: 'Prof.Dhamale .jpg' },
-  { id: 'cm-9', name: 'Dr. Shendkar Dhananjay Nagnath', file: 'Dr.Shendkar.jpg' },
-  { id: 'cm-10', name: 'Dr. More Popat Balkrishna', file: 'Dr.More .jpg' },
-  { id: 'cm-11', name: 'Dr. Kondhare Machhindra Vittal', file: 'Dr.Kondhare.jpg' },
-  { id: 'cm-12', name: 'Mr. Parse Santosh Pandharinath', file: 'mrparse.jpg' },
-  { id: 'cm-13', name: 'Dr. Kadam Abhijeet Vasantrao', file: 'Dr.AbhijeetKadam.jpg' },
-  { id: 'cm-14', name: 'Mr. Tribhuvan Nitin Gopinath', file: 'mrtribhuvan.jpg' }
+  { id: 'cm-1', name: 'Dr. Sachin Sakhre', file: null },
+  { id: 'cm-2', name: 'Dr. Gujar Tushar Anil', file: 'Gujar Tushar Anil.jpg' },
+  { id: 'cm-3', name: 'Prof. Parse Abhijit Venkat', file: 'mrparse.jpg' },
+  { id: 'cm-4', name: 'Dr. Sharma Anirudha Mahesh', file: 'Mr.Sharma .jpg' },
+  { id: 'cm-5', name: 'Dr. Augustine Anjushree Anthony', file: 'Dr. Augustine Anjushree.jpg' },
+  { id: 'cm-6', name: 'Dr. Bibave Umesh Arun', file: 'Dr.Bibave .jpg' },
+  { id: 'cm-7', name: 'Dr. Shaikh Aiyaz Hussain Jiyaull Hussain', file: 'DrShaikh.jpg' },
+  { id: 'cm-8', name: 'Prof. (Dr.) Amrule Mohan Namdeo', file: 'ProfAmrule.jpg' },
+  { id: 'cm-9', name: 'Prof. (Dr.) Dhamale Shantaram Dattu', file: 'Prof.Dhamale .jpg' },
+  { id: 'cm-10', name: 'Dr. More Shirish Vijay', file: 'Dr.More .jpg' },
+  { id: 'cm-11', name: 'Dr. Shinde Sachin Sudhakar', file: 'sachinshinde.jpg' },
+  { id: 'cm-12', name: 'Dr. Kadam Abhijeet Babanrao', file: 'Dr.AbhijeetKadam.jpg' },
+  { id: 'cm-13', name: 'Prof. Tribhuvan Mithun Prakash', file: 'mrtribhuvan.jpg' },
+  { id: 'cm-14', name: 'Dr. Phale Vikram Suresh', file: 'Dr. Phale Vikram .jpg' },
+  { id: 'cm-15', name: 'Dr. Kondhare Manisha Manoj', file: 'Dr.Kondhare.jpg' }
 ];
 
 for (const cm of committeeMembers) {

@@ -176,115 +176,123 @@
   "pczsc_committee_members": [
     {
       "id": "cm-1",
-      "name": "Prin. Dr. Iqbal N. Shaikh",
+      "name": "Dr. Sachin Sakhre",
       "designation": "President",
-      "photo": "idb:idb_pczsc_committee_members_0_photo_1785325687561_yl2h5g",
-      "collegeAddress": "Anjuman Khairul Islam Poona College, 1647, Camp, New Modikhana, Pune.",
+      "photo": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128' fill='%2394a3b8'><rect width='100%' height='100%' fill='%23e2e8f0'/><circle cx='64' cy='48' r='24' fill='%2394a3b8'/><path d='M64 80c-24 0-40 12-40 24v8h80v-8c0-12-16-24-40-24z' fill='%2394a3b8'/></svg>",
+      "collegeAddress": "Marathwada Mitra Mandal Engineering College, Pune",
       "contactDetails": "Mobile No. : -"
     },
     {
       "id": "cm-2",
-      "name": "Dr. Shaikh Aiyaz Hussain Jiyaull Hussain",
+      "name": "Dr. Gujar Tushar Anil",
       "designation": "Secretary",
-      "photo": "idb:idb_pczsc_committee_members_1_photo_1785325687573_wig4nw",
-      "collegeAddress": "Anjuman Khairul Islam Poona College, 1647, Camp, New Modikhana, Pune",
-      "contactDetails": "Mobile No. : 9422517809"
+      "photo": "/committee/Gujar Tushar Anil.jpg",
+      "collegeAddress": "Marathwada Mitra Mandal's College of Engineering, Survey No. 18, Plot No. 5-3, CTS-205, Karvenagar, Pune",
+      "contactDetails": "Mobile No. : 9822292020"
     },
     {
       "id": "cm-3",
-      "name": "Prof. (Dr.) Amrule Mohan Namdeo",
+      "name": "Prof. Parse Abhijit Venkat",
       "designation": "Joint Secretary",
-      "photo": "idb:idb_pczsc_committee_members_2_photo_1785325687575_xvu51w",
-      "collegeAddress": "Deccan Education Society's B.M. College of Commerce, 845, Shivajinagar, Daccan Gymkhana, Pune",
-      "contactDetails": "Mobile No. : 9881600118"
+      "photo": "/committee/mrparse.jpg",
+      "collegeAddress": "Sanskar Mandir Sanstha's Arts & Commerce College, Opp. Ganpati Mandir, Warje Malwadi, Pune",
+      "contactDetails": "Mobile No. : 9028088199"
     },
     {
       "id": "cm-4",
-      "name": "Prof. (Dr.) Bengle Asha Vijaykumar",
+      "name": "Dr. Sharma Anirudha Mahesh",
       "designation": "Joint Secretary",
-      "photo": "idb:idb_pczsc_committee_members_3_photo_1785325687575_z454da",
-      "collegeAddress": "Maharashtra Education Society's Abasaheb Garware Mahavidyalay, Karve Road, Pune",
-      "contactDetails": "Mobile No. : 9922223233"
+      "photo": "/committee/Mr.Sharma .jpg",
+      "collegeAddress": "Symbiosis International Cultural Center's Symbiosis College of Arts & Commerce, Senapati Bapat Road, Pune",
+      "contactDetails": "Mobile No. : 7709999997"
     },
     {
       "id": "cm-5",
-      "name": "Mr. Sharma Anirudha Mahesh",
+      "name": "Dr. Augustine Anjushree Anthony",
       "designation": "Joint Secretary",
-      "photo": "idb:idb_pczsc_committee_members_4_photo_1785325687576_70utnb",
-      "collegeAddress": "Symbiosis International Cultural Center's Symbiosis College of Arts & Commerce, Senapati Bapat Road, Pune",
-      "contactDetails": "Mobile No. : 7709999997"
+      "photo": "/committee/Dr. Augustine Anjushree.jpg",
+      "collegeAddress": "Maharshi Karve Stree Shikshan Sanstha's MKSSS's Cummins College of Engineering for Women, Karvenagar, Pune",
+      "contactDetails": "Mobile No. : 8007786487"
     },
     {
       "id": "cm-6",
       "name": "Dr. Bibave Umesh Arun",
       "designation": "Treasurer",
-      "photo": "idb:idb_pczsc_committee_members_5_photo_1785325687576_niyi7h",
-      "collegeAddress": "Maharashtra Education Society's Garware College Of Commerce, Off Karve Road, Pune",
+      "photo": "/committee/Dr.Bibave .jpg",
+      "collegeAddress": "Maharashtra Education Society's Garware College of Commerce, Off Karve Road, Pune",
       "contactDetails": "Mobile No. : 7350509990"
     },
     {
       "id": "cm-7",
-      "name": "Dr. Chikte Anagha Sunil",
+      "name": "Dr. Shaikh Aiyaz Hussain Jiyaull Hussain",
       "designation": "Member",
-      "photo": "idb:idb_pczsc_committee_members_6_photo_1785325687577_ol9t3i",
-      "collegeAddress": "Maharshi Karve Stree Shikshan Sanstha's Shri Sidhvinayak Mahila Mahavidyalaya, Karvenagar, Pune",
-      "contactDetails": "Mobile No. : 9850710713"
+      "photo": "/committee/DrShaikh.jpg",
+      "collegeAddress": "Anjuman Khairul Islam's Poona College, 1647, Camp, New Modikhana, Pune",
+      "contactDetails": "Mobile No. : 9422517809"
     },
     {
       "id": "cm-8",
-      "name": "Prof. (Dr.) Dhamale Shantaram Dattu",
+      "name": "Prof. (Dr.) Amrule Mohan Namdeo",
       "designation": "Member",
-      "photo": "idb:idb_pczsc_committee_members_7_photo_1785325687578_zdxojp",
-      "collegeAddress": "Shri Shivaji Maratha Society's Samajbhushan Baburao Alias Appasaheb Jedhe Arts, Commerce & Science College, 425, Shukrwar Peth, Pune",
-      "contactDetails": "Mobile No. : 9421077180"
+      "photo": "/committee/ProfAmrule.jpg",
+      "collegeAddress": "Deccan Education Society's B.M. College of Commerce, 845, Shivajinagar, Daccan Gymkhana, Pune",
+      "contactDetails": "Mobile No. : 9881600118"
     },
     {
       "id": "cm-9",
-      "name": "Dr. Shendkar Deepak Tanaji",
+      "name": "Prof. (Dr.) Dhamale Shantaram Dattu",
       "designation": "Member",
-      "photo": "idb:idb_pczsc_committee_members_8_photo_1785325687581_y9uw6f",
-      "collegeAddress": "Progressive Education Society's Modern Arts, Commerce & Science College, Ganeshkhind, Pune",
-      "contactDetails": "Mobile No. : 9823839014"
+      "photo": "/committee/Prof.Dhamale .jpg",
+      "collegeAddress": "Shri Shivaji Maratha Society's Samajbhushan Baburao Alias Appasaheb Jedhe Arts, Commerce & Science College, 425, Shukrwar Peth, Pune",
+      "contactDetails": "Mobile No. : 9421077180"
     },
     {
       "id": "cm-10",
       "name": "Dr. More Shirish Vijay",
       "designation": "Member",
-      "photo": "idb:idb_pczsc_committee_members_9_photo_1785325687587_yye1z7",
+      "photo": "/committee/Dr.More .jpg",
       "collegeAddress": "Maharashtriy Mandal's Chandrashekhar Agashe College of Physical Eduaction, Gultekadi, Pune",
       "contactDetails": "Mobile No. : 9545455910"
     },
     {
       "id": "cm-11",
-      "name": "Dr. Kondhare Manisha Manoj",
+      "name": "Dr. Shinde Sachin Sudhakar",
       "designation": "Member",
-      "photo": "idb:idb_pczsc_committee_members_10_photo_1785325687590_tpudvo",
-      "collegeAddress": "All India Shri Shivaji Memorial Society's AISSMS College of Engineering, Kennedy Road, Pune",
-      "contactDetails": "Mobile No. : 9881294721"
+      "photo": "/committee/sachinshinde.jpg",
+      "collegeAddress": "SCTR's Institute of Computer Technology, Survey No. 27, Pune-Satara Road, Dhanakwadi, Pune",
+      "contactDetails": "Mobile No. : 9404232781"
     },
     {
       "id": "cm-12",
-      "name": "Mr. Parse Abhijit Venkat",
+      "name": "Dr. Kadam Abhijeet Babanrao",
       "designation": "Member",
-      "photo": "idb:idb_pczsc_committee_members_11_photo_1785325687592_okb9yi",
-      "collegeAddress": "Sanskar Mandir Sanstha's Art's & Commerce College, Opp. Ganpati Mandir, Warje Malwadi, Pune",
-      "contactDetails": "Mobile No. : 9028088199"
-    },
-    {
-      "id": "cm-13",
-      "name": "Dr. Abhijeet Kadam",
-      "designation": "Member",
-      "photo": "idb:idb_pczsc_committee_members_12_photo_1785325687596_fiwlyz",
-      "collegeAddress": "Dept. of Sports & Physical Education, Savitribai Phule Pune University, Pune",
+      "photo": "/committee/Dr.AbhijeetKadam.jpg",
+      "collegeAddress": "Post Graduate Gymkhana, Department of Sports & Physical Education, Savitribai Phule Pune University, Ganeshkhind Road, Pune-411007",
       "contactDetails": "Mobile No. : 9689827038"
     },
     {
-      "id": "cm-14",
-      "name": "Mr. Tribhuvan Mithun Prakash",
-      "designation": "Invitee Member",
-      "photo": "idb:idb_pczsc_committee_members_13_photo_1785325687606_y00q3o",
-      "collegeAddress": "Modern Education Society's Ness Wadia College of Commerce, 19, V.K Joag Path, Pune",
+      "id": "cm-13",
+      "name": "Prof. Tribhuvan Mithun Prakash",
+      "designation": "Member",
+      "photo": "/committee/mrtribhuvan.jpg",
+      "collegeAddress": "Modern Education Society's Ness Wadia College Of Commerce, 19, V.K. Joag Path, Pune",
       "contactDetails": "Mobile No. : 9890776333"
+    },
+    {
+      "id": "cm-14",
+      "name": "Dr. Phale Vikram Suresh",
+      "designation": "Member",
+      "photo": "/committee/Dr. Phale Vikram .jpg",
+      "collegeAddress": "Progressive Education Society's Modern College, Shivajinagar, Pune",
+      "contactDetails": "Mobile No. : 9822028133"
+    },
+    {
+      "id": "cm-15",
+      "name": "Dr. Kondhare Manisha Manoj",
+      "designation": "Member",
+      "photo": "/committee/Dr.Kondhare.jpg",
+      "collegeAddress": "All India Shri Shivaji Memorial Society's AISSMS College of Engineering, Kennedy Road, Pune",
+      "contactDetails": "Mobile No. : 9881294721"
     }
   ],
   "pczsc_footer_cfg": {

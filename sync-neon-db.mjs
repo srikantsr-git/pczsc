@@ -141,75 +141,75 @@ async function runSync() {
   const committeeMembers = [
     {
       id: 'cm-1',
-      name: 'Prin. Dr. Iqbal N. Shaikh',
+      name: 'Dr. Sachin Sakhre',
       designation: 'President',
-      photo: '/committee/Prin. Dr. Iqbal N. Shaikh.jpg',
-      collegeAddress: 'Anjuman Khairul Islam Poona College, 1647, Camp, New Modikhana, Pune.',
+      photo: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128' fill='%2394a3b8'><rect width='100%' height='100%' fill='%23e2e8f0'/><circle cx='64' cy='48' r='24' fill='%2394a3b8'/><path d='M64 80c-24 0-40 12-40 24v8h80v-8c0-12-16-24-40-24z' fill='%2394a3b8'/></svg>",
+      collegeAddress: 'Marathwada Mitra Mandal Engineering College, Pune',
       contactDetails: 'Mobile No. : -'
     },
     {
       id: 'cm-2',
-      name: 'Dr. Shaikh Aiyaz Hussain Jiyaull Hussain',
+      name: 'Dr. Gujar Tushar Anil',
       designation: 'Secretary',
-      photo: '/committee/DrShaikh.jpg',
-      collegeAddress: 'Anjuman Khairul Islam Poona College, 1647, Camp, New Modikhana, Pune',
-      contactDetails: 'Mobile No. : 9422517809'
+      photo: '/committee/Gujar Tushar Anil.jpg',
+      collegeAddress: "Marathwada Mitra Mandal's College of Engineering, Survey No. 18, Plot No. 5-3, CTS-205, Karvenagar, Pune",
+      contactDetails: 'Mobile No. : 9822292020'
     },
     {
       id: 'cm-3',
-      name: 'Prof. (Dr.) Amrule Mohan Namdeo',
+      name: 'Prof. Parse Abhijit Venkat',
       designation: 'Joint Secretary',
-      photo: '/committee/ProfAmrule.jpg',
-      collegeAddress: "Deccan Education Society's B.M. College of Commerce, 845, Shivajinagar, Daccan Gymkhana, Pune",
-      contactDetails: 'Mobile No. : 9881600118'
+      photo: '/committee/mrparse.jpg',
+      collegeAddress: "Sanskar Mandir Sanstha's Arts & Commerce College, Opp. Ganpati Mandir, Warje Malwadi, Pune",
+      contactDetails: 'Mobile No. : 9028088199'
     },
     {
       id: 'cm-4',
-      name: 'Prof. (Dr.) Bengle Asha Vijaykumar',
-      designation: 'Joint Secretary',
-      photo: '/committee/Prof.Bengle.jpg',
-      collegeAddress: "Maharashtra Education Society's Abasaheb Garware Mahavidyalay, Karve Road, Pune",
-      contactDetails: 'Mobile No. : 9922223233'
-    },
-    {
-      id: 'cm-5',
-      name: 'Mr. Sharma Anirudha Mahesh',
+      name: 'Dr. Sharma Anirudha Mahesh',
       designation: 'Joint Secretary',
       photo: '/committee/Mr.Sharma .jpg',
       collegeAddress: "Symbiosis International Cultural Center's Symbiosis College of Arts & Commerce, Senapati Bapat Road, Pune",
       contactDetails: 'Mobile No. : 7709999997'
     },
     {
+      id: 'cm-5',
+      name: 'Dr. Augustine Anjushree Anthony',
+      designation: 'Joint Secretary',
+      photo: '/committee/Dr. Augustine Anjushree.jpg',
+      collegeAddress: "Maharshi Karve Stree Shikshan Sanstha's MKSSS's Cummins College of Engineering for Women, Karvenagar, Pune",
+      contactDetails: 'Mobile No. : 8007786487'
+    },
+    {
       id: 'cm-6',
       name: 'Dr. Bibave Umesh Arun',
       designation: 'Treasurer',
       photo: '/committee/Dr.Bibave .jpg',
-      collegeAddress: "Maharashtra Education Society's Garware College Of Commerce, Off Karve Road, Pune",
+      collegeAddress: "Maharashtra Education Society's Garware College of Commerce, Off Karve Road, Pune",
       contactDetails: 'Mobile No. : 7350509990'
     },
     {
       id: 'cm-7',
-      name: 'Dr. Chikte Anagha Sunil',
+      name: 'Dr. Shaikh Aiyaz Hussain Jiyaull Hussain',
       designation: 'Member',
-      photo: '/committee/Dr Chikte .jpg',
-      collegeAddress: "Maharshi Karve Stree Shikshan Sanstha's Shri Sidhvinayak Mahila Mahavidyalaya, Karvenagar, Pune",
-      contactDetails: 'Mobile No. : 9850710713'
+      photo: '/committee/DrShaikh.jpg',
+      collegeAddress: "Anjuman Khairul Islam's Poona College, 1647, Camp, New Modikhana, Pune",
+      contactDetails: 'Mobile No. : 9422517809'
     },
     {
       id: 'cm-8',
+      name: 'Prof. (Dr.) Amrule Mohan Namdeo',
+      designation: 'Member',
+      photo: '/committee/ProfAmrule.jpg',
+      collegeAddress: "Deccan Education Society's B.M. College of Commerce, 845, Shivajinagar, Daccan Gymkhana, Pune",
+      contactDetails: 'Mobile No. : 9881600118'
+    },
+    {
+      id: 'cm-9',
       name: 'Prof. (Dr.) Dhamale Shantaram Dattu',
       designation: 'Member',
       photo: '/committee/Prof.Dhamale .jpg',
       collegeAddress: "Shri Shivaji Maratha Society's Samajbhushan Baburao Alias Appasaheb Jedhe Arts, Commerce & Science College, 425, Shukrwar Peth, Pune",
       contactDetails: 'Mobile No. : 9421077180'
-    },
-    {
-      id: 'cm-9',
-      name: 'Dr. Shendkar Deepak Tanaji',
-      designation: 'Member',
-      photo: '/committee/Dr.Shendkar.jpg',
-      collegeAddress: "Progressive Education Society's Modern Arts, Commerce & Science College, Ganeshkhind, Pune",
-      contactDetails: 'Mobile No. : 9823839014'
     },
     {
       id: 'cm-10',
@@ -221,35 +221,43 @@ async function runSync() {
     },
     {
       id: 'cm-11',
+      name: 'Dr. Shinde Sachin Sudhakar',
+      designation: 'Member',
+      photo: '/committee/sachinshinde.jpg',
+      collegeAddress: "SCTR's Institute of Computer Technology, Survey No. 27, Pune-Satara Road, Dhanakwadi, Pune",
+      contactDetails: 'Mobile No. : 9404232781'
+    },
+    {
+      id: 'cm-12',
+      name: 'Dr. Kadam Abhijeet Babanrao',
+      designation: 'Member',
+      photo: '/committee/Dr.AbhijeetKadam.jpg',
+      collegeAddress: 'Post Graduate Gymkhana, Department of Sports & Physical Education, Savitribai Phule Pune University, Ganeshkhind Road, Pune-411007',
+      contactDetails: 'Mobile No. : 9689827038'
+    },
+    {
+      id: 'cm-13',
+      name: 'Prof. Tribhuvan Mithun Prakash',
+      designation: 'Member',
+      photo: '/committee/mrtribhuvan.jpg',
+      collegeAddress: "Modern Education Society's Ness Wadia College Of Commerce, 19, V.K. Joag Path, Pune",
+      contactDetails: 'Mobile No. : 9890776333'
+    },
+    {
+      id: 'cm-14',
+      name: 'Dr. Phale Vikram Suresh',
+      designation: 'Member',
+      photo: '/committee/Dr. Phale Vikram .jpg',
+      collegeAddress: "Progressive Education Society's Modern College, Shivajinagar, Pune",
+      contactDetails: 'Mobile No. : 9822028133'
+    },
+    {
+      id: 'cm-15',
       name: 'Dr. Kondhare Manisha Manoj',
       designation: 'Member',
       photo: '/committee/Dr.Kondhare.jpg',
       collegeAddress: "All India Shri Shivaji Memorial Society's AISSMS College of Engineering, Kennedy Road, Pune",
       contactDetails: 'Mobile No. : 9881294721'
-    },
-    {
-      id: 'cm-12',
-      name: 'Mr. Parse Abhijit Venkat',
-      designation: 'Member',
-      photo: '/committee/mrparse.jpg',
-      collegeAddress: "Sanskar Mandir Sanstha's Art's & Commerce College, Opp. Ganpati Mandir, Warje Malwadi, Pune",
-      contactDetails: 'Mobile No. : 9028088199'
-    },
-    {
-      id: 'cm-13',
-      name: 'Dr. Abhijeet Kadam',
-      designation: 'Member',
-      photo: '/committee/Dr.AbhijeetKadam.jpg',
-      collegeAddress: 'Dept. of Sports & Physical Education, Savitribai Phule Pune University, Pune',
-      contactDetails: 'Mobile No. : 9689827038'
-    },
-    {
-      id: 'cm-14',
-      name: 'Mr. Tribhuvan Mithun Prakash',
-      designation: 'Invitee Member',
-      photo: '/committee/mrtribhuvan.jpg',
-      collegeAddress: "Modern Education Society's Ness Wadia College of Commerce, 19, V.K Joag Path, Pune",
-      contactDetails: 'Mobile No. : 9890776333'
     }
   ];
   await sql`
@@ -271,11 +279,11 @@ async function runSync() {
     presidentBody: `It gives me immense pleasure and pride to present the successful completion of the Pune City Zonal Sports Committee (PCZSC) Intercollegiate Sports Competitions. Every edition of these competitions reflects our collective commitment to promoting excellence in sports, encouraging healthy competition, and nurturing the all-round development of students.`,
     presidentHighlightTitle: 'Key Highlight: Introduction of Live Streaming',
     presidentHighlightBody: 'One of the significant highlights this year was the introduction of Live Streaming of selected sporting events. This initiative enabled students, faculty members, parents, alumni, and sports enthusiasts to witness the competitions from anywhere, ensuring that academic commitments or geographical distance did not limit participation.',
-    presidentName: 'Prin. Dr. Iqbal N. Shaikh',
-    presidentPhoto: '/committee/Prin. Dr. Iqbal N. Shaikh.jpg',
+    presidentName: 'Dr. Sachin Sakhre',
+    presidentPhoto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128' fill='%2394a3b8'><rect width='100%' height='100%' fill='%23e2e8f0'/><circle cx='64' cy='48' r='24' fill='%2394a3b8'/><path d='M64 80c-24 0-40 12-40 24v8h80v-8c0-12-16-24-40-24z' fill='%2394a3b8'/></svg>",
     presidentRole: 'President',
     presidentOrganization: 'Pune City Zonal Sports Committee (PCZSC)',
-    presidentUniversity: 'Anjuman Khairul Islam Poona College, Camp, Pune'
+    presidentUniversity: 'Marathwada Mitra Mandal Engineering College, Pune'
   };
   await sql`
     INSERT INTO site_settings (key, value, updated_at)
