@@ -242,7 +242,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
             </div>
           )}
 
-          {!loading && !error && displayUrl && (
+          {!loading && error === 'none' && displayUrl && (
             <>
               <iframe
                 key={displayUrl}
