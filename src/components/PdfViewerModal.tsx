@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Download, ExternalLink, FileText, Loader2, AlertCircle } from 'lucide-react';
 import { handleDownloadPdf } from '../utils/documentUtils';
 
@@ -20,17 +20,23 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
   const [error, setError] = useState<boolean>(false);
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
 
+  // Use a ref to track the current blob URL so the cleanup function
+  // always revokes the correct URL (avoids stale closure bug).
+  const blobUrlRef = useRef<string | null>(null);
+
   useEffect(() => {
+    // Reset display state immediately when pdfUrl or isOpen changes
+    // so stale content from a previous document is cleared right away.
+    setDisplayUrl('');
+    setError(false);
+
     if (!isOpen || !pdfUrl) {
-      setDisplayUrl('');
       setLoading(false);
-      setError(false);
       return;
     }
 
     let active = true;
     setLoading(true);
-    setError(false);
 
     const prepareUrl = async () => {
       try {
@@ -39,12 +45,19 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
           const res = await fetch(pdfUrl);
           const blob = await res.blob();
           if (active) {
+            // Revoke any previously created blob URL before creating a new one
+            if (blobUrlRef.current) {
+              URL.revokeObjectURL(blobUrlRef.current);
+            }
             const blobUrl = URL.createObjectURL(blob);
+            blobUrlRef.current = blobUrl;
             setDisplayUrl(blobUrl);
             setLoading(false);
           }
         } else {
           if (active) {
+            // Not a blob URL — clear any stale blob ref
+            blobUrlRef.current = null;
             setDisplayUrl(pdfUrl);
             setLoading(false);
           }
@@ -62,8 +75,10 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
     return () => {
       active = false;
-      if (displayUrl && displayUrl.startsWith('blob:')) {
-        URL.revokeObjectURL(displayUrl);
+      // Revoke only blob URLs created from data: URIs (via ref, not stale closure)
+      if (blobUrlRef.current) {
+        URL.revokeObjectURL(blobUrlRef.current);
+        blobUrlRef.current = null;
       }
     };
   }, [isOpen, pdfUrl]);
