@@ -11,6 +11,8 @@ interface PdfViewerModalProps {
 
 // Strategy used to render the PDF
 type RenderStrategy = 'blob' | 'google-docs' | 'none';
+// Error type for specific failure reasons
+type ErrorType = 'not-found' | 'fetch-error' | 'none';
 
 export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
   isOpen,
@@ -21,7 +23,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
   const [displayUrl, setDisplayUrl] = useState<string>('');
   const [strategy, setStrategy] = useState<RenderStrategy>('none');
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState<ErrorType>('none');
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
 
   // Use a ref to track the current blob URL so the cleanup function
@@ -33,7 +35,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
     // so stale content from a previous document is cleared right away.
     setDisplayUrl('');
     setStrategy('none');
-    setError(false);
+    setError('none');
 
     if (!isOpen || !pdfUrl || pdfUrl === '#') {
       setLoading(false);
@@ -52,10 +54,21 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
     const prepareUrl = async () => {
       try {
         // Strategy 1: Fetch as blob — works for ALL URL types (data:, /api/media, https://...).
-        // This bypasses X-Frame-Options / CSP frame-ancestors headers from external servers
-        // because the blob: URL is treated as same-origin by the browser.
+        // Vercel Blob CDN returns Access-Control-Allow-Origin: * so CORS fetch works fine.
+        // This also bypasses X-Frame-Options headers from external servers because the
+        // resulting blob: URL is treated as same-origin by the browser iframe.
         const res = await fetch(pdfUrl, { mode: 'cors' });
+
+        // Distinguish 404 (file never uploaded) from other errors
+        if (res.status === 404) {
+          if (active) {
+            setError('not-found');
+            setLoading(false);
+          }
+          return;
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
         const blob = await res.blob();
 
         if (active) {
@@ -69,7 +82,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
         console.warn('PdfViewerModal: blob fetch failed, trying Google Docs fallback:', fetchErr);
 
         // Strategy 2: Google Docs Viewer — works for any publicly accessible HTTPS URL.
-        // This viewer renders the PDF inside a Google-hosted iframe which handles all CORS issues.
+        // Google proxies the PDF so CORS/iframe blocking is bypassed.
         if (active) {
           const isExternalHttps = pdfUrl.startsWith('https://');
           if (isExternalHttps) {
@@ -78,8 +91,8 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
             setStrategy('google-docs');
             setLoading(false);
           } else {
-            // Strategy 3: No viable fallback for relative/API URLs that fail fetch
-            setError(true);
+            // Strategy 3: No viable fallback — show error
+            setError('fetch-error');
             setLoading(false);
           }
         }
@@ -184,13 +197,30 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
             </div>
           )}
 
-          {!loading && error && (
+          {!loading && error === 'not-found' && (
+            <div className="flex flex-col items-center justify-center p-8 text-center max-w-md space-y-4">
+              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20">
+                <FileText className="w-10 h-10 text-amber-400 mx-auto" />
+              </div>
+              <div className="space-y-2">
+                <h4 className="text-base font-extrabold text-white">PDF Not Yet Available</h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  The PDF file for this document has not been uploaded yet. Contact the admin to upload the document file.
+                </p>
+                <p className="text-[10px] font-mono text-slate-600 break-all px-2">
+                  {pdfUrl}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {!loading && error === 'fetch-error' && (
             <div className="flex flex-col items-center justify-center p-8 text-center max-w-md space-y-4">
               <AlertCircle className="w-12 h-12 text-amber-500" />
               <div className="space-y-1">
-                <h4 className="text-base font-extrabold text-white">Preview Unable to Load Direct</h4>
+                <h4 className="text-base font-extrabold text-white">Preview Unable to Load</h4>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  This PDF file cannot be embedded directly inside the browser frame due to external server restrictions.
+                  This PDF cannot be embedded in the browser frame. Use the buttons below to open or download it.
                 </p>
               </div>
               <div className="flex items-center gap-3 pt-2">
