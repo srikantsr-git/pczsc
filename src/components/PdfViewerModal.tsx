@@ -9,6 +9,9 @@ interface PdfViewerModalProps {
   pdfUrl: string;
 }
 
+// Strategy used to render the PDF
+type RenderStrategy = 'blob' | 'google-docs' | 'none';
+
 export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
   isOpen,
   onClose,
@@ -16,6 +19,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
   pdfUrl
 }) => {
   const [displayUrl, setDisplayUrl] = useState<string>('');
+  const [strategy, setStrategy] = useState<RenderStrategy>('none');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
@@ -28,9 +32,10 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
     // Reset display state immediately when pdfUrl or isOpen changes
     // so stale content from a previous document is cleared right away.
     setDisplayUrl('');
+    setStrategy('none');
     setError(false);
 
-    if (!isOpen || !pdfUrl) {
+    if (!isOpen || !pdfUrl || pdfUrl === '#') {
       setLoading(false);
       return;
     }
@@ -38,35 +43,45 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
     let active = true;
     setLoading(true);
 
+    // Revoke any previous blob URL upfront when switching documents
+    if (blobUrlRef.current) {
+      URL.revokeObjectURL(blobUrlRef.current);
+      blobUrlRef.current = null;
+    }
+
     const prepareUrl = async () => {
       try {
-        if (pdfUrl.startsWith('data:')) {
-          // Convert data: base64 PDF to Blob URL for iframe rendering
-          const res = await fetch(pdfUrl);
-          const blob = await res.blob();
-          if (active) {
-            // Revoke any previously created blob URL before creating a new one
-            if (blobUrlRef.current) {
-              URL.revokeObjectURL(blobUrlRef.current);
-            }
-            const blobUrl = URL.createObjectURL(blob);
-            blobUrlRef.current = blobUrl;
-            setDisplayUrl(blobUrl);
-            setLoading(false);
-          }
-        } else {
-          if (active) {
-            // Not a blob URL — clear any stale blob ref
-            blobUrlRef.current = null;
-            setDisplayUrl(pdfUrl);
-            setLoading(false);
-          }
-        }
-      } catch (err) {
-        console.error('PdfViewerModal error preparing PDF URL:', err);
+        // Strategy 1: Fetch as blob — works for ALL URL types (data:, /api/media, https://...).
+        // This bypasses X-Frame-Options / CSP frame-ancestors headers from external servers
+        // because the blob: URL is treated as same-origin by the browser.
+        const res = await fetch(pdfUrl, { mode: 'cors' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const blob = await res.blob();
+
         if (active) {
-          setError(true);
+          const blobUrl = URL.createObjectURL(blob);
+          blobUrlRef.current = blobUrl;
+          setDisplayUrl(blobUrl);
+          setStrategy('blob');
           setLoading(false);
+        }
+      } catch (fetchErr) {
+        console.warn('PdfViewerModal: blob fetch failed, trying Google Docs fallback:', fetchErr);
+
+        // Strategy 2: Google Docs Viewer — works for any publicly accessible HTTPS URL.
+        // This viewer renders the PDF inside a Google-hosted iframe which handles all CORS issues.
+        if (active) {
+          const isExternalHttps = pdfUrl.startsWith('https://');
+          if (isExternalHttps) {
+            const googleDocsUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`;
+            setDisplayUrl(googleDocsUrl);
+            setStrategy('google-docs');
+            setLoading(false);
+          } else {
+            // Strategy 3: No viable fallback for relative/API URLs that fail fetch
+            setError(true);
+            setLoading(false);
+          }
         }
       }
     };
@@ -75,7 +90,7 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
 
     return () => {
       active = false;
-      // Revoke only blob URLs created from data: URIs (via ref, not stale closure)
+      // Revoke blob URL via ref (not stale closure)
       if (blobUrlRef.current) {
         URL.revokeObjectURL(blobUrlRef.current);
         blobUrlRef.current = null;
@@ -198,11 +213,19 @@ export const PdfViewerModal: React.FC<PdfViewerModalProps> = ({
           )}
 
           {!loading && !error && displayUrl && (
-            <iframe
-              src={displayUrl}
-              title={title}
-              className="w-full h-full border-0 bg-white"
-            />
+            <>
+              <iframe
+                key={displayUrl}
+                src={displayUrl}
+                title={title}
+                className="w-full h-full border-0 bg-white"
+              />
+              {strategy === 'google-docs' && (
+                <div className="absolute bottom-2 right-3 text-[10px] text-slate-500 font-mono bg-slate-950/70 px-2 py-0.5 rounded">
+                  Rendered via Google Docs Viewer
+                </div>
+              )}
+            </>
           )}
         </div>
 
