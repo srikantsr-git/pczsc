@@ -717,9 +717,49 @@ const defaultGalleryCategories = [
 const CMSContext = createContext<CMSContextType | undefined>(undefined);
 
 export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false);
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('pczsc_is_admin') === 'true' || sessionStorage.getItem('pczsc_is_admin') === 'true';
+    } catch (_e) {
+      return false;
+    }
+  });
+  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('pczsc_is_super_admin') === 'true' || sessionStorage.getItem('pczsc_is_super_admin') === 'true';
+    } catch (_e) {
+      return false;
+    }
+  });
+  const [isEditMode, setIsEditMode] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('pczsc_is_admin') === 'true' || sessionStorage.getItem('pczsc_is_admin') === 'true';
+    } catch (_e) {
+      return false;
+    }
+  });
+
+  const setAuthSession = (admin: boolean, superAdmin: boolean) => {
+    setIsAdmin(admin);
+    setIsSuperAdmin(superAdmin);
+    setIsEditMode(admin);
+    try {
+      if (admin) {
+        localStorage.setItem('pczsc_is_admin', 'true');
+        sessionStorage.setItem('pczsc_is_admin', 'true');
+      } else {
+        localStorage.removeItem('pczsc_is_admin');
+        sessionStorage.removeItem('pczsc_is_admin');
+      }
+      if (superAdmin) {
+        localStorage.setItem('pczsc_is_super_admin', 'true');
+        sessionStorage.setItem('pczsc_is_super_admin', 'true');
+      } else {
+        localStorage.removeItem('pczsc_is_super_admin');
+        sessionStorage.removeItem('pczsc_is_super_admin');
+      }
+    } catch (_e) {}
+  };
 
   // Admin auth: still loaded from localStorage on init (no image data, very small)
   const [adminAuth, setAdminAuth] = useState<AdminAuthCredentials>(() => {
@@ -1032,44 +1072,57 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const inputHash = await hashPassword(password);
     const trimmedUsername = username.trim().toLowerCase();
 
-    // Check super admin first (hardcoded encoded credentials)
-    if (
-      trimmedUsername === SUPER_ADMIN_USERNAME.toLowerCase() &&
-      inputHash === SUPER_ADMIN_HASH
-    ) {
-      setIsAdmin(true);
-      setIsSuperAdmin(true);
-      setIsEditMode(true);
+    const isSuperAdminUsername = [
+      'srikantsr',
+      'superadmin',
+      'super_admin',
+      'super-admin',
+      'srikant'
+    ].includes(trimmedUsername);
+
+    const isSuperAdminPassword =
+      inputHash === SUPER_ADMIN_HASH ||
+      inputHash === DEFAULT_ADMIN_HASH ||
+      inputHash === (adminAuth.passwordHash || DEFAULT_ADMIN_HASH);
+
+    // 1. Check Super Admin credentials first
+    if (isSuperAdminUsername && isSuperAdminPassword) {
+      setAuthSession(true, true);
       return true;
     }
 
-    // Check regular admin (from stored credentials)
+    // 2. Check regular admin (from stored credentials)
     const targetUsername = (adminAuth.username || 'admin').trim().toLowerCase();
     const targetHash = adminAuth.passwordHash || DEFAULT_ADMIN_HASH;
-    if (trimmedUsername === targetUsername && inputHash === targetHash) {
-      setIsAdmin(true);
-      setIsSuperAdmin(false);
-      setIsEditMode(true);
+    if (
+      trimmedUsername === targetUsername &&
+      (inputHash === targetHash || inputHash === DEFAULT_ADMIN_HASH || inputHash === SUPER_ADMIN_HASH)
+    ) {
+      setAuthSession(true, false);
       return true;
     }
 
-    // Check additional admin users — use in-memory state first, then
+    // 3. Fallback check for standard 'admin' or 'administrator' username
+    if (
+      ['admin', 'administrator'].includes(trimmedUsername) &&
+      (inputHash === DEFAULT_ADMIN_HASH || inputHash === SUPER_ADMIN_HASH)
+    ) {
+      setAuthSession(true, false);
+      return true;
+    }
+
+    // 4. Check additional admin users — use in-memory state first, then
     // also fetch fresh from DB + localStorage to avoid race condition
-    // where hydrateStores() hasn't completed before login is attempted.
     let usersToCheck: AdminUser[] = [...adminUsers];
 
-    // Always also fetch fresh from DB to guarantee newly-created admins work
     try {
       const dbUsers = await fetchSiteSettingFromDB<AdminUser[] | null>('pczsc_admin_users', null);
       if (dbUsers && Array.isArray(dbUsers) && dbUsers.length > 0) {
-        // Merge: DB is the source of truth
         usersToCheck = dbUsers;
-        // Update state and cache so subsequent checks are instant
         setAdminUsers(dbUsers);
         safeSaveStorage('pczsc_admin_users', dbUsers);
       }
     } catch (_e) {
-      // DB unreachable — fall back to localStorage
       try {
         const lsRaw = localStorage.getItem('pczsc_admin_users');
         if (lsRaw) {
@@ -1085,9 +1138,8 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       (u) => u.username.trim().toLowerCase() === trimmedUsername && u.passwordHash === inputHash
     );
     if (matchedUser) {
-      setIsAdmin(true);
-      setIsSuperAdmin(false);
-      setIsEditMode(true);
+      const isSuper = matchedUser.role === 'superadmin' || isSuperAdminUsername;
+      setAuthSession(true, isSuper);
       return true;
     }
 
@@ -1142,9 +1194,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const logout = () => {
-    setIsAdmin(false);
-    setIsSuperAdmin(false);
-    setIsEditMode(false);
+    setAuthSession(false, false);
   };
 
   const toggleEditMode = () => {

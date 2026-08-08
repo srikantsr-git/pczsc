@@ -81,8 +81,11 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose, onSuc
             <input
               type="text"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your admin username"
+              onChange={(e) => {
+                setUsername(e.target.value);
+                if (error) setError('');
+              }}
+              placeholder="e.g. superadmin, srikantsr, or admin"
               className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-santic-red text-sm font-medium text-slate-900"
               required
               autoComplete="username"
@@ -96,7 +99,10 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ onClose, onSuc
             <input
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (error) setError('');
+              }}
               placeholder="Enter your admin password"
               className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-santic-red text-sm font-medium text-slate-900"
               required
